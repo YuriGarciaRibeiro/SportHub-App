@@ -19,7 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _getCurrentScreen() {
     switch (_currentIndex) {
       case 0:
-        return const DashboardTab();
+        return DashboardTab(
+          onNavigateToSearch: () => _onBottomNavTap(1),
+        );
       case 1:
         return const SearchTab();
       case 2:
@@ -27,7 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
       case 3:
         return const ProfileTab();
       default:
-        return const DashboardTab();
+        return DashboardTab(
+          onNavigateToSearch: () => _onBottomNavTap(1),
+        );
     }
   }
 

@@ -7,9 +7,12 @@ import '../../../../models/establishment.dart';
 import '../widgets/greeting_header_widget.dart';
 import '../widgets/nearby_establishments_widget.dart';
 import '../widgets/upcoming_reservations_widget.dart';
+import '../widgets/no_upcoming_reservations_widget.dart';
 
 class DashboardTab extends StatefulWidget {
-  const DashboardTab({Key? key}) : super(key: key);
+  final VoidCallback? onNavigateToSearch;
+  
+  const DashboardTab({Key? key, this.onNavigateToSearch}) : super(key: key);
 
   @override
   State<DashboardTab> createState() => _DashboardTabState();
@@ -23,35 +26,17 @@ class _DashboardTabState extends State<DashboardTab> {
   bool _isLoading = true;
   String? _errorMessage;
 
-  // Mock data for upcoming reservations (manter por enquanto)
+  
   final List<Map<String, dynamic>> _upcomingReservations = [
-    {
-      "id": 1,
-      "establishment": "Arena Sports Center",
-      "sport": "Futebol",
-      "date": "Hoje",
-      "time": "18:00",
-      "price": "R\$ 120,00",
-      "status": "Confirmada",
-    },
-    {
-      "id": 2,
-      "establishment": "Club Tennis Elite",
-      "sport": "Tênis",
-      "date": "Amanhã",
-      "time": "09:30",
-      "price": "R\$ 80,00",
-      "status": "Pendente",
-    },
-    {
-      "id": 3,
-      "establishment": "Quadra do Bairro",
-      "sport": "Basquete",
-      "date": "Sex, 29/08",
-      "time": "20:00",
-      "price": "R\$ 60,00",
-      "status": "Confirmada",
-    },
+    // {
+    //   "id": 1,
+    //   "establishment": "Arena Sports Center", 
+    //   "sport": "Futebol",
+    //   "date": "Hoje",
+    //   "time": "18:00",
+    //   "price": "R\$ 120,00",
+    //   "status": "Confirmada",
+    // },
   ];
 
   @override
@@ -177,6 +162,17 @@ class _DashboardTabState extends State<DashboardTab> {
             SliverToBoxAdapter(
               child: UpcomingReservationsWidget(
                 reservations: _upcomingReservations,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 4.h),
+            ),
+          ] else ...[
+            SliverToBoxAdapter(
+              child: NoUpcomingReservationsWidget(
+                onBookNow: () {
+                  widget.onNavigateToSearch?.call();
+                },
               ),
             ),
             SliverToBoxAdapter(
