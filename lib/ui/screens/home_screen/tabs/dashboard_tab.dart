@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter/foundation.dart'; // Para kDebugMode
 import '../../../../core/app_export.dart';
 import '../../../../services/establishment_service.dart';
 import '../../../../services/auth_service.dart';
+import '../../../../services/location_weather_service.dart';
 import '../../../../models/establishment.dart';
 import '../widgets/greeting_header_widget.dart';
 import '../widgets/nearby_establishments_widget.dart';
@@ -21,10 +23,14 @@ class DashboardTab extends StatefulWidget {
 class _DashboardTabState extends State<DashboardTab> {
   final EstablishmentService _establishmentService = EstablishmentService();
   final AuthService _authService = AuthService();
+  final LocationWeatherService _locationWeatherService = LocationWeatherService();
   
   List<Establishment> _establishments = [];
   bool _isLoading = true;
   String? _errorMessage;
+  String _currentLocation = "São Paulo, SP";
+  String _currentWeather = "25°C";
+  bool _isTestMode = false; // Para testar coordenadas específicas
 
   
   final List<Map<String, dynamic>> _upcomingReservations = [
@@ -57,10 +63,21 @@ class _DashboardTabState extends State<DashboardTab> {
         _errorMessage = null;
       });
 
-      final establishments = await _establishmentService.getAllEstablishments();
+      // Carrega dados em paralelo
+      final futures = await Future.wait([
+        _establishmentService.getAllEstablishments(),
+        _isTestMode 
+          ? _locationWeatherService.getLocationAndWeatherForCoordinates(-23.5505, -46.6333) // São Paulo
+          : _locationWeatherService.getCurrentLocationAndWeather(),
+      ]);
+
+      final establishments = futures[0] as List<Establishment>;
+      final locationWeather = futures[1] as Map<String, String>;
       
       setState(() {
         _establishments = establishments;
+        _currentLocation = locationWeather['location'] ?? "São Paulo, SP";
+        _currentWeather = locationWeather['weather'] ?? "25°C";
       });
     } catch (e) {
       setState(() {
@@ -148,11 +165,41 @@ class _DashboardTabState extends State<DashboardTab> {
       color: AppTheme.lightTheme.primaryColor,
       child: CustomScrollView(
         slivers: [
+          // Botão de debug apenas em modo debug
+          if (kDebugMode) ...[
+            SliverToBoxAdapter(
+              child: Container(
+                margin: EdgeInsets.all(2.w),
+                child: Row(
+                  children: [
+                    Switch(
+                      value: _isTestMode,
+                      onChanged: (value) {
+                        setState(() {
+                          _isTestMode = value;
+                        });
+                        _loadData(); // Recarrega dados
+                      },
+                    ),
+                    Text(
+                      _isTestMode ? 'Modo Teste (SP)' : 'GPS Real',
+                      style: TextStyle(fontSize: 12.sp),
+                    ),
+                    SizedBox(width: 2.w),
+                    Text(
+                      'Lat: ${_isTestMode ? "-23.55" : "GPS"}',
+                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           SliverToBoxAdapter(
             child: GreetingHeaderWidget(
               userName: _authService.currentUserName ?? "Usuário",
-              location: "São Paulo, SP",
-              weather: "25°C",
+              location: _currentLocation,
+              weather: _currentWeather,
             ),
           ),
           SliverToBoxAdapter(

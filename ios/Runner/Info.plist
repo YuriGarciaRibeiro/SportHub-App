@@ -45,5 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Permissões de localização para iOS -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>O SportHub precisa acessar sua localização para mostrar estabelecimentos próximos e informações meteorológicas da sua região.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>O SportHub precisa acessar sua localização para mostrar estabelecimentos próximos e informações meteorológicas da sua região.</string>
 </dict>
 </plist>
