@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:sporthub/widgets/theme_toggle_widget.dart';
-
 import '../../../core/app_export.dart';
 import 'tabs/dashboard_tab.dart';
 import 'tabs/search_tab.dart';
