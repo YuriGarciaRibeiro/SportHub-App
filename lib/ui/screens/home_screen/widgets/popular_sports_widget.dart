@@ -22,19 +22,18 @@ class PopularSportsWidget extends StatelessWidget {
             children: [
               Text(
                 'Esportes Populares',
-                style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  // Navegar para a tab de pesquisa (índice 1)
-                  // Esta funcionalidade será implementada quando necessário
+              GestureDetector(
+                onTap: () {
+                  // TODO: Implementar navegação para todos os esportes
                 },
                 child: Text(
                   'Ver todos',
-                  style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.lightTheme.primaryColor,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -55,11 +54,11 @@ class PopularSportsWidget extends StatelessWidget {
                 width: 35.w,
                 margin: EdgeInsets.only(right: 3.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Theme.of(context).shadowColor.withOpacity(0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -73,7 +72,7 @@ class PopularSportsWidget extends StatelessWidget {
                         height: 10.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
                         ),
                         child: sport['image'] != null
                             ? Image.network(
@@ -81,10 +80,10 @@ class PopularSportsWidget extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
-                                    color: Colors.grey[200],
+                                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                                     child: Icon(
                                       Icons.sports,
-                                      color: Colors.grey[400],
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                                       size: 30,
                                     ),
                                   );
@@ -92,7 +91,7 @@ class PopularSportsWidget extends StatelessWidget {
                               )
                             : Icon(
                                 Icons.sports,
-                                color: Colors.grey[400],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                                 size: 30,
                               ),
                       ),
@@ -105,7 +104,7 @@ class PopularSportsWidget extends StatelessWidget {
                           children: [
                             Text(
                               sport['name'],
-                              style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                               ),
@@ -114,8 +113,8 @@ class PopularSportsWidget extends StatelessWidget {
                             SizedBox(height: 0.5.h),
                             Text(
                               '${sport['establishments']} locais',
-                              style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                                color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                               ),
                               textAlign: TextAlign.center,
                             ),

@@ -88,7 +88,7 @@ class _SearchTabState extends State<SearchTab> {
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: Theme.of(context).colorScheme.surface,
             ),
           ),
           SizedBox(height: 3.h),
@@ -115,13 +115,13 @@ class _SearchTabState extends State<SearchTab> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.grey[400],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
             ),
             SizedBox(height: 2.h),
             Text(
               _errorMessage!,
-              style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                color: Colors.grey[600],
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
               textAlign: TextAlign.center,
             ),
@@ -143,13 +143,13 @@ class _SearchTabState extends State<SearchTab> {
             Icon(
               Icons.search,
               size: 80,
-              color: Colors.grey[400],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
             ),
             SizedBox(height: 2.h),
             Text(
               'Digite para pesquisar estabelecimentos',
-              style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                color: Colors.grey[600],
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
               textAlign: TextAlign.center,
             ),
@@ -166,13 +166,13 @@ class _SearchTabState extends State<SearchTab> {
             Icon(
               Icons.search_off,
               size: 80,
-              color: Colors.grey[400],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
             ),
             SizedBox(height: 2.h),
             Text(
               'Nenhum estabelecimento encontrado',
-              style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                color: Colors.grey[600],
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
               textAlign: TextAlign.center,
             ),
@@ -188,11 +188,11 @@ class _SearchTabState extends State<SearchTab> {
         return Container(
           margin: EdgeInsets.only(bottom: 2.h),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Theme.of(context).shadowColor.withOpacity(0.1),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -211,7 +211,7 @@ class _SearchTabState extends State<SearchTab> {
                         width: 20.w,
                         height: 15.w,
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
                         ),
                         child: establishment.imageUrl.isNotEmpty
                             ? Image.network(
@@ -220,13 +220,13 @@ class _SearchTabState extends State<SearchTab> {
                                 errorBuilder: (context, error, stackTrace) {
                                   return Icon(
                                     Icons.image_not_supported,
-                                    color: Colors.grey[400],
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                                   );
                                 },
                               )
                             : Icon(
                                 Icons.business,
-                                color: Colors.grey[400],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                                 size: 30,
                               ),
                       ),
@@ -238,15 +238,15 @@ class _SearchTabState extends State<SearchTab> {
                         children: [
                           Text(
                             establishment.name,
-                            style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           SizedBox(height: 0.5.h),
                           Text(
                             establishment.description,
-                            style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -260,13 +260,13 @@ class _SearchTabState extends State<SearchTab> {
                                 return Container(
                                   padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.lightTheme.primaryColor.withOpacity(0.1),
+                                    color: Theme.of(context).primaryColor.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
                                     sport.name,
-                                    style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                                      color: AppTheme.lightTheme.primaryColor,
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).primaryColor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -288,14 +288,14 @@ class _SearchTabState extends State<SearchTab> {
                       children: [
                         CustomIconWidget(
                           iconName: 'location_on',
-                          color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                           size: 16,
                         ),
                         SizedBox(width: 1.w),
                         Text(
                           '${establishment.address.city}, ${establishment.address.state}',
-                          style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                           ),
                         ),
                       ],
@@ -305,7 +305,7 @@ class _SearchTabState extends State<SearchTab> {
                         // TODO: Implementar navegação para detalhes
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.lightTheme.primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -314,7 +314,7 @@ class _SearchTabState extends State<SearchTab> {
                       ),
                       child: Text(
                         'Ver mais',
-                        style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),

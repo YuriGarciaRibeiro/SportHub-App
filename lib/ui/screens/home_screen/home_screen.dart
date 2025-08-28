@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sporthub/widgets/theme_toggle_widget.dart';
 
 import '../../../core/app_export.dart';
 import 'tabs/dashboard_tab.dart';
@@ -23,11 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
           onNavigateToSearch: () => _onBottomNavTap(1),
         );
       case 1:
-        return const SearchTab();
+        return SearchTab();
       case 2:
-        return const ReservationsTab();
+        return ReservationsTab();
       case 3:
-        return const ProfileTab();
+        return ProfileTab();
       default:
         return DashboardTab(
           onNavigateToSearch: () => _onBottomNavTap(1),
@@ -38,9 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.lightTheme.scaffoldBackgroundColor,
       body: SafeArea(
-        child: _getCurrentScreen(),
+        child: _getCurrentScreen()
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.lightTheme.colorScheme.surface,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -64,20 +64,20 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        selectedItemColor: AppTheme.lightTheme.primaryColor,
+        selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor:
-            AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
-        selectedLabelStyle: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+            Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+        selectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
           fontWeight: FontWeight.w600,
         ),
-        unselectedLabelStyle: AppTheme.lightTheme.textTheme.bodySmall,
+        unselectedLabelStyle: Theme.of(context).textTheme.bodySmall,
         items: [
           BottomNavigationBarItem(
             icon: CustomIconWidget(
               iconName: _currentIndex == 0 ? 'home' : 'home_outlined',
               color: _currentIndex == 0
-                  ? AppTheme.lightTheme.primaryColor
-                  : AppTheme.lightTheme.colorScheme.onSurface
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).colorScheme.onSurface
                       .withOpacity(0.6),
               size: 24,
             ),
@@ -87,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: CustomIconWidget(
               iconName: _currentIndex == 1 ? 'search' : 'search',
               color: _currentIndex == 1
-                  ? AppTheme.lightTheme.primaryColor
-                  : AppTheme.lightTheme.colorScheme.onSurface
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).colorScheme.onSurface
                       .withOpacity(0.6),
               size: 24,
             ),
@@ -98,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: CustomIconWidget(
               iconName: _currentIndex == 2 ? 'event' : 'event_outlined',
               color: _currentIndex == 2
-                  ? AppTheme.lightTheme.primaryColor
-                  : AppTheme.lightTheme.colorScheme.onSurface
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).colorScheme.onSurface
                       .withOpacity(0.6),
               size: 24,
             ),
@@ -109,8 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: CustomIconWidget(
               iconName: _currentIndex == 3 ? 'person' : 'person_outline',
               color: _currentIndex == 3
-                  ? AppTheme.lightTheme.primaryColor
-                  : AppTheme.lightTheme.colorScheme.onSurface
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).colorScheme.onSurface
                       .withOpacity(0.6),
               size: 24,
             ),

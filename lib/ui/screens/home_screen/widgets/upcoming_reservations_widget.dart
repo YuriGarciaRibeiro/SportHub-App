@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 
@@ -26,7 +25,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
             children: [
               Text(
                 'Próximas Reservas',
-                style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -37,8 +36,8 @@ class UpcomingReservationsWidget extends StatelessWidget {
                 },
                 child: Text(
                   'Ver todas',
-                  style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.lightTheme.primaryColor,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -80,7 +79,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
                           Expanded(
                             child: Text(
                               reservation['establishment'],
-                              style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -96,7 +95,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
                             ),
                             child: Text(
                               reservation['status'],
-                              style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: reservation['status'] == 'Confirmada'
                                     ? Colors.green[700]
                                     : Colors.orange[700],
@@ -109,8 +108,8 @@ class UpcomingReservationsWidget extends StatelessWidget {
                       SizedBox(height: 1.h),
                       Text(
                         reservation['sport'],
-                        style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.lightTheme.primaryColor,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -119,14 +118,14 @@ class UpcomingReservationsWidget extends StatelessWidget {
                         children: [
                           CustomIconWidget(
                             iconName: 'access_time',
-                            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             size: 16,
                           ),
                           SizedBox(width: 1.w),
                           Text(
                             '${reservation['date']} às ${reservation['time']}',
-                            style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             ),
                           ),
                         ],
@@ -137,14 +136,14 @@ class UpcomingReservationsWidget extends StatelessWidget {
                         children: [
                           Text(
                             reservation['price'],
-                            style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
-                              color: AppTheme.lightTheme.primaryColor,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           CustomIconWidget(
                             iconName: 'arrow_forward',
-                            color: AppTheme.lightTheme.primaryColor,
+                            color: Theme.of(context).primaryColor,
                             size: 20,
                           ),
                         ],

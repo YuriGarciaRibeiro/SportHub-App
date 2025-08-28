@@ -29,8 +29,8 @@ class GreetingHeaderWidget extends StatelessWidget {
                 children: [
                   Text(
                     'Olá, $userName!',
-                    style: AppTheme.lightTheme.textTheme.headlineMedium?.copyWith(
-                      color: AppTheme.lightTheme.primaryColor,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -39,14 +39,14 @@ class GreetingHeaderWidget extends StatelessWidget {
                     children: [
                       CustomIconWidget(
                         iconName: 'location_on',
-                        color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                         size: 16,
                       ),
                       SizedBox(width: 1.w),
                       Text(
                         location,
-                        style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -56,14 +56,14 @@ class GreetingHeaderWidget extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
-                  color: AppTheme.lightTheme.primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   // TODO: trocar temperatura real
                   weather,
-                  style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.lightTheme.primaryColor,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -73,8 +73,8 @@ class GreetingHeaderWidget extends StatelessWidget {
           SizedBox(height: 2.h),
           Text(
             'Encontre sua quadra ideal',
-            style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.7),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
             ),
           ),
         ],

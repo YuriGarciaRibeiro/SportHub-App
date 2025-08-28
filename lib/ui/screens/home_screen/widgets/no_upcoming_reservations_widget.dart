@@ -20,13 +20,13 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppTheme.lightTheme.primaryColor.withOpacity(0.1),
-            AppTheme.lightTheme.primaryColor.withOpacity(0.05),
+            Theme.of(context).primaryColor.withOpacity(0.1),
+            Theme.of(context).primaryColor.withOpacity(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppTheme.lightTheme.primaryColor.withOpacity(0.2),
+          color: Theme.of(context).primaryColor.withOpacity(0.2),
           width: 1,
         ),
       ),
@@ -36,13 +36,13 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: AppTheme.lightTheme.primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.event_available_outlined,
               size: 8.w,
-              color: AppTheme.lightTheme.primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           
@@ -51,9 +51,9 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           // Título
           Text(
             'Nenhuma reserva próxima',
-            style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.grey[800],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
             ),
             textAlign: TextAlign.center,
           ),
@@ -63,8 +63,8 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           // Descrição
           Text(
             'Que tal reservar uma quadra e começar a jogar? Encontre os melhores estabelecimentos perto de você!',
-            style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-              color: Colors.grey[600],
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               height: 1.4,
             ),
             textAlign: TextAlign.center,
@@ -82,7 +82,7 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
                 Navigator.pushNamed(context, '/search');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.lightTheme.primaryColor,
+                backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 shape: RoundedRectangleBorder(
@@ -100,7 +100,7 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
                   SizedBox(width: 2.w),
                   Text(
                     'Encontrar Quadras',
-                    style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),

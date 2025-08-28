@@ -15,10 +15,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.lightTheme.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Pesquisar'),
-        backgroundColor: AppTheme.lightTheme.primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
@@ -53,8 +53,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(height: 2.h),
                     Text(
                       'Digite para pesquisar estabelecimentos',
-                      style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                        color: Colors.grey[600],
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                       ),
                       textAlign: TextAlign.center,
                     ),

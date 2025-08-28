@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart'; // Para kDebugMode
+import 'package:sporthub/widgets/theme_toggle_widget.dart';
 import '../../../../core/app_export.dart';
 import '../../../../services/establishment_service.dart';
 import '../../../../services/auth_service.dart';
@@ -113,7 +114,7 @@ class _DashboardTabState extends State<DashboardTab> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Dados atualizados!'),
-          backgroundColor: AppTheme.lightTheme.primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -139,13 +140,13 @@ class _DashboardTabState extends State<DashboardTab> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.grey[400],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
             ),
             SizedBox(height: 2.h),
             Text(
               _errorMessage!,
-              style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                color: Colors.grey[600],
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
               textAlign: TextAlign.center,
             ),
@@ -162,39 +163,9 @@ class _DashboardTabState extends State<DashboardTab> {
     final nearbyEstablishments = _convertEstablishmentsToMap();
     return RefreshIndicator(
       onRefresh: _handleRefresh,
-      color: AppTheme.lightTheme.primaryColor,
+      color: Theme.of(context).primaryColor,
       child: CustomScrollView(
         slivers: [
-          // Botão de debug apenas em modo debug
-          if (kDebugMode) ...[
-            SliverToBoxAdapter(
-              child: Container(
-                margin: EdgeInsets.all(2.w),
-                child: Row(
-                  children: [
-                    Switch(
-                      value: _isTestMode,
-                      onChanged: (value) {
-                        setState(() {
-                          _isTestMode = value;
-                        });
-                        _loadData(); // Recarrega dados
-                      },
-                    ),
-                    Text(
-                      _isTestMode ? 'Modo Teste (SP)' : 'GPS Real',
-                      style: TextStyle(fontSize: 12.sp),
-                    ),
-                    SizedBox(width: 2.w),
-                    Text(
-                      'Lat: ${_isTestMode ? "-23.55" : "GPS"}',
-                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
           SliverToBoxAdapter(
             child: GreetingHeaderWidget(
               userName: _authService.currentUserName ?? "Usuário",

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 
@@ -22,7 +21,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
             children: [
               Text(
                 'Perto de você',
-                style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -33,8 +32,8 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                 },
                 child: Text(
                   'Ver todos',
-                  style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.lightTheme.primaryColor,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -55,11 +54,11 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                 width: 75.w,
                 margin: EdgeInsets.only(right: 3.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Theme.of(context).shadowColor.withOpacity(0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -74,7 +73,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                         height: 12.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
                         ),
                         child: establishment['image'] != null
                             ? Image.network(
@@ -82,10 +81,10 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
-                                    color: Colors.grey[200],
+                                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                                     child: Icon(
                                       Icons.image_not_supported,
-                                      color: Colors.grey[400],
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                                       size: 40,
                                     ),
                                   );
@@ -93,7 +92,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                               )
                             : Icon(
                                 Icons.image_not_supported,
-                                color: Colors.grey[400],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                                 size: 40,
                               ),
                       ),
@@ -109,7 +108,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   establishment['name'],
-                                  style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
                                   overflow: TextOverflow.ellipsis,
@@ -125,7 +124,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                                 ),
                                 child: Text(
                                   establishment['isOpen'] ? 'Aberto' : 'Fechado',
-                                  style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: establishment['isOpen']
                                         ? Colors.green[700]
                                         : Colors.red[700],
@@ -139,8 +138,8 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                           SizedBox(height: 0.5.h),
                           Text(
                             establishment['distance'],
-                            style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             ),
                           ),
                           SizedBox(height: 1.h),
@@ -148,8 +147,8 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                           if (establishment['sports'] != null && establishment['sports'].isNotEmpty) ...[
                             Text(
                               'Esportes:',
-                              style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                                color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -161,13 +160,13 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                                 return Container(
                                   padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 0.3.h),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.lightTheme.primaryColor.withOpacity(0.1),
+                                    color: Theme.of(context).primaryColor.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Text(
                                     sport,
-                                    style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                                      color: AppTheme.lightTheme.primaryColor,
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).primaryColor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -190,16 +189,16 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                                   SizedBox(width: 1.w),
                                   Text(
                                     '${establishment['rating']} (${establishment['reviews']})',
-                                    style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                                      color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                                     ),
                                   ),
                                 ],
                               ),
                               Text(
                                 establishment['startingPrice'],
-                                style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                                  color: AppTheme.lightTheme.primaryColor,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

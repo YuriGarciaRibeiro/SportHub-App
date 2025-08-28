@@ -51,20 +51,20 @@ class _ReservationsTabState extends State<ReservationsTab> {
                 Icon(
                   Icons.event_note,
                   size: 80,
-                  color: Colors.grey[400],
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   'Nenhuma reserva encontrada',
-                  style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
-                    color: Colors.grey[600],
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                   ),
                 ),
                 SizedBox(height: 1.h),
                 Text(
                   'Suas reservas aparecerão aqui',
-                  style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey[500],
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                   ),
                 ),
               ],
@@ -78,11 +78,11 @@ class _ReservationsTabState extends State<ReservationsTab> {
               return Container(
                 margin: EdgeInsets.only(bottom: 2.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Theme.of(context).shadowColor.withOpacity(0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -99,7 +99,7 @@ class _ReservationsTabState extends State<ReservationsTab> {
                           Expanded(
                             child: Text(
                               reservation['establishment'],
-                              style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -114,7 +114,7 @@ class _ReservationsTabState extends State<ReservationsTab> {
                             ),
                             child: Text(
                               reservation['status'],
-                              style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: reservation['status'] == 'Confirmada'
                                     ? Colors.green[700]
                                     : Colors.orange[700],
@@ -127,8 +127,8 @@ class _ReservationsTabState extends State<ReservationsTab> {
                       SizedBox(height: 1.h),
                       Text(
                         reservation['sport'],
-                        style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.lightTheme.primaryColor,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -137,14 +137,14 @@ class _ReservationsTabState extends State<ReservationsTab> {
                         children: [
                           CustomIconWidget(
                             iconName: 'access_time',
-                            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             size: 16,
                           ),
                           SizedBox(width: 1.w),
                           Text(
                             '${reservation['date']} às ${reservation['time']}',
-                            style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             ),
                           ),
                         ],
@@ -155,8 +155,8 @@ class _ReservationsTabState extends State<ReservationsTab> {
                         children: [
                           Text(
                             reservation['price'],
-                            style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
-                              color: AppTheme.lightTheme.primaryColor,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -165,7 +165,7 @@ class _ReservationsTabState extends State<ReservationsTab> {
                               // TODO: Implementar ação da reserva
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.lightTheme.primaryColor,
+                              backgroundColor: Theme.of(context).primaryColor,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -174,7 +174,7 @@ class _ReservationsTabState extends State<ReservationsTab> {
                             ),
                             child: Text(
                               'Detalhes',
-                              style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
