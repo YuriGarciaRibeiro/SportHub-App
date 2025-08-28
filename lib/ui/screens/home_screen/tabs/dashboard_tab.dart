@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter/foundation.dart'; // Para kDebugMode
-import 'package:sporthub/widgets/theme_toggle_widget.dart';
 import '../../../../core/app_export.dart';
 import '../../../../services/establishment_service.dart';
 import '../../../../services/auth_service.dart';
@@ -15,7 +13,7 @@ import '../widgets/no_upcoming_reservations_widget.dart';
 class DashboardTab extends StatefulWidget {
   final VoidCallback? onNavigateToSearch;
   
-  const DashboardTab({Key? key, this.onNavigateToSearch}) : super(key: key);
+  const DashboardTab({super.key, this.onNavigateToSearch});
 
   @override
   State<DashboardTab> createState() => _DashboardTabState();
@@ -31,7 +29,6 @@ class _DashboardTabState extends State<DashboardTab> {
   String? _errorMessage;
   String _currentLocation = "São Paulo, SP";
   String _currentWeather = "25°C";
-  bool _isTestMode = false; // Para testar coordenadas específicas
 
   
   final List<Map<String, dynamic>> _upcomingReservations = [
@@ -67,9 +64,7 @@ class _DashboardTabState extends State<DashboardTab> {
       // Carrega dados em paralelo
       final futures = await Future.wait([
         _establishmentService.getAllEstablishments(),
-        _isTestMode 
-          ? _locationWeatherService.getLocationAndWeatherForCoordinates(-23.5505, -46.6333) // São Paulo
-          : _locationWeatherService.getCurrentLocationAndWeather(),
+        _locationWeatherService.getCurrentLocationAndWeather(),
       ]);
 
       final establishments = futures[0] as List<Establishment>;

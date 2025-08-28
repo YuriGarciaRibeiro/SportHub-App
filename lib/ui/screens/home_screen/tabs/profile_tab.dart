@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../widgets/theme_toggle_widget.dart';
+import '../../../../core/app_export.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -10,9 +10,7 @@ class ProfileTab extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Perfil'),
         automaticallyImplyLeading: false,
-        actions: const [
-          ThemeToggleButton(),
-        ],
+        backgroundColor: Colors.transparent,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -60,7 +58,10 @@ class ProfileTab extends StatelessWidget {
           Card(
             child: Column(
               children: [
-                const ThemeToggleListTile(),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: ThemeModeDropdown(),
+                ),
                 ListTile(
                   leading: const Icon(Icons.notifications),
                   title: const Text('Notificações'),
