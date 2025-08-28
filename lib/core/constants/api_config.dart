@@ -25,7 +25,9 @@ class ApiConfig {
   
   // Endpoints da API - baseado no seu Swagger
   static String get loginEndpoint => '$baseUrl/api/v1/auth/login';
-  
+  static String get getEstablishmentsEndpoint => '$baseUrl/api/v1/establishments';
+  static String get getSportsEndpoint => '$baseUrl/api/v1/api/sports';
+
   // Timeouts
   static const Duration defaultTimeout = Duration(seconds: 30);
   static const Duration shortTimeout = Duration(seconds: 10);
