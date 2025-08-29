@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/app_logo.dart';
+import '../../services/auth_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -43,15 +44,15 @@ class _SplashScreenState extends State<SplashScreen>
     // Iniciar animação
     _animationController.forward();
 
-    // Navegar para a próxima tela após 3 segundos
     _navigateToHome();
   }
 
   _navigateToHome() async {
     await Future.delayed(const Duration(seconds: 3));
-    if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/login');
-    }
+    final isLoggedIn = await AuthService().checkAuthStatus();
+    if (!mounted) return;
+    Navigator.of(context)
+      .pushReplacementNamed(isLoggedIn ? '/home' : '/login');
   }
 
   @override

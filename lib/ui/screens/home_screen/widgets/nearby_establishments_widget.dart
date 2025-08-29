@@ -1,5 +1,6 @@
 import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
+import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class NearbyEstablishmentsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> establishments;
@@ -50,8 +51,24 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
             itemCount: establishments.length,
             itemBuilder: (context, index) {
               final establishment = establishments[index];
-              return Container(
-                width: 75.w,
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () {
+                    final id = establishment['id']?.toString();
+                    if (id != null && id.isNotEmpty) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => EstablishmentDetailScreen(
+                            establishmentId: id,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                  width: 75.w,
                 margin: EdgeInsets.only(right: 3.w),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
@@ -64,7 +81,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
@@ -209,7 +226,8 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
+                ),
+              ));
             },
           ),
         ),

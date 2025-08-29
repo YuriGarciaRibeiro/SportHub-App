@@ -34,18 +34,18 @@ class EstablishmentService {
   Future<Establishment?> getEstablishmentById(String id) async {
     try {
       final response = await http.get(
-        Uri.parse('${ApiConfig.baseUrl}/api/v1/establishments/$id'),
+        Uri.parse('${ApiConfig.getEstablishmentsEndpoint}/$id'),
         headers: ApiConfig.defaultHeaders,
       ).timeout(ApiConfig.defaultTimeout);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final String body = utf8.decode(response.bodyBytes);
+        final Map<String, dynamic> data = json.decode(body) as Map<String, dynamic>;
         return Establishment.fromJson(data);
       } else {
         return null;
       }
     } catch (e) {
-      // Se não conseguir conectar com a API, retorna null
       return null;
     }
   }

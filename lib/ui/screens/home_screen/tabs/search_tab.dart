@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 import '../../../../services/establishment_service.dart';
 import '../../../../models/establishment.dart';
+import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({Key? key}) : super(key: key);
@@ -302,7 +303,13 @@ class _SearchTabState extends State<SearchTab> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // TODO: Implementar navegação para detalhes
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => EstablishmentDetailScreen(
+                              establishment: establishment,
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
