@@ -66,14 +66,17 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   void _onBack() => Navigator.pop(context);
 
   void _onShare() {
+    // TODO: Frontend - implementar compartilhamento via Share API nativa
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Compartilhar estabelecimento em breve')),
+      const SnackBar(content: Text('Compartilhamento em desenvolvimento')),
     );
   }
 
   void _onCheckAvailability() {
+    // TODO: Backend - implementar sistema de reservas e disponibilidade
+    // TODO: Frontend - criar tela de reserva/agendamento
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Fluxo de reserva em breve')),
+      const SnackBar(content: Text('Sistema de reservas em desenvolvimento')),
     );
   }
 
@@ -101,15 +104,19 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   }
 
   void _onFavorite() {
+    // TODO: Backend - implementar sistema de favoritos (modelo, endpoints)
+    // TODO: Frontend - integrar com API de favoritos
     setState(() => _isFavorite = !_isFavorite);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(_isFavorite ? 'Adicionado aos favoritos' : 'Removido dos favoritos')),
+      SnackBar(content: Text(_isFavorite ? 'Adicionado aos favoritos (local)' : 'Removido dos favoritos (local)')),
     );
   }
 
   void _onWriteReview() {
+    // TODO: Backend - implementar sistema de avaliações (modelo Review, endpoints)
+    // TODO: Frontend - criar tela de avaliação/comentário
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Avaliações em breve')),
+      const SnackBar(content: Text('Sistema de avaliações em desenvolvimento')),
     );
   }
 

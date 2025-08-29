@@ -6,7 +6,7 @@ import '../../../../models/establishment.dart';
 import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class QuickSearchWidget extends StatefulWidget {
-  const QuickSearchWidget({Key? key}) : super(key: key);
+  const QuickSearchWidget({super.key});
 
   @override
   State<QuickSearchWidget> createState() => _QuickSearchWidgetState();

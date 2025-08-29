@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 
@@ -10,36 +9,10 @@ class ReservationsTab extends StatefulWidget {
 }
 
 class _ReservationsTabState extends State<ReservationsTab> {
-  // Mock data for reservations
-  final List<Map<String, dynamic>> _reservations = [
-    {
-      "id": 1,
-      "establishment": "Arena Sports Center",
-      "sport": "Futebol",
-      "date": "Hoje",
-      "time": "18:00",
-      "price": "R\$ 120,00",
-      "status": "Confirmada",
-    },
-    {
-      "id": 2,
-      "establishment": "Club Tennis Elite",
-      "sport": "Tênis",
-      "date": "Amanhã",
-      "time": "09:30",
-      "price": "R\$ 80,00",
-      "status": "Pendente",
-    },
-    {
-      "id": 3,
-      "establishment": "Quadra do Bairro",
-      "sport": "Basquete",
-      "date": "Sex, 29/08",
-      "time": "20:00",
-      "price": "R\$ 60,00",
-      "status": "Confirmada",
-    },
-  ];
+  // TODO: Backend - implementar modelo Reservation e endpoints de API
+  // TODO: Backend - endpoints: GET /reservations, POST /reservations, DELETE /reservations/{id}
+  // TODO: Frontend - substituir por service real quando backend estiver pronto
+  final List<Map<String, dynamic>> _reservations = [];
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +135,7 @@ class _ReservationsTabState extends State<ReservationsTab> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              // TODO: Implementar ação da reserva
+                              _showReservationDetails(context, reservation);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).primaryColor,
@@ -188,5 +161,163 @@ class _ReservationsTabState extends State<ReservationsTab> {
               );
             },
           );
+  }
+
+  void _showReservationDetails(BuildContext context, Map<String, dynamic> reservation) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(4.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Handle
+              Center(
+                child: Container(
+                  width: 12.w,
+                  height: 0.5.h,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              SizedBox(height: 2.h),
+              
+              // Title
+              Text(
+                'Detalhes da Reserva',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 3.h),
+              
+              // Details
+              _detailRow('Estabelecimento', reservation['establishment']),
+              _detailRow('Esporte', reservation['sport']),
+              _detailRow('Data', reservation['date']),
+              _detailRow('Horário', reservation['time']),
+              _detailRow('Preço', reservation['price']),
+              _detailRow('Status', reservation['status']),
+              
+              SizedBox(height: 4.h),
+              
+              // Actions
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _showCancelDialog(context, reservation);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                        side: BorderSide(color: Colors.red.shade400),
+                      ),
+                      child: Text(
+                        'Cancelar Reserva',
+                        style: TextStyle(color: Colors.red.shade400),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 3.w),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          // TODO: Backend - implementar PUT /reservations/{id}
+                          const SnackBar(
+                            content: Text('Edição de reservas em desenvolvimento'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                      ),
+                      child: const Text(
+                        'Editar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 1.5.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 25.w,
+            child: Text(
+              '$label:',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showCancelDialog(BuildContext context, Map<String, dynamic> reservation) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cancelar Reserva'),
+        content: Text('Tem certeza que deseja cancelar a reserva do ${reservation['establishment']}?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Não'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                // TODO: Backend - implementar DELETE /reservations/{id}
+                const SnackBar(
+                  content: Text('Cancelamento de reservas em desenvolvimento'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            child: Text(
+              'Sim, cancelar',
+              style: TextStyle(color: Colors.red.shade400),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

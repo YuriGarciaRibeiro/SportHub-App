@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 
@@ -60,8 +59,7 @@ class GreetingHeaderWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  // TODO: trocar temperatura real
-                  weather,
+                  weather, // TODO: Backend - integrar com API de clima (OpenWeatherMap)
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,

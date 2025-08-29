@@ -94,11 +94,11 @@ class _DashboardTabState extends State<DashboardTab> {
       return {
         "id": establishment.id,
         "name": establishment.name,
-        "distance": "1.2 km de distância", // TODO - implementar cálculo real depois
-        "rating": 4.5, // TODO - implementar sistema de rating depois
-        "reviews": 128, // TODO - implementar sistema de reviews depois
-        "startingPrice": "R\$ 80/hora", // TODO - implementar preço real depois
-        "isOpen": true, // TODO - implementar horário de funcionamento depois
+        "distance": "- km", // TODO: Backend - implementar cálculo de distância baseado em geolocalização
+        "rating": 0.0, // TODO: Backend - implementar sistema de avaliações
+        "reviews": 0, // TODO: Backend - implementar contagem de reviews
+        "startingPrice": "Consultar", // TODO: Backend - adicionar campo de preço no modelo Establishment
+        "isOpen": true, // TODO: Backend - implementar horário de funcionamento no modelo Establishment
         "image": establishment.imageUrl.isNotEmpty ? establishment.imageUrl : null,
         "sports": establishment.sports.map((sport) => sport.name).toList(),
       };
@@ -123,12 +123,14 @@ class _DashboardTabState extends State<DashboardTab> {
   }
 
   void _onSportSelected(String sportName) {
-    // TODO: Implementar navegação para pesquisa filtrada por esporte
-    // Por enquanto, mostra um feedback visual
+    // Navigate to search tab with sport filter
+    widget.onNavigateToSearch?.call();
+    
+    // Show feedback that sport was selected
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Filtrando por: $sportName'),
+          content: Text('Buscando estabelecimentos de $sportName'),
           backgroundColor: Theme.of(context).primaryColor,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -151,11 +153,12 @@ class _DashboardTabState extends State<DashboardTab> {
   }
 
   void _onViewFavorites() {
-    // TODO: Implementar navegação para favoritos
+    // TODO: Backend - implementar sistema de favoritos (modelo, API endpoints)
+    // TODO: Frontend - criar tela de favoritos
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Favoritos - Em breve!'),
+          content: Text('Sistema de favoritos em desenvolvimento'),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -167,11 +170,12 @@ class _DashboardTabState extends State<DashboardTab> {
   }
 
   void _onViewHistory() {
-    // TODO: Implementar navegação para histórico
+    // TODO: Backend - implementar histórico de reservas (modelo, API endpoints)
+    // TODO: Frontend - criar tela de histórico
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Histórico - Em breve!'),
+          content: Text('Sistema de histórico em desenvolvimento'),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
