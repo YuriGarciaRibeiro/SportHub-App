@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/establishment.dart';
 import '../../../services/establishment_service.dart';
@@ -76,11 +77,27 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     );
   }
 
-  void _onCall() {
+  void _onCall() async {
     final phone = _est?.phoneNumber ?? '';
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(phone.isEmpty ? 'Telefone não disponível' : 'Ligando para $phone...')),
-    );
+    if (phone.isNotEmpty) {
+      final Uri phoneUri = Uri.parse('tel:$phone');
+      try {
+        await launchUrl(phoneUri);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Não foi possível fazer a ligação'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Telefone não disponível')),
+      );
+    }
   }
 
   void _onFavorite() {
@@ -96,10 +113,31 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     );
   }
 
-  void _onGetDirections() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Abrindo mapas em breve')),
-    );
+  void _onGetDirections() async {
+    final address = _est?.address;
+    if (address != null && address.fullAddress.isNotEmpty) {
+      // Criar URL para navegação usando o endereço completo
+      final fullAddress = '${address.street}, ${address.number}, ${address.neighborhood}, ${address.city}, ${address.state}';
+      final encodedAddress = Uri.encodeComponent(fullAddress);
+      final Uri mapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$encodedAddress');
+
+      try {
+        await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Não foi possível abrir o mapa'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Endereço não disponível')),
+      );
+    }
   }
 
   @override

@@ -48,6 +48,9 @@ dependencies:
   geolocator: ^11.0.0
   geocoding: ^3.0.0
   
+  # URL launcher for phone calls and navigation
+  url_launcher: ^6.2.6
+  
   # State management
   provider: ^6.1.1
 
