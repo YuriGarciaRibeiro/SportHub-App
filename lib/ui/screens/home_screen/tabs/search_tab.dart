@@ -2,7 +2,10 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 import '../../../../services/establishment_service.dart';
 import '../../../../models/establishment.dart';
-import '../../establishment_detail_screen/establishment_detail_screen.dart';
+import '../widgets/search_filters_panel_widget.dart';
+import '../widgets/establishment_card_widget.dart';
+import '../widgets/search_results_header_widget.dart';
+import '../widgets/search_empty_state_widget.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
@@ -19,6 +22,12 @@ class _SearchTabState extends State<SearchTab> {
   List<Establishment> _filteredEstablishments = [];
   bool _isLoading = false;
   String? _errorMessage;
+  
+  // Filtros e ordenação
+  SortType _currentSort = SortType.name;
+  String? _selectedSport;
+  double _maxDistance = 50.0; // km
+  bool _showFilters = false;
 
   @override
   void initState() {
@@ -34,6 +43,7 @@ class _SearchTabState extends State<SearchTab> {
     super.dispose();
   }
 
+  
   Future<void> _loadEstablishments() async {
     try {
       setState(() {
@@ -48,6 +58,8 @@ class _SearchTabState extends State<SearchTab> {
         _filteredEstablishments = establishments;
         _isLoading = false;
       });
+      
+      _applyFiltersAndSort();
     } catch (e) {
       setState(() {
         _errorMessage = 'Erro ao carregar estabelecimentos: $e';
@@ -57,282 +69,220 @@ class _SearchTabState extends State<SearchTab> {
   }
 
   void _onSearchChanged() {
+    _applyFiltersAndSort();
+  }
+
+  void _applyFiltersAndSort() {
     final query = _searchController.text.toLowerCase();
+    List<Establishment> filtered = _allEstablishments;
+
+    if (query.isNotEmpty) {
+      filtered = filtered.where((establishment) {
+        return establishment.name.toLowerCase().contains(query) ||
+               establishment.description.toLowerCase().contains(query) ||
+               establishment.sports.any((sport) => 
+                 sport.name.toLowerCase().contains(query));
+      }).toList();
+    }
+
+    if (_selectedSport != null && _selectedSport!.isNotEmpty) {
+      filtered = filtered.where((establishment) {
+        return establishment.sports.any((sport) => 
+          sport.name.toLowerCase() == _selectedSport!.toLowerCase());
+      }).toList();
+    }
+
+    filtered = filtered.where((establishment) {
+      final distance = _getEstablishmentDistance(establishment);
+      return distance <= _maxDistance;
+    }).toList();
+
+    _sortEstablishments(filtered);
+
     setState(() {
-      if (query.isEmpty) {
-        _filteredEstablishments = _allEstablishments;
-      } else {
-        _filteredEstablishments = _allEstablishments.where((establishment) {
-          return establishment.name.toLowerCase().contains(query) ||
-                 establishment.description.toLowerCase().contains(query) ||
-                 establishment.sports.any((sport) => 
-                   sport.name.toLowerCase().contains(query));
-        }).toList();
-      }
+      _filteredEstablishments = filtered;
     });
   }
 
+  void _sortEstablishments(List<Establishment> establishments) {
+    switch (_currentSort) {
+      case SortType.name:
+        establishments.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case SortType.rating:
+        // TODO: Implementar quando tivermos sistema de avaliações
+        establishments.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case SortType.distance:
+        establishments.sort((a, b) {
+          final distanceA = _getEstablishmentDistance(a);
+          final distanceB = _getEstablishmentDistance(b);
+          return distanceA.compareTo(distanceB);
+        });
+        break;
+    }
+  }
+
+  List<String> _getAvailableSports() {
+    final sports = <String>{};
+    for (final establishment in _allEstablishments) {
+      for (final sport in establishment.sports) {
+        sports.add(sport.name);
+      }
+    }
+    return sports.toList()..sort();
+  }
+
+  double _getEstablishmentDistance(Establishment establishment) {
+    final hash = establishment.name.hashCode.abs();
+    final distance = (hash % 95) + 1; // 1 a 95 km
+    return distance.toDouble();
+  }
+
+  String _getEstablishmentPrice(Establishment establishment) {
+    final hash = establishment.name.hashCode.abs();
+    final basePrice = (hash % 80) + 20; // 20 a 99 reais
+    return 'A partir de R\$ $basePrice/h';
+  }
+
+  // === MÉTODOS DE CALLBACK ===
+  
+  void _onSportChanged(String? sport) {
+    setState(() {
+      _selectedSport = sport;
+    });
+    _applyFiltersAndSort();
+  }
+
+  void _onSortChanged(SortType sort) {
+    setState(() {
+      _currentSort = sort;
+    });
+    _applyFiltersAndSort();
+  }
+
+  void _onDistanceChanged(double distance) {
+    setState(() {
+      _maxDistance = distance;
+    });
+    _applyFiltersAndSort();
+  }
+
+  void _clearFilters() {
+    _searchController.clear();
+    setState(() {
+      _selectedSport = null;
+    });
+    _applyFiltersAndSort();
+  }
+
+  bool _hasActiveFilters() {
+    return _searchController.text.isNotEmpty || _selectedSport != null;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(4.w),
       child: Column(
         children: [
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Buscar estabelecimentos...',
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.surface,
-            ),
-          ),
+          _buildSearchBar(),
+          if (_showFilters) ...[
+            SizedBox(height: 2.h),
+            _buildFiltersPanel(),
+          ],
           SizedBox(height: 3.h),
-          Expanded(
-            child: _buildContent(),
-          ),
+          Expanded(child: _buildContent()),
         ],
       ),
     );
   }
 
+  Widget _buildSearchBar() {
+    return TextField(
+      controller: _searchController,
+      decoration: InputDecoration(
+        hintText: 'Buscar estabelecimentos...',
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: IconButton(
+          icon: Icon(_showFilters ? Icons.filter_list : Icons.filter_list_outlined),
+          onPressed: () {
+            setState(() {
+              _showFilters = !_showFilters;
+            });
+          },
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        filled: true,
+        fillColor: Theme.of(context).colorScheme.surface,
+      ),
+    );
+  }
+
+  Widget _buildFiltersPanel() {
+    return SearchFiltersPanelWidget(
+      selectedSport: _selectedSport,
+      currentSort: _currentSort,
+      maxDistance: _maxDistance,
+      availableSports: _getAvailableSports(),
+      onSportChanged: _onSportChanged,
+      onSortChanged: _onSortChanged,
+      onDistanceChanged: _onDistanceChanged,
+    );
+  }
+
   Widget _buildContent() {
     if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const SearchEmptyStateWidget(type: SearchEmptyStateType.loading);
     }
 
     if (_errorMessage != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-            ),
-            SizedBox(height: 2.h),
-            Text(
-              _errorMessage!,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 2.h),
-            ElevatedButton(
-              onPressed: _loadEstablishments,
-              child: const Text('Tentar novamente'),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (_searchController.text.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.search,
-              size: 80,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-            ),
-            SizedBox(height: 2.h),
-            Text(
-              'Digite para pesquisar estabelecimentos',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+      return SearchEmptyStateWidget(
+        type: SearchEmptyStateType.error,
+        errorMessage: _errorMessage,
+        onRetry: _loadEstablishments,
       );
     }
 
     if (_filteredEstablishments.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.search_off,
-              size: 80,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-            ),
-            SizedBox(height: 2.h),
-            Text(
-              'Nenhum estabelecimento encontrado',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
+      if (_hasActiveFilters()) {
+        return SearchEmptyStateWidget(
+          type: SearchEmptyStateType.noResultsWithFilters,
+          onClearFilters: _clearFilters,
+        );
+      } else {
+        return const SearchEmptyStateWidget(type: SearchEmptyStateType.noResults);
+      }
     }
 
-    return ListView.builder(
-      itemCount: _filteredEstablishments.length,
-      itemBuilder: (context, index) {
-        final establishment = _filteredEstablishments[index];
-        return Container(
-          margin: EdgeInsets.only(bottom: 2.h),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+    return _buildEstablishmentsList();
+  }
+
+  Widget _buildEstablishmentsList() {
+    return Column(
+      children: [
+        SearchResultsHeaderWidget(
+          resultsCount: _filteredEstablishments.length,
+          hasActiveFilters: _hasActiveFilters(),
+          onClearFilters: _clearFilters,
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: _filteredEstablishments.length,
+            itemBuilder: (context, index) {
+              final establishment = _filteredEstablishments[index];
+              return EstablishmentCardWidget(
+                establishment: establishment,
+                getEstablishmentDistance: _getEstablishmentDistance,
+                getEstablishmentPrice: _getEstablishmentPrice,
+              );
+            },
           ),
-          child: Padding(
-            padding: EdgeInsets.all(4.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        width: 20.w,
-                        height: 15.w,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                        ),
-                        child: establishment.imageUrl.isNotEmpty
-                            ? Image.network(
-                                establishment.imageUrl,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Icon(
-                                    Icons.image_not_supported,
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                  );
-                                },
-                              )
-                            : Icon(
-                                Icons.business,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                size: 30,
-                              ),
-                      ),
-                    ),
-                    SizedBox(width: 3.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            establishment.name,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 0.5.h),
-                          Text(
-                            establishment.description,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 1.h),
-                          if (establishment.sports.isNotEmpty) ...[
-                            Wrap(
-                              spacing: 1.w,
-                              runSpacing: 0.5.h,
-                              children: establishment.sports.take(3).map((sport) {
-                                return Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    sport.name,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 2.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        CustomIconWidget(
-                          iconName: 'location_on',
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                          size: 16,
-                        ),
-                        SizedBox(width: 1.w),
-                        Text(
-                          '${establishment.address.city}, ${establishment.address.state}',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => EstablishmentDetailScreen(
-                              establishment: establishment,
-                            ),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.8.h),
-                      ),
-                      child: Text(
-                        'Ver mais',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
