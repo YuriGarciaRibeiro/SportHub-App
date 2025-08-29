@@ -1,6 +1,13 @@
+import 'dart:io';
+
 class ApiConfig {
-  // Ambiente de desenvolvimento - baseado no seu Swagger
-  static const String _devBaseUrl = 'http://localhost:5001';
+  static String get _devBaseUrl {
+    if (Platform.isAndroid) {
+      return 'http://10.0.2.2:5001'; // Para emulador Android
+    } else {
+      return 'http://localhost:5001'; // Para iOS, macOS, Web, Windows
+    }
+  }
   
   // Ambiente de produção
   static const String _prodBaseUrl = 'https://sua-api-producao.com';
