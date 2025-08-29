@@ -94,7 +94,7 @@ class LocationWeatherService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final temperature = data['main']['temp'].round();
-        return '${temperature}°C';
+        return '$temperature°C';
       } else {
         return '25°C'; // Valor padrão em caso de erro
       }

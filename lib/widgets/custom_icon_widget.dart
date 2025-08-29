@@ -6,11 +6,11 @@ class CustomIconWidget extends StatelessWidget {
   final double? size;
 
   const CustomIconWidget({
-    Key? key,
+    super.key,
     required this.iconName,
     this.color,
     this.size,
-  }) : super(key: key);
+  });
 
   IconData _getIconData(String iconName) {
     switch (iconName) {

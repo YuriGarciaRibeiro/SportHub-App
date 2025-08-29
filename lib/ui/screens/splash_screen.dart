@@ -118,12 +118,12 @@ class _SplashScreenState extends State<SplashScreen>
                   style: theme.textTheme.bodyMedium?.copyWith(
                         fontSize: 16,
                         letterSpacing: 1,
-                        color: colorScheme.onBackground.withOpacity(0.7),
+                        color: colorScheme.onSurface.withOpacity(0.7),
                       ) ??
                       TextStyle(
                         fontSize: 16,
                         letterSpacing: 1,
-                        color: colorScheme.onBackground.withOpacity(0.7),
+                        color: colorScheme.onSurface.withOpacity(0.7),
                       ),
                 ),
               ),
@@ -138,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen>
                   height: 30,
                   child: CircularProgressIndicator(
                     strokeWidth: 3,
-                    valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onBackground),
+                    valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onSurface),
                   ),
                 ),
               ),

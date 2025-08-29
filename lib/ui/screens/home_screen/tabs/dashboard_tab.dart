@@ -9,6 +9,9 @@ import '../widgets/greeting_header_widget.dart';
 import '../widgets/nearby_establishments_widget.dart';
 import '../widgets/upcoming_reservations_widget.dart';
 import '../widgets/no_upcoming_reservations_widget.dart';
+import '../widgets/popular_sports_widget.dart';
+import '../widgets/quick_actions_widget.dart';
+import '../widgets/quick_search_widget.dart';
 
 class DashboardTab extends StatefulWidget {
   final VoidCallback? onNavigateToSearch;
@@ -119,6 +122,66 @@ class _DashboardTabState extends State<DashboardTab> {
     }
   }
 
+  void _onSportSelected(String sportName) {
+    // TODO: Implementar navegação para pesquisa filtrada por esporte
+    // Por enquanto, mostra um feedback visual
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Filtrando por: $sportName'),
+          backgroundColor: Theme.of(context).primaryColor,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  void _onBookNow() {
+    // Navega para a tab de pesquisa
+    widget.onNavigateToSearch?.call();
+  }
+
+  void _onFindNearby() {
+    // Navega para a tab de pesquisa (mesma ação por enquanto)
+    widget.onNavigateToSearch?.call();
+  }
+
+  void _onViewFavorites() {
+    // TODO: Implementar navegação para favoritos
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Favoritos - Em breve!'),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  void _onViewHistory() {
+    // TODO: Implementar navegação para histórico
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Histórico - Em breve!'),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -171,6 +234,23 @@ class _DashboardTabState extends State<DashboardTab> {
           SliverToBoxAdapter(
             child: SizedBox(height: 1.h),
           ),
+          SliverToBoxAdapter(
+            child: QuickSearchWidget(),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 1.h),
+          ),
+          SliverToBoxAdapter(
+            child: QuickActionsWidget(
+              onBookNow: _onBookNow,
+              onFindNearby: _onFindNearby,
+              onViewFavorites: _onViewFavorites,
+              onViewHistory: _onViewHistory,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 1.h),
+          ),
           if (_upcomingReservations.isNotEmpty) ...[
             SliverToBoxAdapter(
               child: UpcomingReservationsWidget(
@@ -189,9 +269,17 @@ class _DashboardTabState extends State<DashboardTab> {
               ),
             ),
             SliverToBoxAdapter(
-              child: SizedBox(height: 4.h),
+              child: SizedBox(height: 3.h),
             ),
           ],
+          SliverToBoxAdapter(
+            child: PopularSportsWidget(
+              onSportSelected: _onSportSelected,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 1.h), // Reduzido ainda mais para 1.h
+          ),
           SliverToBoxAdapter(
             child: NearbyEstablishmentsWidget(
               establishments: nearbyEstablishments,

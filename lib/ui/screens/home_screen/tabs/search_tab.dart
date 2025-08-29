@@ -6,7 +6,7 @@ import '../../../../models/establishment.dart';
 import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class SearchTab extends StatefulWidget {
-  const SearchTab({Key? key}) : super(key: key);
+  const SearchTab({super.key});
 
   @override
   State<SearchTab> createState() => _SearchTabState();

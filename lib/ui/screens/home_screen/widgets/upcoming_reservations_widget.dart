@@ -5,9 +5,9 @@ class UpcomingReservationsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> reservations;
 
   const UpcomingReservationsWidget({
-    Key? key,
+    super.key,
     required this.reservations,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

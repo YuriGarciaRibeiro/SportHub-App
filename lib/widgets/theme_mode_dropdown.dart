@@ -22,7 +22,7 @@ class ThemeModeDropdown extends StatelessWidget {
         return Padding(
           padding: padding ?? EdgeInsets.zero,
           child: DropdownButtonFormField<ThemeMode>(
-            value: themeProvider.themeMode,
+            initialValue: themeProvider.themeMode,
             isDense: dense,
             decoration: InputDecoration(
               labelText: 'Tema',

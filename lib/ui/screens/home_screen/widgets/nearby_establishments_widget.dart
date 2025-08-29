@@ -6,9 +6,9 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> establishments;
 
   const NearbyEstablishmentsWidget({
-    Key? key,
+    super.key,
     required this.establishments,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Entre na sua conta',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onBackground.withOpacity(0.7),
+                        color: colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   strokeWidth: 2,
                                   // Use button theme foreground if available; otherwise default to white.
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    theme.elevatedButtonTheme.style?.foregroundColor?.resolve(<MaterialState>{})
+                                    theme.elevatedButtonTheme.style?.foregroundColor?.resolve(<WidgetState>{})
                                           ?? Colors.white,
                                   ),
                                 ),

@@ -118,7 +118,7 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
                       heroImageUrl: est?.imageUrl ?? '',
                       rating: 0.0,
                       distanceText: est != null
-                          ? '${est.address.city.isNotEmpty ? est.address.city : 'Local'}'
+                          ? est.address.city.isNotEmpty ? est.address.city : 'Local'
                           : '',
                       onBackPressed: _onBack,
                       onSharePressed: _onShare,

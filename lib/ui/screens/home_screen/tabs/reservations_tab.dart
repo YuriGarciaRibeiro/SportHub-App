@@ -3,7 +3,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/app_export.dart';
 
 class ReservationsTab extends StatefulWidget {
-  const ReservationsTab({Key? key}) : super(key: key);
+  const ReservationsTab({super.key});
 
   @override
   State<ReservationsTab> createState() => _ReservationsTabState();

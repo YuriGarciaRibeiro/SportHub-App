@@ -3,7 +3,7 @@ import 'package:sizer/sizer.dart';
 import '../../../core/app_export.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();

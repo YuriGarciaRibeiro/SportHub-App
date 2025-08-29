@@ -265,14 +265,14 @@ class _Header extends StatelessWidget {
 										establishment.imageUrl,
 										fit: BoxFit.cover,
 										errorBuilder: (context, error, stack) => Container(
-											color: Theme.of(context).colorScheme.surfaceVariant,
+											color: Theme.of(context).colorScheme.surfaceContainerHighest,
 											child: const Center(
 												child: Icon(Icons.image_not_supported_outlined, size: 48),
 											),
 										),
 									)
 								: Container(
-										color: Theme.of(context).colorScheme.surfaceVariant,
+										color: Theme.of(context).colorScheme.surfaceContainerHighest,
 										child: const Center(
 											child: Icon(Icons.business_outlined, size: 48),
 										),

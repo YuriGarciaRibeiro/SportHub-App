@@ -8,11 +8,11 @@ class GreetingHeaderWidget extends StatelessWidget {
   final String weather;
 
   const GreetingHeaderWidget({
-    Key? key,
+    super.key,
     required this.userName,
     required this.location,
     required this.weather,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

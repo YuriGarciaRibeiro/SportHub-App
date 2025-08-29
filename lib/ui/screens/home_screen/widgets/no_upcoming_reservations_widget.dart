@@ -6,9 +6,9 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
   final VoidCallback? onBookNow;
 
   const NoUpcomingReservationsWidget({
-    Key? key,
+    super.key,
     this.onBookNow,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
