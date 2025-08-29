@@ -331,7 +331,6 @@ class _HomeTabState extends State<HomeTab> {
       ),
       child: InkWell(
         onTap: () {
-          // TODO: Navegar para detalhes do estabelecimento
           _showEstablishmentDetails(establishment);
         },
         borderRadius: BorderRadius.circular(12),
