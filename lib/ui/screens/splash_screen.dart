@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../widgets/app_logo.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -62,8 +62,10 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Scaffold(
-      backgroundColor: const Color(0xFF1A237E), // Azul escuro esportivo
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -77,25 +79,10 @@ class _SplashScreenState extends State<SplashScreen>
                     scale: _scaleAnimation.value,
                     child: FadeTransition(
                       opacity: _fadeAnimation,
-                      child: Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.sports_soccer,
-                          size: 60,
-                          color: Color(0xFF1A237E),
-                        ),
+                      child: const AppLogo(
+                        size: 120,
+                        borderRadius: 25,
+                        shadowOpacity: 0.3,
                       ),
                     ),
                   );
@@ -107,14 +94,16 @@ class _SplashScreenState extends State<SplashScreen>
               // Nome do app
               FadeTransition(
                 opacity: _fadeAnimation,
-                child: const Text(
+                child: Text(
                   'SportHub',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 2,
-                  ),
+                  style: theme.textTheme.headlineLarge?.copyWith(
+                        letterSpacing: 2,
+                      ) ??
+                      const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                      ),
                 ),
               ),
               
@@ -123,13 +112,18 @@ class _SplashScreenState extends State<SplashScreen>
               // Subtítulo
               FadeTransition(
                 opacity: _fadeAnimation,
-                child: const Text(
+                child: Text(
                   'Seu hub esportivo completo',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    letterSpacing: 1,
-                  ),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 16,
+                        letterSpacing: 1,
+                        color: colorScheme.onBackground.withOpacity(0.7),
+                      ) ??
+                      TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 1,
+                        color: colorScheme.onBackground.withOpacity(0.7),
+                      ),
                 ),
               ),
               
@@ -138,12 +132,12 @@ class _SplashScreenState extends State<SplashScreen>
               // Indicador de carregamento
               FadeTransition(
                 opacity: _fadeAnimation,
-                child: const SizedBox(
+                child: SizedBox(
                   width: 30,
                   height: 30,
                   child: CircularProgressIndicator(
                     strokeWidth: 3,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onBackground),
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/app_logo.dart';
 import '../../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -87,8 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -101,45 +104,21 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Column(
                   children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1A237E),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.sports_soccer,
-                        size: 50,
-                        color: Colors.white,
-                      ),
-                    ),
+                    const AppLogo(size: 100, borderRadius: 20),
                     
                     const SizedBox(height: 24),
                     
-                    const Text(
+                    Text(
                       'SportHub',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1A237E),
-                      ),
+                      style: theme.textTheme.headlineLarge,
                     ),
                     
                     const SizedBox(height: 8),
                     
-                    const Text(
+                    Text(
                       'Entre na sua conta',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onBackground.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -166,8 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF1A237E),
+                          borderSide: BorderSide(
+                            color: theme.primaryColor,
                             width: 2,
                           ),
                         ),
@@ -208,8 +187,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF1A237E),
+                          borderSide: BorderSide(
+                            color: theme.primaryColor,
                             width: 2,
                           ),
                         ),
@@ -232,12 +211,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: _handleForgotPassword,
-                        child: const Text(
-                          'Esqueci minha senha',
-                          style: TextStyle(
-                            color: Color(0xFF1A237E),
-                          ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: theme.primaryColor,
                         ),
+                        child: const Text('Esqueci minha senha'),
                       ),
                     ),
                     
@@ -249,21 +226,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleLogin,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1A237E),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 2,
-                        ),
                         child: _isLoading
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: 20,
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  // Use button theme foreground if available; otherwise default to white.
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    theme.elevatedButtonTheme.style?.foregroundColor?.resolve(<MaterialState>{})
+                                          ?? Colors.white,
+                                  ),
                                 ),
                               )
                             : const Text(
@@ -280,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
+                        color: theme.primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
@@ -290,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Icon(
                                 Icons.info_outline,
-                                color: Colors.blue[700],
+                                color: theme.primaryColor,
                                 size: 20,
                               ),
                               const SizedBox(width: 8),
@@ -298,17 +271,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Contas de teste:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.blue[700],
+                                  color: theme.primaryColor,
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8),
-                          const Text(
+                          Text(
                             '• admin@sporthub.com - Admin@124365\n',
-                            style: TextStyle(
+                            style: theme.textTheme.bodySmall?.copyWith(
                               fontSize: 12,
-                              color: Colors.black87,
+                              color: colorScheme.onSurface,
                             ),
                           ),
                         ],
