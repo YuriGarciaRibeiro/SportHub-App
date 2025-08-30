@@ -1,8 +1,14 @@
+import 'package:sporthub/core/app_export.dart';
+
 import 'address.dart';
 import 'court.dart';
 import 'sport.dart';
 
 class Establishment {
+  static TimeOfDay parseTime(String timeString) {
+    final parts = timeString.split(":");
+    return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
+  }
   final String id;
   final String name;
   final String description;
@@ -10,6 +16,8 @@ class Establishment {
   final String email;
   final String website;
   final String imageUrl;
+  final TimeOfDay openingTime;
+  final TimeOfDay closingTime;
   final Address address;
   final List<Court> courts;
   final List<Sport> sports;
@@ -24,6 +32,8 @@ class Establishment {
     required this.email,
     required this.website,
     required this.imageUrl,
+    required this.openingTime,
+    required this.closingTime,
     required this.address,
     required this.courts,
     required this.sports,
@@ -32,50 +42,58 @@ class Establishment {
   });
 
   factory Establishment.fromJson(Map<String, dynamic> json) {
-    return Establishment(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      phoneNumber: json['phoneNumber'] ?? '',
-      email: json['email'] ?? '',
-      website: json['website'] ?? '',
-      imageUrl: json['imageUrl'] ?? '',
-      address: json['address'] != null 
-          ? Address.fromJson(json['address']) 
-          : Address.empty(),
-      courts: (json['courts'] as List<dynamic>?)
-          ?.map((court) => Court.fromJson(court))
-          .toList() ?? [],
-      sports: (json['sports'] as List<dynamic>?)
-          ?.map((sport) => Sport.fromJson(sport))
-          .toList() ?? [],
-      createdAt: json['createdAt'] != null 
-          ? DateTime.parse(json['createdAt']) 
-          : null,
-      updatedAt: json['updatedAt'] != null 
-          ? DateTime.parse(json['updatedAt']) 
-          : null,
-    );
+  return Establishment(
+    id: json['id'] ?? '',
+    name: json['name'] ?? '',
+    description: json['description'] ?? '',
+    phoneNumber: json['phoneNumber'] ?? '',
+    email: json['email'] ?? '',
+    website: json['website'] ?? '',
+    imageUrl: json['imageUrl'] ?? '',
+    openingTime: json['openingTime'] != null
+      ? parseTime(json['openingTime'].toString())
+      : TimeOfDay.now(),
+    closingTime: json['closingTime'] != null
+      ? parseTime(json['closingTime'].toString())
+      : TimeOfDay.now(),
+    address: json['address'] != null
+      ? Address.fromJson(json['address'])
+      : Address.empty(),
+    courts: (json['courts'] as List<dynamic>?)
+      ?.map((court) => Court.fromJson(court))
+      .toList() ?? [],
+    sports: (json['sports'] as List<dynamic>?)
+      ?.map((sport) => Sport.fromJson(sport))
+      .toList() ?? [],
+    createdAt: json['createdAt'] != null 
+      ? DateTime.parse(json['createdAt']) 
+      : null,
+    updatedAt: json['updatedAt'] != null 
+      ? DateTime.parse(json['updatedAt']) 
+      : null,
+  );
   }
 
   // Factory para criar a partir do DTO da API
   factory Establishment.fromDto(Map<String, dynamic> dto) {
-    return Establishment(
-      id: dto['id'] ?? '',
-      name: dto['name'] ?? '',
-      description: dto['description'] ?? '',
-      phoneNumber: '',
-      email: '', 
-      website: '',
-      imageUrl: dto['imageUrl'] ?? '',
-      address: dto['address'] != null 
-          ? Address.fromJson(dto['address']) 
-          : Address.empty(),
-      courts: [], 
-      sports: (dto['sports'] as List<dynamic>?)
-          ?.map((sport) => Sport.fromJson(sport))
-          .toList() ?? [],
-    );
+  return Establishment(
+    id: dto['id'] ?? '',
+    name: dto['name'] ?? '',
+    description: dto['description'] ?? '',
+    phoneNumber: '',
+    email: '', 
+    website: '',
+    imageUrl: dto['imageUrl'] ?? '',
+    openingTime: TimeOfDay.now(),
+    closingTime: TimeOfDay.now(),
+    address: dto['address'] != null 
+      ? Address.fromJson(dto['address']) 
+      : Address.empty(),
+    courts: [], 
+    sports: (dto['sports'] as List<dynamic>?)
+      ?.map((sport) => Sport.fromJson(sport))
+      .toList() ?? [],
+  );
   }
 
   Map<String, dynamic> toJson() {
@@ -87,6 +105,8 @@ class Establishment {
       'email': email,
       'website': website,
       'imageUrl': imageUrl,
+      'openingTime': '${openingTime.hour.toString().padLeft(2, '0')}:${openingTime.minute.toString().padLeft(2, '0')}:00',
+      'closingTime': '${closingTime.hour.toString().padLeft(2, '0')}:${closingTime.minute.toString().padLeft(2, '0')}:00',
       'address': address.toJson(),
       'courts': courts.map((court) => court.toJson()).toList(),
       'sports': sports.map((sport) => sport.toJson()).toList(),

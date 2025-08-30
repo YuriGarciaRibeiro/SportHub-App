@@ -46,6 +46,14 @@ class _DashboardTabState extends State<DashboardTab> {
     // },
   ];
 
+  bool _isEstablishmentOpen(Establishment establishment) {
+    final now = TimeOfDay.now();
+    final currentMinutes = now.hour * 60 + now.minute;
+    final openingMinutes = establishment.openingTime.hour * 60 + establishment.openingTime.minute;
+    final closingMinutes = establishment.closingTime.hour * 60 + establishment.closingTime.minute;
+    return currentMinutes >= openingMinutes && currentMinutes <= closingMinutes;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -106,7 +114,7 @@ class _DashboardTabState extends State<DashboardTab> {
         "rating": 0.0, // TODO: Backend - implementar sistema de avaliações
         "reviews": 0, // TODO: Backend - implementar contagem de reviews
         "startingPrice": "Consultar", // TODO: Backend - adicionar campo de preço no modelo Establishment
-        "isOpen": true, // TODO: Backend - implementar horário de funcionamento no modelo Establishment
+        "isOpen": _isEstablishmentOpen(establishment),
         "image": establishment.imageUrl.isNotEmpty ? establishment.imageUrl : null,
         "sports": establishment.sports.map((sport) => sport.name).toList(),
       };
