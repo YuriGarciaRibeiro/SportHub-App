@@ -30,6 +30,8 @@ class _PopularSportsWidgetState extends State<PopularSportsWidget> {
 
   Future<void> _loadSports() async {
     try {
+      if (!mounted) return;
+      
       setState(() {
         _isLoading = true;
         _errorMessage = null;
@@ -37,11 +39,15 @@ class _PopularSportsWidgetState extends State<PopularSportsWidget> {
 
       final sports = await _sportsService.getAllSports();
 
+      if (!mounted) return;
+
       setState(() {
         _sports = sports.take(6).toList();
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
+      
       setState(() {
         _errorMessage = 'Erro ao carregar esportes: $e';
         _isLoading = false;

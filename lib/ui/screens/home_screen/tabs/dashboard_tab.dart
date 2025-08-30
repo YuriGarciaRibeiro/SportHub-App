@@ -59,6 +59,8 @@ class _DashboardTabState extends State<DashboardTab> {
 
   Future<void> _loadData() async {
     try {
+      if (!mounted) return;
+      
       setState(() {
         _isLoading = true;
         _errorMessage = null;
@@ -70,6 +72,8 @@ class _DashboardTabState extends State<DashboardTab> {
         _locationWeatherService.getCurrentLocationAndWeather(),
       ]);
 
+      if (!mounted) return;
+
       final establishments = futures[0] as List<Establishment>;
       final locationWeather = futures[1] as Map<String, String>;
       
@@ -79,13 +83,17 @@ class _DashboardTabState extends State<DashboardTab> {
         _currentWeather = locationWeather['weather'] ?? "25°C";
       });
     } catch (e) {
+      if (!mounted) return;
+      
       setState(() {
         _errorMessage = 'Erro ao carregar dados: $e';
       });
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

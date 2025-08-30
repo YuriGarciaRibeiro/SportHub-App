@@ -41,16 +41,24 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
 
   Future<void> _fetch() async {
     if (widget.establishmentId == null) return;
+    
+    if (!mounted) return;
+    
     setState(() {
       _loading = true;
       _error = null;
     });
     try {
       final est = await _service.getEstablishmentById(widget.establishmentId!);
+      
+      if (!mounted) return;
+      
       setState(() {
         _est = est;
       });
     } catch (e) {
+      if (!mounted) return;
+      
       setState(() {
         _error = 'Não foi possível carregar o estabelecimento';
       });

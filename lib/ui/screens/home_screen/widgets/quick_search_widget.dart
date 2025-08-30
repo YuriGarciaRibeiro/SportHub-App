@@ -39,14 +39,21 @@ class _QuickSearchWidgetState extends State<QuickSearchWidget> {
 
   Future<void> _loadEstablishments() async {
     try {
+      if (!mounted) return;
+      
       setState(() => _isLoading = true);
       final establishments = await _establishmentService.getAllEstablishments();
+      
+      if (!mounted) return;
+      
       setState(() {
         _allEstablishments = establishments;
         _isLoading = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
       debugPrint('Erro ao carregar estabelecimentos: $e');
     }
   }

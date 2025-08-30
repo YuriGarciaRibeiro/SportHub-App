@@ -264,7 +264,7 @@ class EstablishmentCardWidget extends StatelessWidget {
           await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => EstablishmentDetailScreen(
-                establishment: establishment,
+                establishmentId: establishment.id,
               ),
             ),
           );

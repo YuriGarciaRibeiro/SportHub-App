@@ -46,12 +46,16 @@ class _SearchTabState extends State<SearchTab> {
   
   Future<void> _loadEstablishments() async {
     try {
+      if (!mounted) return;
+      
       setState(() {
         _isLoading = true;
         _errorMessage = null;
       });
 
       final establishments = await _establishmentService.getAllEstablishments();
+      
+      if (!mounted) return;
       
       setState(() {
         _allEstablishments = establishments;
@@ -61,6 +65,8 @@ class _SearchTabState extends State<SearchTab> {
       
       _applyFiltersAndSort();
     } catch (e) {
+      if (!mounted) return;
+      
       setState(() {
         _errorMessage = 'Erro ao carregar estabelecimentos: $e';
         _isLoading = false;
