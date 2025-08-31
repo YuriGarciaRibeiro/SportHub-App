@@ -26,7 +26,7 @@ class _SearchTabState extends State<SearchTab> {
   // Filtros e ordenação
   SortType _currentSort = SortType.name;
   String? _selectedSport;
-  double _maxDistance = 50.0; // km
+  double _maxDistance = 50.0;
   bool _showFilters = false;
 
   @override

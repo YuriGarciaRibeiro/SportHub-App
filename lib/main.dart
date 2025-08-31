@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sporthub/core/routes/app_poutes.dart';
 import 'ui/screens/splash_screen.dart';
-import 'ui/screens/login_screen.dart';
-import 'ui/screens/home_screen/home_screen.dart';
 import 'services/auth_service.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
