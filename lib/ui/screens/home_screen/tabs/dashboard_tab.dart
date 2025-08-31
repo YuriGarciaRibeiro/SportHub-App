@@ -298,7 +298,7 @@ class _DashboardTabState extends State<DashboardTab> {
             ),
           ),
           SliverToBoxAdapter(
-            child: SizedBox(height: 1.h), // Reduzido ainda mais para 1.h
+            child: SizedBox(height: 1.h),
           ),
           SliverToBoxAdapter(
             child: NearbyEstablishmentsWidget(
