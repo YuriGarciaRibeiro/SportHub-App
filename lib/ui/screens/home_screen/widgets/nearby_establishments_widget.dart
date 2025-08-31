@@ -213,7 +213,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                establishment['startingPrice'],
+                                establishment['startingPrice'] != null ? 'A partir de R\$ ${(establishment['startingPrice'] as num).toStringAsFixed(0)}' : 'Consultar',
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w600,

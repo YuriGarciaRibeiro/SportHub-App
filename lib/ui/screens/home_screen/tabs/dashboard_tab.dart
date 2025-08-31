@@ -113,7 +113,7 @@ class _DashboardTabState extends State<DashboardTab> {
         "distance": "- km", // TODO: Backend - implementar cálculo de distância baseado em geolocalização
         "rating": 0.0, // TODO: Backend - implementar sistema de avaliações
         "reviews": 0, // TODO: Backend - implementar contagem de reviews
-        "startingPrice": "Consultar", // TODO: Backend - adicionar campo de preço no modelo Establishment
+        "startingPrice": establishment.startingPrice ?? "Consultar",
         "isOpen": _isEstablishmentOpen(establishment),
         "image": establishment.imageUrl.isNotEmpty ? establishment.imageUrl : null,
         "sports": establishment.sports.map((sport) => sport.name).toList(),

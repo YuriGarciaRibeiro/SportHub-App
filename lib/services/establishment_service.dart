@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../core/constants/api_config.dart';
 import '../models/establishment.dart';
-import '../models/address.dart';
-import '../models/sport.dart';
 
 class EstablishmentService {
   static final EstablishmentService _instance = EstablishmentService._internal();

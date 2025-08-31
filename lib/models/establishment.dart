@@ -18,6 +18,7 @@ class Establishment {
   final String imageUrl;
   final TimeOfDay openingTime;
   final TimeOfDay closingTime;
+  final double? startingPrice;
   final Address address;
   final List<Court> courts;
   final List<Sport> sports;
@@ -34,6 +35,7 @@ class Establishment {
     required this.imageUrl,
     required this.openingTime,
     required this.closingTime,
+    required this.startingPrice,
     required this.address,
     required this.courts,
     required this.sports,
@@ -56,6 +58,7 @@ class Establishment {
     closingTime: json['closingTime'] != null
       ? parseTime(json['closingTime'].toString())
       : TimeOfDay.now(),
+    startingPrice: (json['startingPrice'] as num?)?.toDouble() ?? 0.0,
     address: json['address'] != null
       ? Address.fromJson(json['address'])
       : Address.empty(),
@@ -80,16 +83,23 @@ class Establishment {
     id: dto['id'] ?? '',
     name: dto['name'] ?? '',
     description: dto['description'] ?? '',
-    phoneNumber: '',
-    email: '', 
-    website: '',
+    phoneNumber: dto['phoneNumber'] ?? '',
+    email: dto['email'] ?? '',
+    website: dto['website'] ?? '',
     imageUrl: dto['imageUrl'] ?? '',
-    openingTime: TimeOfDay.now(),
-    closingTime: TimeOfDay.now(),
+    openingTime: dto['openingTime'] != null
+      ? Establishment.parseTime(dto['openingTime'])
+      : const TimeOfDay(hour: 9, minute: 0),
+    closingTime: dto['closingTime'] != null
+      ? Establishment.parseTime(dto['closingTime'])
+      : const TimeOfDay(hour: 18, minute: 0),
+    startingPrice: (dto['startingPrice'] as num?)?.toDouble() ?? 0.0,
     address: dto['address'] != null 
       ? Address.fromJson(dto['address']) 
       : Address.empty(),
-    courts: [], 
+    courts: (dto['courts'] as List<dynamic>?)
+      ?.map((court) => Court.fromJson(court))
+      .toList() ?? [],
     sports: (dto['sports'] as List<dynamic>?)
       ?.map((sport) => Sport.fromJson(sport))
       .toList() ?? [],

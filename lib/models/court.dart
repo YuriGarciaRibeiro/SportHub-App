@@ -10,6 +10,7 @@ class Court {
   final String openingTime; // Formato "HH:mm"
   final String closingTime; // Formato "HH:mm"
   final String timeZone;
+  final double? pricePerSlot;
   final List<Sport> sports;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -24,6 +25,7 @@ class Court {
     this.openingTime = "08:00",
     this.closingTime = "22:00",
     this.timeZone = "America/Maceio",
+    this.pricePerSlot,
     required this.sports,
     this.createdAt,
     this.updatedAt,
@@ -40,6 +42,7 @@ class Court {
       openingTime: json['openingTime'] ?? "08:00",
       closingTime: json['closingTime'] ?? "22:00",
       timeZone: json['timeZone'] ?? "America/Maceio",
+      pricePerSlot: (json['pricePerSlot'] as num?)?.toDouble(),
       sports: (json['sports'] as List<dynamic>?)
           ?.map((sport) => Sport.fromJson(sport))
           .toList() ?? [],

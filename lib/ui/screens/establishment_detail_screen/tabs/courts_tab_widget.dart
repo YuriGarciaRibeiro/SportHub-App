@@ -76,7 +76,16 @@ class CourtsTabWidget extends StatelessWidget {
               ],
             ),
             SizedBox(height: 1.h),
-            Text('Funcionamento: ${court.workingHours}', style: Theme.of(context).textTheme.bodySmall),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Funcionamento: ${court.workingHours}', style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  court.pricePerSlot != null ? 'R\$ ${(court.pricePerSlot as num).toStringAsFixed(2)}' : 'Consultar valor',
+                  style: Theme.of(context).textTheme.bodySmall
+                  ),
+              ],
+            ),
             SizedBox(height: 2.h),
             SizedBox(
               width: double.infinity,
