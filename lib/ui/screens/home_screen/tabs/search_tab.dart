@@ -151,7 +151,6 @@ class _SearchTabState extends State<SearchTab> {
     return 'A partir de R\$ $basePrice/h';
   }
 
-  // === MÉTODOS DE CALLBACK ===
   
   void _onSportChanged(String? sport) {
     setState(() {

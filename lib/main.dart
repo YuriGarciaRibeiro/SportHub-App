@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/core/routes/app_poutes.dart';
 import 'ui/screens/splash_screen.dart';
 import 'ui/screens/login_screen.dart';
 import 'ui/screens/home_screen/home_screen.dart';
@@ -35,10 +36,7 @@ class SportHubApp extends StatelessWidget {
                 darkTheme: AppTheme.darkTheme,
                 themeMode: themeProvider.themeMode,
                 home: const SplashScreen(),
-                routes: {
-                  '/login': (context) => const LoginScreen(),
-                  '/home': (context) => const HomeScreen(),
-                },
+                routes: AppRoutes().routes,
               );
             },
           );

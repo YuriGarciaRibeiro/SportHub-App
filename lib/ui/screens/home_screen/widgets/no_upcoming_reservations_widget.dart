@@ -25,10 +25,6 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.2),
-          width: 1,
-        ),
       ),
       child: Column(
         children: [
@@ -48,7 +44,6 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           
           SizedBox(height: 3.h),
           
-          // Título
           Text(
             'Nenhuma reserva próxima',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -60,7 +55,6 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
           
           SizedBox(height: 1.h),
           
-          // Descrição
           Text(
             'Que tal reservar uma quadra e começar a jogar? Encontre os melhores estabelecimentos perto de você!',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -77,8 +71,7 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: onBookNow ?? () {
-                // Navegar para a tab de busca/explorar (índice 1)
-                // Esta funcionalidade será implementada quando necessário
+
                 Navigator.pushNamed(context, '/search');
               },
               style: ElevatedButton.styleFrom(

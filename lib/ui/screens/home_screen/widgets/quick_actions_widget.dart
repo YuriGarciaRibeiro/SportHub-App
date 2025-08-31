@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/ui/screens/home_screen/widgets/quick_action_button.dart';
 import '../../../../core/app_export.dart';
 
 class QuickActionsWidget extends StatelessWidget {
@@ -33,22 +34,20 @@ class QuickActionsWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildActionButton(
-                  context,
+                child: QuickActionButton(
+                  onTap: onBookNow,
                   icon: Icons.calendar_today,
                   label: 'Agendar Agora',
                   color: Theme.of(context).primaryColor,
-                  onTap: onBookNow,
                 ),
               ),
               SizedBox(width: 3.w),
               Expanded(
-                child: _buildActionButton(
-                  context,
+                child: QuickActionButton(
+                  onTap: onFindNearby,
                   icon: Icons.location_on,
                   label: 'Encontrar Quadras',
                   color: Colors.green,
-                  onTap: onFindNearby,
                 ),
               ),
             ],
@@ -57,72 +56,25 @@ class QuickActionsWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildActionButton(
-                  context,
+                child: QuickActionButton(
+                  onTap: onViewFavorites,
                   icon: Icons.favorite,
                   label: 'Meus Favoritos',
                   color: Colors.red,
-                  onTap: onViewFavorites,
                 ),
               ),
               SizedBox(width: 3.w),
               Expanded(
-                child: _buildActionButton(
-                  context,
+                child: QuickActionButton(
+                  onTap: onViewHistory,
                   icon: Icons.history,
                   label: 'Histórico',
                   color: Colors.orange,
-                  onTap: onViewHistory,
                 ),
               ),
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildActionButton(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required Color color,
-    required VoidCallback? onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: color.withOpacity(0.2),
-            width: 1,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 28,
-            ),
-            SizedBox(height: 0.8.h),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
       ),
     );
   }
