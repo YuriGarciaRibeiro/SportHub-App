@@ -5,8 +5,8 @@ import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class EstablishmentCardWidget extends StatelessWidget {
   final Establishment establishment;
-  final Function(Establishment) getEstablishmentDistance;
-  final Function(Establishment) getEstablishmentPrice;
+  final String Function(Establishment) getEstablishmentDistance;
+  final String Function(Establishment) getEstablishmentPrice;
 
   const EstablishmentCardWidget({
     super.key,
@@ -162,7 +162,7 @@ class EstablishmentCardWidget extends StatelessWidget {
               ),
               SizedBox(width: 0.5.w),
               Text(
-                '${getEstablishmentDistance(establishment).toStringAsFixed(1)} km',
+                getEstablishmentDistance(establishment),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,

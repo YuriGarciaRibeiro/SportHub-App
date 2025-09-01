@@ -15,17 +15,7 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4.w),
       padding: EdgeInsets.all(6.w),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Theme.of(context).primaryColor.withOpacity(0.1),
-            Theme.of(context).primaryColor.withOpacity(0.05),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
+      
       child: Column(
         children: [
           // Ícone

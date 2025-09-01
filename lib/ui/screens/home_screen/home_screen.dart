@@ -21,11 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
           onNavigateToSearch: () => _onBottomNavTap(1),
         );
       case 1:
-        return SearchTab();
+        return const SearchTab();
       case 2:
-        return ReservationsTab();
+        return const ReservationsTab();
       case 3:
-        return ProfileTab();
+        return const ProfileTab();
       default:
         return DashboardTab(
           onNavigateToSearch: () => _onBottomNavTap(1),
@@ -55,60 +55,61 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onBottomNavTap,
-        type: BottomNavigationBarType.fixed,
+      child: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: _onBottomNavTap,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor:
-            Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-        selectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
-        unselectedLabelStyle: Theme.of(context).textTheme.bodySmall,
-        items: [
-          BottomNavigationBarItem(
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        destinations: [
+          NavigationDestination(
             icon: CustomIconWidget(
-              iconName: _currentIndex == 0 ? 'home' : 'home_outlined',
-              color: _currentIndex == 0
-                  ? Theme.of(context).primaryColor
-                  : Theme.of(context).colorScheme.onSurface
-                      .withOpacity(0.6),
+              iconName: 'home_outlined',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
+            selectedIcon: CustomIconWidget(
+              iconName: 'home',
+              color: Theme.of(context).primaryColor,
               size: 24,
             ),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: CustomIconWidget(
-              iconName: _currentIndex == 1 ? 'search' : 'search',
-              color: _currentIndex == 1
-                  ? Theme.of(context).primaryColor
-                  : Theme.of(context).colorScheme.onSurface
-                      .withOpacity(0.6),
+              iconName: 'search',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
+            selectedIcon: CustomIconWidget(
+              iconName: 'search',
+              color: Theme.of(context).primaryColor,
               size: 24,
             ),
             label: 'Pesquisar',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: CustomIconWidget(
-              iconName: _currentIndex == 2 ? 'event' : 'event_outlined',
-              color: _currentIndex == 2
-                  ? Theme.of(context).primaryColor
-                  : Theme.of(context).colorScheme.onSurface
-                      .withOpacity(0.6),
+              iconName: 'event_outlined',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
+            selectedIcon: CustomIconWidget(
+              iconName: 'event',
+              color: Theme.of(context).primaryColor,
               size: 24,
             ),
             label: 'Reservas',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: CustomIconWidget(
-              iconName: _currentIndex == 3 ? 'person' : 'person_outline',
-              color: _currentIndex == 3
-                  ? Theme.of(context).primaryColor
-                  : Theme.of(context).colorScheme.onSurface
-                      .withOpacity(0.6),
+              iconName: 'person_outline',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
+            selectedIcon: CustomIconWidget(
+              iconName: 'person',
+              color: Theme.of(context).primaryColor,
               size: 24,
             ),
             label: 'Perfil',

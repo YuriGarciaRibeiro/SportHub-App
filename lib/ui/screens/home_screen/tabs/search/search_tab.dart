@@ -1,11 +1,8 @@
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/ui/screens/home_screen/tabs/search/search_view_model.dart';
 import '../../../../../core/app_export.dart';
-import '../../../../../services/establishment_service.dart';
-import '../../../../../models/establishment.dart';
-import 'widgets/search_filters_panel_widget.dart';
+import '../../../../../models/sport.dart';
 import '../../shared_widgets/establishment_card_widget.dart';
-import 'widgets/search_results_header_widget.dart';
-import 'widgets/search_empty_state_widget.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
@@ -15,279 +12,234 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
-  final EstablishmentService _establishmentService = EstablishmentService();
   final TextEditingController _searchController = TextEditingController();
-  
-  List<Establishment> _allEstablishments = [];
-  List<Establishment> _filteredEstablishments = [];
-  bool _isLoading = false;
-  String? _errorMessage;
-  
-  // Filtros e ordenação
-  SortType _currentSort = SortType.name;
-  String? _selectedSport;
-  double _maxDistance = 50.0;
-  bool _showFilters = false;
 
   @override
   void initState() {
     super.initState();
-    _loadEstablishments();
-    _searchController.addListener(_onSearchChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final viewModel = Provider.of<SearchViewModel>(context, listen: false);
+      viewModel.initializeSearch();
+    });
   }
 
   @override
   void dispose() {
-    _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
   }
 
-  
-  Future<void> _loadEstablishments() async {
-    try {
-      if (!mounted) return;
-      
-      setState(() {
-        _isLoading = true;
-        _errorMessage = null;
-      });
-
-      final establishments = await _establishmentService.getAllEstablishments();
-      
-      if (!mounted) return;
-      
-      setState(() {
-        _allEstablishments = establishments;
-        _filteredEstablishments = establishments;
-        _isLoading = false;
-      });
-      
-      _applyFiltersAndSort();
-    } catch (e) {
-      if (!mounted) return;
-      
-      setState(() {
-        _errorMessage = 'Erro ao carregar estabelecimentos: $e';
-        _isLoading = false;
-      });
-    }
-  }
-
-  void _onSearchChanged() {
-    _applyFiltersAndSort();
-  }
-
-  void _applyFiltersAndSort() {
-    final query = _searchController.text.toLowerCase();
-    List<Establishment> filtered = _allEstablishments;
-
-    if (query.isNotEmpty) {
-      filtered = filtered.where((establishment) {
-        return establishment.name.toLowerCase().contains(query) ||
-               establishment.description.toLowerCase().contains(query) ||
-               establishment.sports.any((sport) => 
-                 sport.name.toLowerCase().contains(query));
-      }).toList();
-    }
-
-    if (_selectedSport != null && _selectedSport!.isNotEmpty) {
-      filtered = filtered.where((establishment) {
-        return establishment.sports.any((sport) => 
-          sport.name.toLowerCase() == _selectedSport!.toLowerCase());
-      }).toList();
-    }
-
-    filtered = filtered.where((establishment) {
-      final distance = _getEstablishmentDistance(establishment);
-      return distance <= _maxDistance;
-    }).toList();
-
-    _sortEstablishments(filtered);
-
-    setState(() {
-      _filteredEstablishments = filtered;
-    });
-  }
-
-  void _sortEstablishments(List<Establishment> establishments) {
-    switch (_currentSort) {
-      case SortType.name:
-        establishments.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case SortType.rating:
-        // TODO: Implementar quando tivermos sistema de avaliações
-        establishments.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case SortType.distance:
-        establishments.sort((a, b) {
-          final distanceA = _getEstablishmentDistance(a);
-          final distanceB = _getEstablishmentDistance(b);
-          return distanceA.compareTo(distanceB);
-        });
-        break;
-    }
-  }
-
-  List<String> _getAvailableSports() {
-    final sports = <String>{};
-    for (final establishment in _allEstablishments) {
-      for (final sport in establishment.sports) {
-        sports.add(sport.name);
-      }
-    }
-    return sports.toList()..sort();
-  }
-
-  double _getEstablishmentDistance(Establishment establishment) {
-    final hash = establishment.name.hashCode.abs();
-    final distance = (hash % 95) + 1; // 1 a 95 km
-    return distance.toDouble();
-  }
-
-  String _getEstablishmentPrice(Establishment establishment) {
-    final hash = establishment.name.hashCode.abs();
-    final basePrice = (hash % 80) + 20; // 20 a 99 reais
-    return 'A partir de R\$ $basePrice/h';
-  }
-
-  
-  void _onSportChanged(String? sport) {
-    setState(() {
-      _selectedSport = sport;
-    });
-    _applyFiltersAndSort();
-  }
-
-  void _onSortChanged(SortType sort) {
-    setState(() {
-      _currentSort = sort;
-    });
-    _applyFiltersAndSort();
-  }
-
-  void _onDistanceChanged(double distance) {
-    setState(() {
-      _maxDistance = distance;
-    });
-    _applyFiltersAndSort();
-  }
-
-  void _clearFilters() {
-    _searchController.clear();
-    setState(() {
-      _selectedSport = null;
-    });
-    _applyFiltersAndSort();
-  }
-
-  bool _hasActiveFilters() {
-    return _searchController.text.isNotEmpty || _selectedSport != null;
-  }
-  
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(4.w),
-      child: Column(
-        children: [
-          _buildSearchBar(),
-          if (_showFilters) ...[
-            SizedBox(height: 2.h),
-            _buildFiltersPanel(),
-          ],
-          SizedBox(height: 3.h),
-          Expanded(child: _buildContent()),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return TextField(
-      controller: _searchController,
-      decoration: InputDecoration(
-        hintText: 'Buscar estabelecimentos...',
-        prefixIcon: const Icon(Icons.search),
-        suffixIcon: IconButton(
-          icon: Icon(_showFilters ? Icons.filter_list : Icons.filter_list_outlined),
-          onPressed: () {
-            setState(() {
-              _showFilters = !_showFilters;
-            });
-          },
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        filled: true,
-        fillColor: Theme.of(context).colorScheme.surface,
-      ),
-    );
-  }
-
-  Widget _buildFiltersPanel() {
-    return SearchFiltersPanelWidget(
-      selectedSport: _selectedSport,
-      currentSort: _currentSort,
-      maxDistance: _maxDistance,
-      availableSports: _getAvailableSports(),
-      onSportChanged: _onSportChanged,
-      onSortChanged: _onSortChanged,
-      onDistanceChanged: _onDistanceChanged,
-    );
-  }
-
-  Widget _buildContent() {
-    if (_isLoading) {
-      return const SearchEmptyStateWidget(type: SearchEmptyStateType.loading);
-    }
-
-    if (_errorMessage != null) {
-      return SearchEmptyStateWidget(
-        type: SearchEmptyStateType.error,
-        errorMessage: _errorMessage,
-        onRetry: _loadEstablishments,
-      );
-    }
-
-    if (_filteredEstablishments.isEmpty) {
-      if (_hasActiveFilters()) {
-        return SearchEmptyStateWidget(
-          type: SearchEmptyStateType.noResultsWithFilters,
-          onClearFilters: _clearFilters,
+    return Consumer<SearchViewModel>(
+      builder: (context, viewModel, child) {
+        return Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(4.w),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Buscar estabelecimentos...',
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _searchController.text.isNotEmpty
+                            ? IconButton(
+                                onPressed: () {
+                                  _searchController.clear();
+                                  viewModel.updateSearchQuery('');
+                                },
+                                icon: const Icon(Icons.clear),
+                              )
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onChanged: (value) => viewModel.updateSearchQuery(value),
+                    ),
+                    
+                    SizedBox(height: 2.h),
+                    
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _buildSportFilter(viewModel),
+                          SizedBox(width: 2.w),
+                          
+                          FilterChip(
+                            label: const Text('Abertos agora'),
+                            selected: viewModel.isOpen,
+                            onSelected: (selected) => viewModel.updateOpenFilter(selected),
+                          ),
+                          SizedBox(width: 2.w),
+                          
+                          if (viewModel.searchQuery.isNotEmpty || 
+                              viewModel.selectedSport != null || 
+                              viewModel.isOpen)
+                            ActionChip(
+                              label: const Text('Limpar'),
+                              onPressed: () {
+                                _searchController.clear();
+                                viewModel.clearFilters();
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
+                    
+                    SizedBox(height: 1.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${viewModel.filteredEstablishments.length} estabelecimentos',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Theme.of(context).hintColor,
+                          ),
+                        ),
+                        DropdownButton<String>(
+                          value: viewModel.sortBy,
+                          underline: Container(),
+                          items: const [
+                            DropdownMenuItem(value: 'distance', child: Text('Distância')),
+                            DropdownMenuItem(value: 'rating', child: Text('Avaliação')),
+                            DropdownMenuItem(value: 'name', child: Text('Nome')),
+                          ],
+                          onChanged: (value) {
+                            if (value != null) viewModel.updateSortBy(value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              Expanded(
+                child: viewModel.isLoading && viewModel.filteredEstablishments.isEmpty
+                    ? const Center(child: CircularProgressIndicator())
+                    : viewModel.hasError
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.error_outline,
+                                  size: 64,
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  'Erro ao carregar estabelecimentos',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(height: 1.h),
+                                Text(
+                                  viewModel.errorMessage ?? 'Erro desconhecido',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Theme.of(context).hintColor,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 2.h),
+                                ElevatedButton(
+                                  onPressed: () => viewModel.refreshSearch(),
+                                  child: const Text('Tentar novamente'),
+                                ),
+                              ],
+                            ),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: () => viewModel.refreshSearch(),
+                            child: viewModel.filteredEstablishments.isEmpty
+                                ? _buildEmptyState()
+                                : ListView.builder(
+                                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                    itemCount: viewModel.filteredEstablishments.length,
+                                    itemBuilder: (context, index) {
+                                      final establishment = viewModel.filteredEstablishments[index];
+                                      return Padding(
+                                        padding: EdgeInsets.only(bottom: 2.h),
+                                        child: EstablishmentCardWidget(
+                                          establishment: establishment,
+                                          getEstablishmentDistance: (est) => '2.5 km',
+                                          getEstablishmentPrice: (est) => 'R\$ ${est.startingPrice?.toStringAsFixed(2) ?? "50,00"}',
+                                        ),
+                                      );
+                                    },
+                                  ),
+                          ),
+              ),
+            ],
+          ),
         );
-      } else {
-        return const SearchEmptyStateWidget(type: SearchEmptyStateType.noResults);
-      }
-    }
-
-    return _buildEstablishmentsList();
+      },
+    );
   }
 
-  Widget _buildEstablishmentsList() {
-    return Column(
-      children: [
-        SearchResultsHeaderWidget(
-          resultsCount: _filteredEstablishments.length,
-          hasActiveFilters: _hasActiveFilters(),
-          onClearFilters: _clearFilters,
+  Widget _buildSportFilter(SearchViewModel viewModel) {
+    return PopupMenuButton<Sport?>(
+      child: Chip(
+        label: Text(viewModel.selectedSport?.name ?? 'Todos os esportes'),
+        avatar: Icon(
+          viewModel.selectedSport != null ? Icons.sports : Icons.filter_list,
+          size: 16.sp,
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _filteredEstablishments.length,
-            itemBuilder: (context, index) {
-              final establishment = _filteredEstablishments[index];
-              return EstablishmentCardWidget(
-                establishment: establishment,
-                getEstablishmentDistance: _getEstablishmentDistance,
-                getEstablishmentPrice: _getEstablishmentPrice,
-              );
-            },
+      ),
+      itemBuilder: (context) => [
+        const PopupMenuItem<Sport?>(
+          value: null,
+          child: Text('Todos os esportes'),
+        ),
+        ...viewModel.availableSports.map(
+          (sport) => PopupMenuItem<Sport?>(
+            value: sport,
+            child: Text(sport.name),
           ),
         ),
       ],
+      onSelected: (sport) => viewModel.updateSportFilter(sport),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.search_off,
+            size: 64,
+            color: Theme.of(context).hintColor,
+          ),
+          SizedBox(height: 2.h),
+          Text(
+            'Nenhum estabelecimento encontrado',
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 1.h),
+          Text(
+            'Tente ajustar os filtros de busca',
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: Theme.of(context).hintColor,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

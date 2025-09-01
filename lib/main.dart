@@ -6,6 +6,10 @@ import 'ui/screens/splash_screen.dart';
 import 'services/auth_service.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
+import 'ui/screens/home_screen/tabs/dashboard/dashboard_view_model.dart';
+import 'ui/screens/home_screen/tabs/search/search_view_model.dart';
+import 'ui/screens/home_screen/tabs/reservations/reservations_view_model.dart';
+import 'ui/screens/home_screen/tabs/profile/profile_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +25,17 @@ class SportHubApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    return MultiProvider(
+      providers: [
+        // Theme Provider
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        
+        // ViewModels
+        ChangeNotifierProvider(create: (context) => DashboardViewModel()),
+        ChangeNotifierProvider(create: (context) => SearchViewModel()),
+        ChangeNotifierProvider(create: (context) => ReservationsViewModel()),
+        ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+      ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return Sizer(
