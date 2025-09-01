@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/app_export.dart';
-import '../../../../services/establishment_service.dart';
-import '../../../../services/auth_service.dart';
-import '../../../../services/location_weather_service.dart';
-import '../../../../models/establishment.dart';
-import '../widgets/greeting_header_widget.dart';
-import '../widgets/nearby_establishments_widget.dart';
-import '../widgets/upcoming_reservations_widget.dart';
-import '../widgets/no_upcoming_reservations_widget.dart';
-import '../widgets/popular_sports_widget.dart';
-import '../widgets/quick_actions_widget.dart';
-import '../widgets/quick_search_widget.dart';
+import '../../../../../core/app_export.dart';
+import '../../../../../services/establishment_service.dart';
+import '../../../../../services/auth_service.dart';
+import '../../../../../services/location_weather_service.dart';
+import '../../../../../models/establishment.dart';
+import 'widgets/greeting_header_widget.dart';
+import 'widgets/nearby_establishments_widget.dart';
+import 'widgets/upcoming_reservations_widget.dart';
+import '../reservations/widgets/no_upcoming_reservations_widget.dart';
+import 'widgets/popular_sports_widget.dart';
+import 'widgets/quick_actions_widget.dart';
+import 'widgets/quick_search_widget.dart';
 
 class DashboardTab extends StatefulWidget {
   final VoidCallback? onNavigateToSearch;

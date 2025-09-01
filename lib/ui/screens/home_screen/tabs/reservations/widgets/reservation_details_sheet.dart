@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/app_export.dart';
+import '../../../../../../core/app_export.dart';
 
 class ReservationDetailsSheet {
   static void show(BuildContext context, Map<String, dynamic> reservation, {

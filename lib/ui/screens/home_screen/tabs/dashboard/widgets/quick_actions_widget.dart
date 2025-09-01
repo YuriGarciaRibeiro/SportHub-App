@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/ui/screens/home_screen/widgets/quick_action_button.dart';
-import '../../../../core/app_export.dart';
+import 'quick_action_button.dart';
+import '../../../../../../core/app_export.dart';
 
 class QuickActionsWidget extends StatelessWidget {
   final VoidCallback? onBookNow;

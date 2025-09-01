@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/app_export.dart';
-import '../../../../services/establishment_service.dart';
-import '../../../../models/establishment.dart';
-import '../../establishment_detail_screen/establishment_detail_screen.dart';
+import '../../../../../../core/app_export.dart';
+import '../../../../../../services/establishment_service.dart';
+import '../../../../../../models/establishment.dart';
+import '../../../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class QuickSearchWidget extends StatefulWidget {
   const QuickSearchWidget({super.key});

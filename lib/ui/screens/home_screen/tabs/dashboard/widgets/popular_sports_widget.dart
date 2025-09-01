@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/app_export.dart';
-import '../../../../models/sport.dart';
-import '../../../../services/sports_service.dart';
+import '../../../../../../core/app_export.dart';
+import '../../../../../../models/sport.dart';
+import '../../../../../../services/sports_service.dart';
 
 class PopularSportsWidget extends StatefulWidget {
   final Function(String)? onSportSelected;

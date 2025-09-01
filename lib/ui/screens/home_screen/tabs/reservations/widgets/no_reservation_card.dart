@@ -1,5 +1,5 @@
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/core/app_export.dart';
+import '../../../../../../core/app_export.dart';
 
 class NoReservationCard extends StatelessWidget {
   const NoReservationCard({super.key});

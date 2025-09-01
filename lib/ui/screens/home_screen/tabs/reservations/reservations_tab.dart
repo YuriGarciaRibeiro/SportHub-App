@@ -1,8 +1,8 @@
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/ui/screens/home_screen/widgets/no_reservation_card.dart';
-import '../../../../core/app_export.dart';
-import '../widgets/reservation_card.dart';
-import '../widgets/reservation_details_sheet.dart';
+import '../../../../../core/app_export.dart';
+import 'widgets/no_reservation_card.dart';
+import 'widgets/reservation_card.dart';
+import 'widgets/reservation_details_sheet.dart';
 
 class ReservationsTab extends StatefulWidget {
   const ReservationsTab({super.key});

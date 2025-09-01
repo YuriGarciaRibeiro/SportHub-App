@@ -1,11 +1,11 @@
 import 'package:sizer/sizer.dart';
-import '../../../../core/app_export.dart';
-import '../../../../services/establishment_service.dart';
-import '../../../../models/establishment.dart';
-import '../widgets/search_filters_panel_widget.dart';
-import '../widgets/establishment_card_widget.dart';
-import '../widgets/search_results_header_widget.dart';
-import '../widgets/search_empty_state_widget.dart';
+import '../../../../../core/app_export.dart';
+import '../../../../../services/establishment_service.dart';
+import '../../../../../models/establishment.dart';
+import 'widgets/search_filters_panel_widget.dart';
+import '../../shared_widgets/establishment_card_widget.dart';
+import 'widgets/search_results_header_widget.dart';
+import 'widgets/search_empty_state_widget.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});

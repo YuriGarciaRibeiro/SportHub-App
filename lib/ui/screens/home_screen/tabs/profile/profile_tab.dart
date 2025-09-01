@@ -1,9 +1,9 @@
 import 'package:sizer/sizer.dart';
 import 'package:sporthub/services/auth_service.dart';
-import 'package:sporthub/ui/screens/home_screen/widgets/user_configs_card.dart';
-import 'package:sporthub/ui/screens/home_screen/widgets/user_icon_area.dart';
+import 'widgets/user_configs_card.dart';
+import 'widgets/user_icon_area.dart';
 
-import '../../../../core/app_export.dart';
+import '../../../../../core/app_export.dart';
 
 class ProfileTab extends StatelessWidget {
   ProfileTab({super.key});

@@ -1,8 +1,8 @@
 import '../../../core/app_export.dart';
-import 'tabs/dashboard_tab.dart';
-import 'tabs/search_tab.dart';
-import 'tabs/reservations_tab.dart';
-import 'tabs/profile_tab.dart';
+import 'tabs/dashboard/dashboard_tab.dart';
+import 'tabs/search/search_tab.dart';
+import 'tabs/reservations/reservations_tab.dart';
+import 'tabs/profile/profile_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

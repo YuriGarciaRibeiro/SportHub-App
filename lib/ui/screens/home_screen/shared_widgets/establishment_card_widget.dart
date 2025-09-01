@@ -196,7 +196,7 @@ class EstablishmentCardWidget extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
         if (establishment.sports.length > 3)
           Container(
             margin: EdgeInsets.only(top: 0.5.h),

@@ -1,6 +1,6 @@
 import 'package:sizer/sizer.dart';
-import '../../../../core/app_export.dart';
-import '../../establishment_detail_screen/establishment_detail_screen.dart';
+import '../../../../../../core/app_export.dart';
+import '../../../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class NearbyEstablishmentsWidget extends StatelessWidget {
   final List<Map<String, dynamic>> establishments;
