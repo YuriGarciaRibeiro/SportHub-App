@@ -78,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleForgotPassword() async {
+    // TODO: Implementar funcionalidade "Esqueci minha senha"
+    // TODO: Adicionar validação de email antes de enviar reset
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Funcionalidade em desenvolvimento'),
@@ -248,7 +250,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                       ),
                     ),
+                    
                     const SizedBox(height: 24),
+                    
+                    // TODO: Implementar tela de registro de usuário
+                    // TODO: Implementar login social (Google, Facebook, Apple)
+                    
                     // usuarios de teste
                     Container(
                       padding: const EdgeInsets.all(16),

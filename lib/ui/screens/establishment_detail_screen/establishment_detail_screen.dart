@@ -74,15 +74,17 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   void _onBack() => Navigator.pop(context);
 
   void _onShare() {
-    // TODO: Frontend - implementar compartilhamento via Share API nativa
+    // TODO: Implementar compartilhamento via Share API nativa
+    // TODO: Adicionar deep linking para estabelecimentos
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Compartilhamento em desenvolvimento')),
     );
   }
 
   void _onCheckAvailability() {
-    // TODO: Backend - implementar sistema de reservas e disponibilidade
-    // TODO: Frontend - criar tela de reserva/agendamento
+    // TODO: Implementar backend do sistema de reservas e disponibilidade
+    // TODO: Criar tela de reserva/agendamento com calendário
+    // TODO: Implementar slots de horário dinâmicos
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Sistema de reservas em desenvolvimento')),
     );
@@ -112,8 +114,9 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   }
 
   void _onFavorite() {
-    // TODO: Backend - implementar sistema de favoritos (modelo, endpoints)
-    // TODO: Frontend - integrar com API de favoritos
+    // TODO: Implementar backend do sistema de favoritos
+    // TODO: Integrar com API de favoritos e persistir no servidor
+    // TODO: Adicionar animação de coração pulsando ao favoritar
     setState(() => _isFavorite = !_isFavorite);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(_isFavorite ? 'Adicionado aos favoritos (local)' : 'Removido dos favoritos (local)')),
@@ -121,8 +124,9 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   }
 
   void _onWriteReview() {
-    // TODO: Backend - implementar sistema de avaliações (modelo Review, endpoints)
-    // TODO: Frontend - criar tela de avaliação/comentário
+    // TODO: Implementar backend do sistema de avaliações
+    // TODO: Criar tela de avaliação/comentário com estrelas e upload de fotos
+    // TODO: Implementar moderação automática de comentários ofensivos
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Sistema de avaliações em desenvolvimento')),
     );

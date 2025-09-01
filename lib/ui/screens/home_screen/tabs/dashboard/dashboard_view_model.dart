@@ -127,6 +127,8 @@ class DashboardViewModel extends BaseViewModel {
         _currentWeather = '';
       }
     } catch (e) {
+      // TODO: 47 [Facilidade: 4, Prioridade: 3] - Implementar retry automático para serviços de localização
+      // TODO: 48 [Facilidade: 3, Prioridade: 2] - Adicionar cache de última localização conhecida
       _currentLocation = 'Erro ao obter localização';
       _currentWeather = '';
     }

@@ -10,6 +10,9 @@ class EstablishmentService {
 
   // Buscar todos os estabelecimentos
   Future<List<Establishment>> getAllEstablishments() async {
+    // TODO: Implementar paginação para lista de estabelecimentos
+    // TODO: Adicionar cache local com TTL configurável
+    // TODO: Implementar filtros avançados (distância, preço, avaliação)
     try {
       final response = await http.get(
         Uri.parse(ApiConfig.getEstablishmentsEndpoint),
@@ -67,4 +70,8 @@ class EstablishmentService {
       return [];
     }
   }
+
+  // TODO: Implementar busca por localização/coordenadas
+  // TODO: Implementar busca por texto/nome
+  // TODO: Implementar método para obter horários disponíveis
 }

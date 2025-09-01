@@ -41,19 +41,22 @@ class ReservationsViewModel extends BaseViewModel {
     // Se não tem dados ainda, carrega com loading
     if (_allReservations.isEmpty) {
       await executeOperation(() async {
-        await _loadReservations();
+        await _loadMockReservations();
         _applyFilter();
         _isInitialized = true;
       });
     } else {
       // Se já tem dados, só atualiza sem loading
-      await _loadReservations();
+      await _loadMockReservations();
       _applyFilter();
       _isInitialized = true;
     }
   }
 
-  Future<void> _loadReservations() async {
+  Future<void> _loadMockReservations() async {
+    // TODO: Substituir dados mock por integração real com API
+    // TODO: Implementar sincronização automática de reservas
+    // TODO: Adicionar notificações para lembretes de reserva
     try {
       // Removido delay artificial para uma experiência mais fluida
       _allReservations = [
