@@ -131,7 +131,6 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   void _onGetDirections() async {
     final address = _est?.address;
     if (address != null && address.fullAddress.isNotEmpty) {
-      // Criar URL para navegação usando o endereço completo
       final fullAddress = '${address.street}, ${address.number}, ${address.neighborhood}, ${address.city}, ${address.state}';
       final encodedAddress = Uri.encodeComponent(fullAddress);
       final Uri mapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$encodedAddress');

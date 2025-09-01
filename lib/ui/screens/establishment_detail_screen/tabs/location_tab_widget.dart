@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/ui/screens/establishment_detail_screen/widgets/map_card.dart';
 
 import '../../../../models/address.dart';
 
@@ -16,17 +17,7 @@ class LocationTabWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            height: 22.h,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(
-              child: Icon(Icons.map_outlined, size: 48),
-            ),
-          ),
+          MapCard(),
           SizedBox(height: 2.h),
           Text('Endereço', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
           SizedBox(height: 0.8.h),
