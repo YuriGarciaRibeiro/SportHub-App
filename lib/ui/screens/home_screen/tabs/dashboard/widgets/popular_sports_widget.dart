@@ -30,8 +30,9 @@ class PopularSportsWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 2.h),
+          SizedBox(height: 1.h),
           GridView.builder(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,7 +46,7 @@ class PopularSportsWidget extends StatelessWidget {
               final sport = sports[index];
               return Card(
                 child: Padding(
-                  padding: EdgeInsets.all(2.w),
+                  padding: EdgeInsets.all(1.w),
                   child: GestureDetector(
                     onTap: () => onSportSelected?.call(sport.name),
                     child: Column(
@@ -74,6 +75,7 @@ class PopularSportsWidget extends StatelessWidget {
               );
             },
           ),
+        
         ],
       ),
     );

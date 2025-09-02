@@ -98,9 +98,9 @@ class _DashboardTabState extends State<DashboardTab> {
                               location: viewModel.currentLocation,
                               weather: viewModel.currentWeather,
                             ),
-                            
-                            SizedBox(height: 2.h),
-                            
+
+                            SizedBox(height: 0.5.h),
+
                             const QuickSearchWidget(),
                             
                             SizedBox(height: 0.5.h),
@@ -108,9 +108,9 @@ class _DashboardTabState extends State<DashboardTab> {
                             UpcomingReservationsWidget(
                               reservations: const [],
                             ),
-                            
-                            SizedBox(height: 3.h),
-                            
+
+                            SizedBox(height: 1.h),
+
                             if (viewModel.nearbyEstablishments.isNotEmpty) ...[
                               NearbyEstablishmentsWidget(
                                       establishments: viewModel.nearbyEstablishments,
@@ -125,11 +125,9 @@ class _DashboardTabState extends State<DashboardTab> {
                                 // TODO: [Facilidade: 2, Prioridade: 3] - Implementar navegação para busca filtrada por esporte específico
                               },
                             ),
-                            SizedBox(height: 3.h),
-                            
+                            SizedBox(height: 0.5.h),
+
                             const QuickActionsWidget(),
-                            
-                            SizedBox(height: 3.h),
                           ],
                         ),
                       ),

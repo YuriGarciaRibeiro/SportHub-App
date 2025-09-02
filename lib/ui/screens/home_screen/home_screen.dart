@@ -53,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(
-      // ANDROID: Scaffold + bottomNavigationBar (ok do jeito que você fez)
       android: Scaffold(
         body: SafeArea(child: _screenFor(_currentIndex)),
         bottomNavigationBar: AppNavigationBar(
@@ -62,14 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
 
-      // IOS: CupertinoTabScaffold + CupertinoTabBar
       ios: CupertinoTabScaffold(
         controller: _cupertinoController,
         tabBar: AppNavigationBar.buildCupertino(context: context, currentIndex: _currentIndex, onTap: _onBottomNavTap),
         tabBuilder: (context, index) {
-          // Se quiser pilha de navegação independente por aba:
-          return CupertinoTabView(
-            builder: (context) => _screenFor(index),
+          return SafeArea(
+            child: CupertinoTabView(
+              builder: (context) => _screenFor(index),
+            ),
           );
         },
       ),
