@@ -74,17 +74,17 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   void _onBack() => Navigator.pop(context);
 
   void _onShare() {
-    // TODO: Implementar compartilhamento via Share API nativa
-    // TODO: Adicionar deep linking para estabelecimentos
+    // TODO: [Facilidade: 2, Prioridade: 2] - Implementar compartilhamento via Share API nativa
+    // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar deep linking para estabelecimentos
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Compartilhamento em desenvolvimento')),
     );
   }
 
   void _onCheckAvailability() {
-    // TODO: Implementar backend do sistema de reservas e disponibilidade
-    // TODO: Criar tela de reserva/agendamento com calendário
-    // TODO: Implementar slots de horário dinâmicos
+    // TODO: [Facilidade: 5, Prioridade: 5] - Implementar backend do sistema de reservas e disponibilidade
+    // TODO: [Facilidade: 4, Prioridade: 4] - Criar tela de reserva/agendamento com calendário
+    // TODO: [Facilidade: 3, Prioridade: 3] - Implementar slots de horário dinâmicos
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Sistema de reservas em desenvolvimento')),
     );
@@ -114,9 +114,9 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   }
 
   void _onFavorite() {
-    // TODO: Implementar backend do sistema de favoritos
-    // TODO: Integrar com API de favoritos e persistir no servidor
-    // TODO: Adicionar animação de coração pulsando ao favoritar
+    // TODO: [Facilidade: 3, Prioridade: 3] - Implementar backend do sistema de favoritos
+    // TODO: [Facilidade: 2, Prioridade: 3] - Integrar com API de favoritos e persistir no servidor
+    // TODO: [Facilidade: 2, Prioridade: 1] - Adicionar animação de coração pulsando ao favoritar
     setState(() => _isFavorite = !_isFavorite);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(_isFavorite ? 'Adicionado aos favoritos (local)' : 'Removido dos favoritos (local)')),
@@ -124,9 +124,9 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   }
 
   void _onWriteReview() {
-    // TODO: Implementar backend do sistema de avaliações
-    // TODO: Criar tela de avaliação/comentário com estrelas e upload de fotos
-    // TODO: Implementar moderação automática de comentários ofensivos
+    // TODO: [Facilidade: 4, Prioridade: 3] - Implementar backend do sistema de avaliações
+    // TODO: [Facilidade: 3, Prioridade: 3] - Criar tela de avaliação/comentário com estrelas e upload de fotos
+    // TODO: [Facilidade: 4, Prioridade: 2] - Implementar moderação automática de comentários ofensivos
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Sistema de avaliações em desenvolvimento')),
     );

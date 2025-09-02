@@ -134,7 +134,7 @@ class EstablishmentCardWidget extends StatelessWidget {
               ),
               SizedBox(width: 0.5.w),
               Text(
-                '4.5', // TODO: Implementar sistema de avaliações real do backend
+                '4.5', // TODO: [Facilidade: 3, Prioridade: 3] - Implementar sistema de avaliações real do backend
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,

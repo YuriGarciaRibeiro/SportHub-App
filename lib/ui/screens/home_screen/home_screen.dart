@@ -4,9 +4,9 @@ import 'tabs/search/search_tab.dart';
 import 'tabs/reservations/reservations_tab.dart';
 import 'tabs/profile/profile_tab.dart';
 
-// TODO: Implementar estado persistente da aba selecionada
-// TODO: Adicionar animações de transição entre abas
-// TODO: Implementar badges de notificação nas abas
+// TODO: [Facilidade: 3, Prioridade: 2] - Implementar estado persistente da aba selecionada
+// TODO: [Facilidade: 3, Prioridade: 2] - Adicionar animações de transição entre abas
+// TODO: [Facilidade: 2, Prioridade: 1] - Implementar badges de notificação nas abas
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBottomNavigationBar() {
-    // TODO: 18 [Facilidade: 3, Prioridade: 2] - Implementar navegação com gestos de swipe
-    // TODO: 19 [Facilidade: 4, Prioridade: 2] - Adicionar efeitos visuais de seleção personalizada
+    // TODO: [Facilidade: 3, Prioridade: 2] - Implementar navegação com gestos de swipe
+    // TODO: [Facilidade: 4, Prioridade: 2] - Adicionar efeitos visuais de seleção personalizada
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       child: NavigationBar(
-        // TODO: Adicionar badges de notificação nas abas
+        // TODO: [Facilidade: 2, Prioridade: 1] - Adicionar badges de notificação nas abas
         selectedIndex: _currentIndex,
         onDestinationSelected: _onBottomNavTap,
         backgroundColor: Colors.transparent,
@@ -127,8 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onBottomNavTap(int index) {
-    // TODO: Implementar persistência da aba selecionada
-    // TODO: Adicionar animações de transição entre as abas
+    // TODO: [Facilidade: 3, Prioridade: 2] - Implementar persistência da aba selecionada
+    // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar animações de transição entre as abas
     setState(() {
       _currentIndex = index;
     });

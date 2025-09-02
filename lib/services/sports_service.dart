@@ -9,8 +9,13 @@ class SportsService {
   factory SportsService() => _instance;
   SportsService._internal();
 
+  // TODO: [Facilidade: 2, Prioridade: 2] - Implementar cache local para esportes
+  // TODO: [Facilidade: 3, Prioridade: 3] - Adicionar filtros por categoria de esporte
+
   // Buscar todos os esportes
   Future<List<Sport>> getAllSports() async {
+    // TODO: [Facilidade: 2, Prioridade: 4] - Implementar timeout configurável
+    // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar retry automático em falhas de rede
     try{
       final response = await http.get(Uri.parse(ApiConfig.getSportsEndpoint));
       if (response.statusCode == 200) {

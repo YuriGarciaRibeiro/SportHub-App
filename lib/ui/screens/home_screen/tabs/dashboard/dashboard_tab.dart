@@ -122,7 +122,7 @@ class _DashboardTabState extends State<DashboardTab> {
                             PopularSportsWidget(
                               sports: viewModel.popularSports,
                               onSportSelected: (sportName) {
-                                // TODO: Implementar navegação para busca filtrada por esporte específico
+                                // TODO: [Facilidade: 2, Prioridade: 3] - Implementar navegação para busca filtrada por esporte específico
                               },
                             ),
                             SizedBox(height: 3.h),

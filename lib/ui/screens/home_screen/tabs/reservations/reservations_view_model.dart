@@ -54,9 +54,9 @@ class ReservationsViewModel extends BaseViewModel {
   }
 
   Future<void> _loadMockReservations() async {
-    // TODO: Substituir dados mock por integração real com API
-    // TODO: Implementar sincronização automática de reservas
-    // TODO: Adicionar notificações para lembretes de reserva
+    // TODO: [Facilidade: 4, Prioridade: 5] - Substituir dados mock por integração real com API
+    // TODO: [Facilidade: 3, Prioridade: 4] - Implementar sincronização automática de reservas
+    // TODO: [Facilidade: 3, Prioridade: 3] - Adicionar notificações para lembretes de reserva
     try {
       // Removido delay artificial para uma experiência mais fluida
       _allReservations = [

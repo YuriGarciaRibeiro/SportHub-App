@@ -35,12 +35,12 @@ class ApiConfig {
   static String get getEstablishmentsEndpoint => '$baseUrl/api/v1/establishments';
   static String get getSportsEndpoint => '$baseUrl/api/v1/api/sports';
 
-  // TODO: Adicionar endpoints de registro de usuário
-  // TODO: Adicionar endpoints de favoritos
-  // TODO: Adicionar endpoints de reservas
-  // TODO: Adicionar endpoints de avaliações
-  // TODO: Implementar configuração de ambiente via variáveis de ambiente
-  // TODO: Adicionar versionamento automático da API
+  // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar endpoints de registro de usuário
+  // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar endpoints de favoritos
+  // TODO: [Facilidade: 3, Prioridade: 5] - Adicionar endpoints de reservas
+  // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar endpoints de avaliações
+  // TODO: [Facilidade: 3, Prioridade: 3] - Implementar configuração de ambiente via variáveis de ambiente
+  // TODO: [Facilidade: 2, Prioridade: 2] - Adicionar versionamento automático da API
 
   // Timeouts
   static const Duration defaultTimeout = Duration(seconds: 30);
@@ -50,8 +50,8 @@ class ApiConfig {
   static Map<String, String> get defaultHeaders => {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    // TODO: Adicionar header de autorização automático quando logado
-    // TODO: Implementar headers de versionamento da API
+    // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar header de autorização automático quando logado
+    // TODO: [Facilidade: 2, Prioridade: 2] - Implementar headers de versionamento da API
   };
 }
 

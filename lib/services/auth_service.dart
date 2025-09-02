@@ -42,8 +42,8 @@ class AuthService {
 
   // Método de login baseado no Swagger
   Future<AuthResult> login(String email, String password) async {
-    // TODO: Implementar rate limiting para tentativas de login
-    // TODO: Adicionar validação de força da senha
+    // TODO: [Facilidade: 3, Prioridade: 4] - Implementar rate limiting para tentativas de login
+    // TODO: [Facilidade: 2, Prioridade: 5] - Adicionar validação de força da senha
     try {
       // Validar campos vazios
       if (email.isEmpty || password.isEmpty) {
@@ -134,14 +134,14 @@ class AuthService {
 
   // Verificar status de autenticação
   Future<bool> checkAuthStatus() async {
-    // TODO: Implementar validação de token com o servidor
-    // TODO: Adicionar refresh token automático
+    // TODO: [Facilidade: 2, Prioridade: 4] - Implementar validação de token com o servidor
+    // TODO: [Facilidade: 3, Prioridade: 4] - Adicionar refresh token automático
     return _isLoggedIn && _currentToken != null;
   }
 
-  // TODO: Implementar método de registro de usuário
-  // TODO: Implementar esqueci minha senha
-  // TODO: Implementar mudança de senha
+  // TODO: [Facilidade: 3, Prioridade: 5] - Implementar método de registro de usuário
+  // TODO: [Facilidade: 3, Prioridade: 4] - Implementar esqueci minha senha
+  // TODO: [Facilidade: 2, Prioridade: 3] - Implementar mudança de senha
 
   // Salvar dados localmente
   Future<void> _saveToLocal() async {
