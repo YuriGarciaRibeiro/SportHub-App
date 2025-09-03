@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/widgets/platform_widget.dart';
 import '../../../../../../../models/establishment.dart';
 
 class EstablishmentListItem extends StatelessWidget {
@@ -17,10 +18,10 @@ class EstablishmentListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isIOSStyle) {
-      return _buildIOSStyle(context);
-    }
-    return _buildMaterialStyle(context);
+    return PlatformWidget(
+      android: _buildMaterialStyle(context),
+      ios: _buildIOSStyle(context),
+    );
   }
 
   Widget _buildMaterialStyle(BuildContext context) {
@@ -53,8 +54,6 @@ class EstablishmentListItem extends StatelessWidget {
   }
 
   Widget _buildIOSStyle(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
