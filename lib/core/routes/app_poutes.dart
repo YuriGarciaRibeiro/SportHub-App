@@ -1,6 +1,6 @@
 import 'package:sporthub/core/app_export.dart';
 import 'package:sporthub/ui/screens/home_screen/home_screen.dart';
-import 'package:sporthub/ui/screens/login_screen.dart';
+import 'package:sporthub/ui/screens/login_screen/login_screen.dart';
 
 class AppRoutes {
   static const String home = '/home';
