@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../core/constants/api_config.dart';
+import '../core/http/http_client_manager.dart';
 import '../models/establishment.dart';
 
 class EstablishmentService {
@@ -8,16 +8,16 @@ class EstablishmentService {
   factory EstablishmentService() => _instance;
   EstablishmentService._internal();
 
-  // Buscar todos os estabelecimentos
+  final _httpClient = HttpClientManager().client;
+
+  // TODO: [Facilidade: 3, Prioridade: 3] - Implementar paginação para lista de estabelecimentos
+  // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar cache local com TTL configurável
+  // TODO: [Facilidade: 4, Prioridade: 3] - Implementar filtros avançados (distância, preço, avaliação)
   Future<List<Establishment>> getAllEstablishments() async {
-    // TODO: [Facilidade: 3, Prioridade: 3] - Implementar paginação para lista de estabelecimentos
-    // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar cache local com TTL configurável
-    // TODO: [Facilidade: 4, Prioridade: 3] - Implementar filtros avançados (distância, preço, avaliação)
     try {
-      final response = await http.get(
+      final response = await _httpClient.get(
         Uri.parse(ApiConfig.getEstablishmentsEndpoint),
-        headers: ApiConfig.defaultHeaders,
-      ).timeout(ApiConfig.defaultTimeout);
+      );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -31,13 +31,11 @@ class EstablishmentService {
     }
   }
 
-  // Buscar estabelecimento por ID
   Future<Establishment?> getEstablishmentById(String id) async {
     try {
-      final response = await http.get(
+      final response = await _httpClient.get(
         Uri.parse('${ApiConfig.getEstablishmentsEndpoint}/$id'),
-        headers: ApiConfig.defaultHeaders,
-      ).timeout(ApiConfig.defaultTimeout);
+      );
 
       if (response.statusCode == 200) {
         final String body = utf8.decode(response.bodyBytes);
@@ -51,13 +49,11 @@ class EstablishmentService {
     }
   }
 
-  // Buscar estabelecimentos por esporte
   Future<List<Establishment>> getEstablishmentsBySport(String sportId) async {
     try {
-      final response = await http.get(
+      final response = await _httpClient.get(
         Uri.parse('${ApiConfig.baseUrl}/api/v1/establishments?sportId=$sportId'),
-        headers: ApiConfig.defaultHeaders,
-      ).timeout(ApiConfig.defaultTimeout);
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -66,7 +62,6 @@ class EstablishmentService {
         throw Exception('Falha ao carregar estabelecimentos por esporte: ${response.statusCode}');
       }
     } catch (e) {
-      // Se não conseguir conectar com a API, retorna lista vazia
       return [];
     }
   }

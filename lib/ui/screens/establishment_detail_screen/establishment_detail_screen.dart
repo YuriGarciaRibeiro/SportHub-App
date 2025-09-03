@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/services/favorite_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/establishment.dart';
@@ -24,7 +25,8 @@ class EstablishmentDetailScreen extends StatefulWidget {
 }
 
 class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
-  final _service = EstablishmentService();
+  final _establishmentService = EstablishmentService();
+  final _favoriteService = FavoriteService();
   Establishment? _est;
   bool _loading = false;
   String? _error;
@@ -49,13 +51,14 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
       _error = null;
     });
     try {
-      final est = await _service.getEstablishmentById(widget.establishmentId!);
-      
+      final est = await _establishmentService.getEstablishmentById(widget.establishmentId!);
+
       if (!mounted) return;
       
       setState(() {
         _est = est;
       });
+      _isFavorite = est?.isFavorite ?? false;
     } catch (e) {
       if (!mounted) return;
       
@@ -113,14 +116,18 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     }
   }
 
-  void _onFavorite() {
-    // TODO: [Facilidade: 3, Prioridade: 3] - Implementar backend do sistema de favoritos
-    // TODO: [Facilidade: 2, Prioridade: 3] - Integrar com API de favoritos e persistir no servidor
+  Future<void> _onFavorite() async {
     // TODO: [Facilidade: 2, Prioridade: 1] - Adicionar animação de coração pulsando ao favoritar
-    setState(() => _isFavorite = !_isFavorite);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(_isFavorite ? 'Adicionado aos favoritos (local)' : 'Removido dos favoritos (local)')),
-    );
+    bool result;
+    if (_isFavorite) {
+      result = await _favoriteService.removeFavorite(1, _est!.id);
+    } else {
+      result = await _favoriteService.addFavorite(1, _est!.id);
+    }
+    print(result);
+    if (result) {
+      setState(() => _isFavorite = !_isFavorite);
+    }
   }
 
   void _onWriteReview() {

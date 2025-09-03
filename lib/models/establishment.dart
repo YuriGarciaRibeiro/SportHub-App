@@ -24,6 +24,7 @@ class Establishment {
   final List<Sport> sports;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final bool? isFavorite;
 
   Establishment({
     required this.id,
@@ -41,6 +42,7 @@ class Establishment {
     required this.sports,
     this.createdAt,
     this.updatedAt,
+    this.isFavorite,
   });
 
   factory Establishment.fromJson(Map<String, dynamic> json) {
@@ -74,6 +76,7 @@ class Establishment {
     updatedAt: json['updatedAt'] != null 
       ? DateTime.parse(json['updatedAt']) 
       : null,
+    isFavorite: json['isFavorite'] ?? false,
   );
   }
 
@@ -103,6 +106,7 @@ class Establishment {
     sports: (dto['sports'] as List<dynamic>?)
       ?.map((sport) => Sport.fromJson(sport))
       .toList() ?? [],
+    isFavorite: dto['isFavorite'] ?? false,
   );
   }
 
@@ -122,6 +126,7 @@ class Establishment {
       'sports': sports.map((sport) => sport.toJson()).toList(),
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
+      'isFavorite': isFavorite,
     };
   }
 }

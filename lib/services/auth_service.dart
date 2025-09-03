@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/constants/api_config.dart';
+import '../core/http/http_client_manager.dart';
 
 // Secure store genérico + implementação com flutter_secure_storage
 import '../core/secure/secure_store.dart';
@@ -124,6 +125,42 @@ class AuthService {
     }
 
     return true;
+  }
+
+  Future<UserData?> getUserProfile() async {
+    if (!isLoggedIn) return null;
+    
+    try {
+      final httpClient = HttpClientManager().client;
+      final response = await httpClient.get(
+        Uri.parse('${ApiConfig.baseUrl}/api/v1/user/profile'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return UserData.fromJson(data);
+      }
+    } catch (e) {
+      print('Erro ao buscar perfil do usuário: $e');
+    }
+    return null;
+  }
+
+  Future<bool> updateUserProfile(Map<String, dynamic> profileData) async {
+    if (!isLoggedIn) return false;
+    
+    try {
+      final httpClient = HttpClientManager().client;
+      final response = await httpClient.put(
+        Uri.parse('${ApiConfig.baseUrl}/api/v1/user/profile'),
+        body: profileData,
+      );
+
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Erro ao atualizar perfil do usuário: $e');
+      return false;
+    }
   }
 
   Future<void> _saveToLocal() async {
