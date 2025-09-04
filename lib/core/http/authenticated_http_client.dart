@@ -50,6 +50,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
 
   // Métodos de conveniência
 
+  @override
   Future<http.Response> get(
     Uri url, {
     Map<String, String>? headers,
@@ -66,6 +67,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
     return http.Response.fromStream(streamedResponse);
   }
 
+  @override
   Future<http.Response> post(
     Uri url, {
     Map<String, String>? headers,
@@ -96,6 +98,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
     return http.Response.fromStream(streamedResponse);
   }
 
+  @override
   Future<http.Response> put(
     Uri url, {
     Map<String, String>? headers,
@@ -126,6 +129,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
     return http.Response.fromStream(streamedResponse);
   }
 
+  @override
   Future<http.Response> delete(
     Uri url, {
     Map<String, String>? headers,
@@ -156,6 +160,7 @@ class AuthenticatedHttpClient extends http.BaseClient {
     return http.Response.fromStream(streamedResponse);
   }
 
+  @override
   Future<http.Response> patch(
     Uri url, {
     Map<String, String>? headers,

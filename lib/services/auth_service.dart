@@ -99,8 +99,11 @@ class AuthService {
         );
       } else {
         String msg = 'Email ou senha incorretos';
-        if (data['title'] != null) msg = data['title'].toString();
-        else if (data['detail'] != null) msg = data['detail'].toString();
+        if (data['title'] != null) {
+          msg = data['title'].toString();
+        } else if (data['detail'] != null) {
+          msg = data['detail'].toString();
+        }
         return AuthResult(success: false, message: msg);
       }
     } on TimeoutException {
@@ -141,7 +144,7 @@ class AuthService {
         return UserData.fromJson(data);
       }
     } catch (e) {
-      print('Erro ao buscar perfil do usuário: $e');
+      return null;
     }
     return null;
   }
@@ -158,7 +161,6 @@ class AuthService {
 
       return response.statusCode == 200;
     } catch (e) {
-      print('Erro ao atualizar perfil do usuário: $e');
       return false;
     }
   }

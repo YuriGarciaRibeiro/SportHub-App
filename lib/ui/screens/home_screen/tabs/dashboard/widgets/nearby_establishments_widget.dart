@@ -2,7 +2,6 @@ import 'package:sizer/sizer.dart';
 import 'package:sporthub/models/establishment.dart';
 import 'package:sporthub/ui/screens/home_screen/tabs/dashboard/widgets/establishment_card.dart';
 import '../../../../../../core/app_export.dart';
-import '../../../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class NearbyEstablishmentsWidget extends StatelessWidget {
   final List<Establishment> establishments;

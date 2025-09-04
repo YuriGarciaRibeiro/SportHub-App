@@ -124,7 +124,6 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     } else {
       result = await _favoriteService.addFavorite(1, _est!.id);
     }
-    print(result);
     if (result) {
       setState(() => _isFavorite = !_isFavorite);
     }

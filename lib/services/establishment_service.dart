@@ -79,7 +79,6 @@ class EstablishmentService {
         throw Exception('Falha ao carregar estabelecimentos próximos: ${response.statusCode}');
       }
     } catch (e) {
-      print(e);
       return [];
     }
   }
