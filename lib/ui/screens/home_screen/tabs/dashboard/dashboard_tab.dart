@@ -110,14 +110,53 @@ class _DashboardTabState extends State<DashboardTab> {
                             ),
 
                             SizedBox(height: 1.h),
-
-                            if (viewModel.nearbyEstablishments.isNotEmpty) ...[
-                              NearbyEstablishmentsWidget(
-                                      establishments: viewModel.nearbyEstablishments,
-                                      isEstablishmentOpen: _isEstablishmentOpen,
+                          
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Perto de você',
+                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // Navegar para a tab de pesquisa (índice 1)
+                                      // Esta funcionalidade será implementada quando necessário
+                                    },
+                                    child: Text(
+                                      'Ver todos',
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 3.h),
-                            ],
+                            ),
+                            SizedBox(height: 1.h),
+
+                           viewModel.nearbyEstablishments.isEmpty
+                            ? Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                child: Text(
+                                  'Nenhum estabelecimento próximo encontrado.',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                                  ),
+                                ),
+                              )
+                            : NearbyEstablishmentsWidget(
+                                establishments: viewModel.nearbyEstablishments,
+                                isEstablishmentOpen: _isEstablishmentOpen,
+                              ),
+                            
+                            SizedBox(height: 3.h),
+                            
                             
                             PopularSportsWidget(
                               sports: viewModel.popularSports,

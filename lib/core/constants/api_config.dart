@@ -32,8 +32,8 @@ class ApiConfig {
   
   // Endpoints da API - baseado no seu Swagger
   static String get loginEndpoint => '$baseUrl/api/v1/auth/login';
-  static String get getEstablishmentsEndpoint => '$baseUrl/api/v1/establishments';
-  static String get getSportsEndpoint => '$baseUrl/api/v1/api/sports';
+  static String get EstablishmentsEndpoint => '$baseUrl/api/v1/establishments';
+  static String get SportsEndpoint => '$baseUrl/api/v1/sports';
   static String get favoritesEndpoint => '$baseUrl/api/v1/favorites';
 
   // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar endpoints de registro de usuário

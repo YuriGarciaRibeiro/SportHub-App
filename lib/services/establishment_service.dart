@@ -16,7 +16,7 @@ class EstablishmentService {
   Future<List<Establishment>> getAllEstablishments() async {
     try {
       final response = await _httpClient.get(
-        Uri.parse(ApiConfig.getEstablishmentsEndpoint),
+        Uri.parse(ApiConfig.EstablishmentsEndpoint),
       );
 
       if (response.statusCode == 200) {
@@ -34,7 +34,7 @@ class EstablishmentService {
   Future<Establishment?> getEstablishmentById(String id) async {
     try {
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.getEstablishmentsEndpoint}/$id'),
+        Uri.parse('${ApiConfig.EstablishmentsEndpoint}/$id'),
       );
 
       if (response.statusCode == 200) {
@@ -62,6 +62,24 @@ class EstablishmentService {
         throw Exception('Falha ao carregar estabelecimentos por esporte: ${response.statusCode}');
       }
     } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<Establishment>> getNearbyEstablishments(double latitude, double longitude, double radiusKm) async {
+    try {
+      final response = await _httpClient.get(
+        Uri.parse('${ApiConfig.EstablishmentsEndpoint}?latitude=$latitude&longitude=$longitude&radiusKm=$radiusKm&orderBy=1&sortDirection=1'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return (data['items'] as List<dynamic>).map((json) => Establishment.fromJson(json)).toList();
+      } else {
+        throw Exception('Falha ao carregar estabelecimentos próximos: ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e);
       return [];
     }
   }

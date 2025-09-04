@@ -18,7 +18,7 @@ class SportsService {
     // TODO: [Facilidade: 2, Prioridade: 4] - Implementar timeout configurável
     // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar retry automático em falhas de rede
     try{
-      final response = await _httpClient.get(Uri.parse(ApiConfig.getSportsEndpoint));
+      final response = await _httpClient.get(Uri.parse(ApiConfig.SportsEndpoint));
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic> sportsData = responseData['sports'];

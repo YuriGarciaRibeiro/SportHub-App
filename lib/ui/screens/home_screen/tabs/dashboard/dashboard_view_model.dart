@@ -35,13 +35,17 @@ class DashboardViewModel extends BaseViewModel {
     if (_isInitialized && _nearbyEstablishments.isNotEmpty) {
       return;
     }
-
+    var position = await _locationWeatherService.getCurrentPosition();
     // Se não tem dados ainda, carrega com loading
     if (_nearbyEstablishments.isEmpty) {
       await executeOperation(() async {
         await Future.wait([
           _loadUserData(),
-          _loadNearbyEstablishments(),
+          _loadNearbyEstablishments(
+            position!.latitude,
+            position.longitude,
+            100000000.0,
+          ),
           _loadTopRatedEstablishments(),
           _loadPopularSports(),
           _loadLocationAndWeather(),
@@ -52,7 +56,11 @@ class DashboardViewModel extends BaseViewModel {
       // Se já tem dados, só atualiza sem loading
       await Future.wait([
         _loadUserData(),
-        _loadNearbyEstablishments(),
+        _loadNearbyEstablishments(
+          position!.latitude,
+          position.longitude,
+          100000000.0,
+        ),
         _loadTopRatedEstablishments(),
         _loadPopularSports(),
         _loadLocationAndWeather(),
@@ -70,9 +78,9 @@ class DashboardViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> _loadNearbyEstablishments() async {
+  Future<void> _loadNearbyEstablishments(double latitude, double longitude, double radiusKm) async {
     try {
-      final allEstablishments = await _establishmentService.getAllEstablishments();
+      final allEstablishments = await _establishmentService.getNearbyEstablishments(latitude, longitude, radiusKm);
       _nearbyEstablishments = allEstablishments.take(5).toList();
     } catch (e) {
       _nearbyEstablishments = [];

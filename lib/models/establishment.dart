@@ -25,6 +25,8 @@ class Establishment {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final bool? isFavorite;
+  final double? distanceKm;
+  final double? averageRating;
 
   Establishment({
     required this.id,
@@ -43,6 +45,8 @@ class Establishment {
     this.createdAt,
     this.updatedAt,
     this.isFavorite,
+    this.distanceKm,
+    this.averageRating,
   });
 
   factory Establishment.fromJson(Map<String, dynamic> json) {
@@ -77,6 +81,8 @@ class Establishment {
       ? DateTime.parse(json['updatedAt']) 
       : null,
     isFavorite: json['isFavorite'] ?? false,
+    distanceKm: (json['distanceKm'] as num?)?.toDouble(),
+    averageRating: (json['averageRating'] as num?)?.toDouble(),
   );
   }
 
@@ -107,6 +113,7 @@ class Establishment {
       ?.map((sport) => Sport.fromJson(sport))
       .toList() ?? [],
     isFavorite: dto['isFavorite'] ?? false,
+    distanceKm: (dto['distanceKm'] as num?)?.toDouble(),
   );
   }
 
@@ -127,6 +134,7 @@ class Establishment {
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
       'isFavorite': isFavorite,
+      'distanceKm': distanceKm,
     };
   }
 }
