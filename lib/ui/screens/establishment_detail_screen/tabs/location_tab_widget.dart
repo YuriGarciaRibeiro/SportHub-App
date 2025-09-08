@@ -19,7 +19,7 @@ class LocationTabWidget extends StatelessWidget {
         children: [
           MapCard(),
           SizedBox(height: 2.h),
-          Text('Endereço', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Endereço', style: theme.textTheme.titleMedium),
           SizedBox(height: 0.8.h),
           Text(address.fullAddress.isNotEmpty ? address.fullAddress : 'Endereço não informado',
               style: theme.textTheme.bodyMedium),

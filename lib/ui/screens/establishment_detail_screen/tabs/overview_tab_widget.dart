@@ -16,7 +16,7 @@ class OverviewTabWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Descrição', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Descrição', style: theme.textTheme.titleMedium),
           SizedBox(height: 1.h),
           Text(
             establishment.description.isNotEmpty
@@ -26,7 +26,7 @@ class OverviewTabWidget extends StatelessWidget {
           ),
           SizedBox(height: 2.h),
 
-          Text('Contato', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Contato', style: theme.textTheme.titleMedium),
           SizedBox(height: 1.h),
           _contactItem(
             context, 
@@ -39,9 +39,18 @@ class OverviewTabWidget extends StatelessWidget {
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Não foi possível fazer a ligação'),
-                      backgroundColor: Colors.red,
+                    SnackBar(
+                      content: Text(
+                        'Não foi possível fazer a ligação',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onError,
+                        ),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   );
                 }
@@ -59,9 +68,18 @@ class OverviewTabWidget extends StatelessWidget {
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Não foi possível abrir o email'),
-                      backgroundColor: Colors.red,
+                    SnackBar(
+                      content: Text(
+                        'Não foi possível abrir o email',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onError,
+                        ),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   );
                 }
@@ -81,9 +99,18 @@ class OverviewTabWidget extends StatelessWidget {
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Não foi possível abrir o website'),
-                      backgroundColor: Colors.red,
+                    SnackBar(
+                      content: Text(
+                        'Não foi possível abrir o website',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onError,
+                        ),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   );
                 }
@@ -92,7 +119,7 @@ class OverviewTabWidget extends StatelessWidget {
           ),
           SizedBox(height: 1.5.h),
 
-          Text('Endereço', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Endereço', style: theme.textTheme.titleMedium),
           SizedBox(height: 1.h),
           InkWell(
             onTap: establishment.address.fullAddress.isNotEmpty ? () async {
@@ -128,7 +155,7 @@ class OverviewTabWidget extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.location_on_outlined,
-                    color: establishment.address.fullAddress.isNotEmpty ? theme.primaryColor : null,
+                    color: establishment.address.fullAddress.isNotEmpty ? theme.colorScheme.primary : null,
                   ),
                   SizedBox(width: 2.w),
                   Expanded(
@@ -137,7 +164,7 @@ class OverviewTabWidget extends StatelessWidget {
                           ? establishment.address.fullAddress
                           : 'Endereço não informado',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: establishment.address.fullAddress.isNotEmpty ? theme.primaryColor : null,
+                        color: establishment.address.fullAddress.isNotEmpty ? theme.colorScheme.primary : null,
                       ),
                     ),
                   ),
@@ -146,7 +173,7 @@ class OverviewTabWidget extends StatelessWidget {
                     Icon(
                       Icons.open_in_new,
                       size: 16,
-                      color: theme.primaryColor.withOpacity(0.7),
+                      color: theme.colorScheme.primary.withOpacity(0.7),
                     ),
                   ],
                 ],
@@ -165,13 +192,13 @@ class OverviewTabWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 0.3.h),
         child: Row(
           children: [
-            Icon(icon, color: Theme.of(context).primaryColor, size: 20),
+            Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
             SizedBox(width: 2.w),
             Expanded(
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: onTap != null ? Theme.of(context).primaryColor : null,
+                  color: onTap != null ? Theme.of(context).colorScheme.primary : null,
                 ),
               ),
             ),
@@ -179,7 +206,7 @@ class OverviewTabWidget extends StatelessWidget {
               Icon(
                 Icons.open_in_new,
                 size: 16,
-                color: Theme.of(context).primaryColor.withOpacity(0.7),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
               ),
             ],
           ],

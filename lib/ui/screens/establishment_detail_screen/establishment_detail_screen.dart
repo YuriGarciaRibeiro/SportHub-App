@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/services/favorite_service.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/establishment.dart';
-import '../../../services/establishment_service.dart';
+import 'establishment_detail_view_model.dart';
 import 'widgets/bottom_action_bar_widget.dart';
 import 'widgets/establishment_header_widget.dart';
 import 'widgets/establishment_tabs_widget.dart';
+import 'widgets/review_bottom_sheet.dart';
 
 class EstablishmentDetailScreen extends StatefulWidget {
   final String? establishmentId;
@@ -25,53 +25,16 @@ class EstablishmentDetailScreen extends StatefulWidget {
 }
 
 class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
-  final _establishmentService = EstablishmentService();
-  final _favoriteService = FavoriteService();
-  Establishment? _est;
-  bool _loading = false;
-  String? _error;
-  bool _isFavorite = false;
+  late final EstablishmentDetailViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    _est = widget.establishment;
-    if (_est == null) {
-      _fetch();
-    }
-  }
-
-  Future<void> _fetch() async {
-    if (widget.establishmentId == null) return;
-    
-    if (!mounted) return;
-    
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
-    try {
-      final est = await _establishmentService.getEstablishmentById(widget.establishmentId!);
-
-      if (!mounted) return;
-      
-      setState(() {
-        _est = est;
-      });
-      _isFavorite = est?.isFavorite ?? false;
-    } catch (e) {
-      if (!mounted) return;
-      
-      setState(() {
-        _error = 'Não foi possível carregar o estabelecimento';
-      });
-    } finally {
-      if (mounted) {
-        setState(() {
-          _loading = false;
-        });
-      }
-    }
+    _viewModel = EstablishmentDetailViewModel();
+    _viewModel.initialize(
+      establishmentId: widget.establishmentId,
+      initial: widget.establishment,
+    );
   }
 
   void _onBack() => Navigator.pop(context);
@@ -80,7 +43,19 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     // TODO: [Facilidade: 2, Prioridade: 2] - Implementar compartilhamento via Share API nativa
     // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar deep linking para estabelecimentos
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Compartilhamento em desenvolvimento')),
+      SnackBar(
+        content: Text(
+          'Compartilhamento em desenvolvimento',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
     );
   }
 
@@ -89,96 +64,100 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     // TODO: [Facilidade: 4, Prioridade: 4] - Criar tela de reserva/agendamento com calendário
     // TODO: [Facilidade: 3, Prioridade: 3] - Implementar slots de horário dinâmicos
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Sistema de reservas em desenvolvimento')),
+      SnackBar(
+        content: Text(
+          'Sistema de reservas em desenvolvimento',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
     );
   }
 
-  void _onCall() async {
-    final phone = _est?.phoneNumber ?? '';
-    if (phone.isNotEmpty) {
-      final Uri phoneUri = Uri.parse('tel:$phone');
-      try {
-        await launchUrl(phoneUri);
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Não foi possível fazer a ligação'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      }
-    } else {
+  Future<void> _onCall() async {
+    final error = await _viewModel.makePhoneCall();
+    if (error != null && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Telefone não disponível')),
+        SnackBar(
+          content: Text(
+            error,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onError,
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       );
     }
   }
 
   Future<void> _onFavorite() async {
-    // TODO: [Facilidade: 2, Prioridade: 1] - Adicionar animação de coração pulsando ao favoritar
-    bool result;
-    if (_isFavorite) {
-      result = await _favoriteService.removeFavorite(1, _est!.id);
-    } else {
-      result = await _favoriteService.addFavorite(1, _est!.id);
-    }
-    if (result) {
-      setState(() => _isFavorite = !_isFavorite);
-    }
+    await _viewModel.toggleFavorite(entityType: 1); // 1 para estabelecimento
   }
 
-  void _onWriteReview() {
-    // TODO: [Facilidade: 4, Prioridade: 3] - Implementar backend do sistema de avaliações
-    // TODO: [Facilidade: 3, Prioridade: 3] - Criar tela de avaliação/comentário com estrelas e upload de fotos
-    // TODO: [Facilidade: 4, Prioridade: 2] - Implementar moderação automática de comentários ofensivos
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Sistema de avaliações em desenvolvimento')),
-    );
-  }
+  Future<void> _onWriteReview() async {
+  await showPlatformReviewSheet(
+    context,
+    establishmentId: _viewModel.establishment?.id,
+  );
+}
 
-  void _onGetDirections() async {
-    final address = _est?.address;
-    if (address != null && address.fullAddress.isNotEmpty) {
-      final fullAddress = '${address.street}, ${address.number}, ${address.neighborhood}, ${address.city}, ${address.state}';
-      final encodedAddress = Uri.encodeComponent(fullAddress);
-      final Uri mapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$encodedAddress');
-
-      try {
-        await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Não foi possível abrir o mapa'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      }
-    } else {
+  Future<void> _onGetDirections() async {
+    final error = await _viewModel.openDirectionsOnMaps();
+    if (error != null && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Endereço não disponível')),
+        SnackBar(
+          content: Text(
+            error,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onError,
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final est = _est;
-    return Scaffold(
+    return ChangeNotifierProvider.value(
+      value: _viewModel,
+      child: Consumer<EstablishmentDetailViewModel>(
+        builder: (context, vm, _) {
+          final est = vm.establishment;
+          return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: _loading && est == null
+      body: vm.isLoading && est == null
           ? const Center(child: CircularProgressIndicator())
-          : _error != null && est == null
-              ? _ErrorView(message: _error!, onRetry: _fetch)
+          : vm.hasError && est == null
+              ? _ErrorView(
+                  message: vm.errorMessage ?? 'Não foi possível carregar o estabelecimento',
+                  onRetry: () => vm.initialize(
+                    establishmentId: widget.establishmentId,
+                    initial: widget.establishment,
+                  ),
+                )
               : Column(
                   children: [
                     EstablishmentHeaderWidget(
                       name: est?.name ?? 'Estabelecimento',
                       heroImageUrl: est?.imageUrl ?? '',
-                      rating: 0.0,
+                      rating: est?.averageRating ?? 0.0,
                       distanceText: est != null
                           ? est.address.city.isNotEmpty ? est.address.city : 'Local'
                           : '',
@@ -199,11 +178,14 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
 
       bottomNavigationBar: BottomActionBarWidget(
         phoneNumber: est?.phoneNumber ?? '',
-        isFavorite: _isFavorite,
+        isFavorite: vm.isFavorite,
         onCheckAvailability: _onCheckAvailability,
         onCall: _onCall,
         onFavorite: _onFavorite,
         onShare: _onShare,
+      ),
+          );
+        },
       ),
     );
   }

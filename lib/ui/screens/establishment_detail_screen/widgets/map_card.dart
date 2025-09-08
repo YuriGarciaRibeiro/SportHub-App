@@ -10,11 +10,15 @@ class MapCard extends StatelessWidget {
       width: double.infinity,
       height: 22.h,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Center(
-        child: Icon(Icons.map_outlined, size: 48),
+      child: Center(
+        child: Icon(
+          Icons.map_outlined,
+          size: 48,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }

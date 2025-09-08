@@ -84,7 +84,7 @@ class EstablishmentHeaderWidget extends StatelessWidget {
                 SizedBox(height: 1.h),
                 Row(
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
+                    Icon(Icons.star, color: Theme.of(context).colorScheme.secondary, size: 16),
                     SizedBox(width: 1.w),
                     Text(
                       rating.toStringAsFixed(1),
@@ -114,9 +114,13 @@ class EstablishmentHeaderWidget extends StatelessWidget {
 
   Widget _fallbackImage(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-      child: const Center(
-        child: Icon(Icons.image_not_supported, color: Colors.white70, size: 40),
+      color: Theme.of(context).colorScheme.surfaceVariant,
+      child: Center(
+        child: Icon(
+          Icons.image_not_supported,
+          color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+          size: 40,
+        ),
       ),
     );
   }

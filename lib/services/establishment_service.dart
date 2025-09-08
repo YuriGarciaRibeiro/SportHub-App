@@ -16,7 +16,7 @@ class EstablishmentService {
   Future<List<Establishment>> getAllEstablishments() async {
     try {
       final response = await _httpClient.get(
-        Uri.parse(ApiConfig.EstablishmentsEndpoint),
+        Uri.parse(ApiConfig.establishmentsEndpoint),
       );
 
       if (response.statusCode == 200) {
@@ -34,7 +34,7 @@ class EstablishmentService {
   Future<Establishment?> getEstablishmentById(String id) async {
     try {
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.EstablishmentsEndpoint}/$id'),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}/$id'),
       );
 
       if (response.statusCode == 200) {
@@ -52,7 +52,7 @@ class EstablishmentService {
   Future<List<Establishment>> getEstablishmentsBySport(String sportId) async {
     try {
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.baseUrl}/api/v1/establishments?sportId=$sportId'),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?sportId=$sportId'),
       );
 
       if (response.statusCode == 200) {
@@ -69,7 +69,7 @@ class EstablishmentService {
   Future<List<Establishment>> getNearbyEstablishments(double latitude, double longitude, double radiusKm) async {
     try {
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.EstablishmentsEndpoint}?latitude=$latitude&longitude=$longitude&radiusKm=$radiusKm&orderBy=1&sortDirection=1'),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?latitude=$latitude&longitude=$longitude&radiusKm=$radiusKm&orderBy=1&sortDirection=1'),
       );
 
       if (response.statusCode == 200) {

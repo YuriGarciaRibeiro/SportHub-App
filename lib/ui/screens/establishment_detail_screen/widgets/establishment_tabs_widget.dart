@@ -6,7 +6,7 @@ import '../tabs/tabs.dart';
 class EstablishmentTabsWidget extends StatefulWidget {
   final Establishment establishment;
   final VoidCallback onCheckAvailability;
-  final VoidCallback onWriteReview;
+  final Future<void> Function() onWriteReview;
   final VoidCallback onGetDirections;
 
   const EstablishmentTabsWidget({
@@ -39,42 +39,66 @@ class _EstablishmentTabsWidgetState extends State<EstablishmentTabsWidget>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Container(
-          color: Theme.of(context).colorScheme.surface,
+          decoration: BoxDecoration(
+            color: theme.scaffoldBackgroundColor,
+            border: Border(
+              bottom: BorderSide(
+                color: theme.colorScheme.outline.withOpacity(0.2),
+                width: 1,
+              ),
+            ),
+          ),
           child: TabBar(
             controller: _tabController,
+            isScrollable: false,
             tabs: const [
               Tab(text: 'Visão Geral'),
               Tab(text: 'Quadras'),
               Tab(text: 'Avaliações'),
               Tab(text: 'Localização'),
             ],
-            labelColor: Theme.of(context).colorScheme.primary,
-            unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
-            indicatorColor: Theme.of(context).colorScheme.primary,
-            labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-            unselectedLabelStyle: Theme.of(context).textTheme.labelMedium,
+            labelColor: theme.colorScheme.primary,
+            unselectedLabelColor: theme.colorScheme.onSurfaceVariant,
+            indicatorColor: theme.colorScheme.primary,
+            indicatorWeight: 3,
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelStyle: theme.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+            ),
+            unselectedLabelStyle: theme.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+            ),
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
         ),
         Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              OverviewTabWidget(establishment: widget.establishment),
-              CourtsTabWidget(
-                courts: widget.establishment.courts,
-                onBookCourt: (_) => widget.onCheckAvailability(),
-              ),
-              ReviewsTabWidget(onWriteReview: widget.onWriteReview),
-              LocationTabWidget(
-                address: widget.establishment.address,
-                onGetDirections: widget.onGetDirections,
-              ),
-            ],
+          child: Container(
+            color: theme.scaffoldBackgroundColor,
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                OverviewTabWidget(establishment: widget.establishment),
+                CourtsTabWidget(
+                  courts: widget.establishment.courts,
+                  onBookCourt: (_) => widget.onCheckAvailability(),
+                ),
+                ReviewsTabWidget(
+                  onWriteReview: widget.onWriteReview,
+                  establishmentId: widget.establishment.id,
+                ),
+                LocationTabWidget(
+                  address: widget.establishment.address,
+                  onGetDirections: widget.onGetDirections,
+                ),
+              ],
+            ),
           ),
         ),
       ],

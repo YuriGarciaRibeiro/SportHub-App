@@ -28,7 +28,7 @@ class BottomActionBarWidget extends StatelessWidget {
         color: theme.colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: theme.shadowColor.withOpacity(0.08),
+            color: theme.colorScheme.outline.withOpacity(0.08),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -57,12 +57,8 @@ class BottomActionBarWidget extends StatelessWidget {
               height: 6.h,
               child: ElevatedButton.icon(
                 onPressed: onCheckAvailability,
-                icon: const Icon(Icons.event_available, color: Colors.white),
-                label: const Text('Ver disponibilidade', style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.primaryColor,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
+                icon: const Icon(Icons.event_available),
+                label: const Text('Ver disponibilidade'),
               ),
             ),
           ),
@@ -84,7 +80,7 @@ class _IconButton extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Theme.of(context).dividerColor),
+        side: BorderSide(color: Theme.of(context).colorScheme.outline),
       ),
       child: InkWell(
         onTap: onTap,
