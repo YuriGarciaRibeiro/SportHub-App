@@ -176,14 +176,7 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
                   ],
                 ),
 
-      bottomNavigationBar: BottomActionBarWidget(
-        phoneNumber: est?.phoneNumber ?? '',
-        isFavorite: vm.isFavorite,
-        onCheckAvailability: _onCheckAvailability,
-        onCall: _onCall,
-        onFavorite: _onFavorite,
-        onShare: _onShare,
-      ),
+        floatingActionButton: FloatingActionButton(onPressed: _onFavorite, child: Icon(vm.isFavorite ? Icons.favorite : Icons.favorite_border),),
           );
         },
       ),

@@ -55,7 +55,7 @@ class EstablishmentHeaderWidget extends StatelessWidget {
           ),
           // Header controls
           Positioned(
-            top: 6.h,
+            top: 2.h,
             left: 4.w,
             right: 4.w,
             child: Row(
@@ -84,7 +84,7 @@ class EstablishmentHeaderWidget extends StatelessWidget {
                 SizedBox(height: 1.h),
                 Row(
                   children: [
-                    Icon(Icons.star, color: Theme.of(context).colorScheme.secondary, size: 16),
+                    Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: 16),
                     SizedBox(width: 1.w),
                     Text(
                       rating.toStringAsFixed(1),
