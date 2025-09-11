@@ -31,12 +31,12 @@ class DashboardViewModel extends BaseViewModel {
   bool get isLocationEnabled => _isLocationEnabled;
 
   Future<void> initializeDashboard() async {
-    // Se já foi inicializado e temos dados, não precisa recarregar
+
     if (_isInitialized && _nearbyEstablishments.isNotEmpty) {
       return;
     }
     var position = await _locationWeatherService.getCurrentPosition();
-    // Se não tem dados ainda, carrega com loading
+
     if (_nearbyEstablishments.isEmpty) {
       await executeOperation(() async {
         await Future.wait([

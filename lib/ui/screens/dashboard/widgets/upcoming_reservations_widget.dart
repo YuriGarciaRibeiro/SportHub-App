@@ -57,20 +57,17 @@ class UpcomingReservationsWidget extends StatelessWidget {
               return Container(
                 width: 70.w,
                 margin: EdgeInsets.only(right: 3.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(4.w),
-                  child: Column(
+                child: Card(
+                  elevation: 6,
+                  margin: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: Theme.of(context).cardTheme.shape is RoundedRectangleBorder
+                        ? (Theme.of(context).cardTheme.shape as RoundedRectangleBorder).borderRadius
+                        : BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(4.w),
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
@@ -151,7 +148,8 @@ class UpcomingReservationsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              );
+              ),
+            );
             },
           ),
         ),

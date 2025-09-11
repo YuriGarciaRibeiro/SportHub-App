@@ -28,19 +28,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  bool _isEstablishmentOpen(Establishment establishment) {
+  bool _isEstablishmentOpen(Establishment e) {
     final now = TimeOfDay.now();
-    final openingHour = establishment.openingTime.hour;
-    final openingMinute = establishment.openingTime.minute;
-    final closingHour = establishment.closingTime.hour;
-    final closingMinute = establishment.closingTime.minute;
-    
-    final currentMinutes = now.hour * 60 + now.minute;
-    final openingMinutes = openingHour * 60 + openingMinute;
-    final closingMinutes = closingHour * 60 + closingMinute;
-    
-    return currentMinutes >= openingMinutes && currentMinutes <= closingMinutes;
+
+    int toMinutes(TimeOfDay t) => t.hour * 60 + t.minute;
+
+    final cur   = toMinutes(now);
+    final open  = toMinutes(e.openingTime);
+    final close = toMinutes(e.closingTime);
+
+    if (open == close) return true;
+
+    if (open < close) {
+      return cur >= open && cur < close;
+    } else {
+      return cur >= open || cur < close;
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +60,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 2.h),
-                  
-                  // Cabeçalho com saudação
                   GreetingHeaderWidget(
                     userName: viewModel.userName,
                     location: viewModel.currentLocation,
@@ -73,7 +75,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   
                   // Reservas próximas
                   UpcomingReservationsWidget(
-                    reservations: const [], // TODO: Implementar reservas no ViewModel
+                    reservations: const [
+                      {
+                        'establishment': 'Arena Sports Club',
+                        'status': 'Confirmada',
+                        'sport': 'Futebol',
+                        'date': '15/09/2025',
+                        'time': '14:00',
+                        'price': 'R\$ 80,00',
+                      },
+                      {
+                        'establishment': 'Centro Esportivo Vila Olímpica',
+                        'status': 'Pendente',
+                        'sport': 'Tênis',
+                        'date': '18/09/2025',
+                        'time': '16:30',
+                        'price': 'R\$ 45,00',
+                      },
+                      {
+                        'establishment': 'Quadra do Bairro',
+                        'status': 'Confirmada',
+                        'sport': 'Basquete',
+                        'date': '20/09/2025',
+                        'time': '19:00',
+                        'price': 'R\$ 35,00',
+                      },
+                    ], // TODO: Implementar reservas no ViewModel
                   ),
                   
                   SizedBox(height: 3.h),

@@ -50,7 +50,18 @@ class OverviewTabWidget extends StatelessWidget {
             establishment.website.isNotEmpty ? onWebsite : null,
           ),
           SizedBox(height: 1.5.h),
+          
+          Text('Horário de Funcionamento', style: theme.textTheme.titleMedium),
+          SizedBox(height: 1.h),
+          Text(
+            '${MaterialLocalizations.of(context).formatTimeOfDay(establishment.openingTime, alwaysUse24HourFormat: true)}'
+            ' - '
+            '${MaterialLocalizations.of(context).formatTimeOfDay(establishment.closingTime, alwaysUse24HourFormat: true)}',
+            style: theme.textTheme.bodyMedium,
+          ),
 
+
+          SizedBox(height: 1.h),
           Text('Endereço', style: theme.textTheme.titleMedium),
           SizedBox(height: 1.h),
           InkWell(

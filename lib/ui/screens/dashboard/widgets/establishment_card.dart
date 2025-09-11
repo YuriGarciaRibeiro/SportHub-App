@@ -29,7 +29,9 @@ class EstablishmentCard extends StatelessWidget {
               margin: EdgeInsets.only(right: 3.w),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: Theme.of(context).cardTheme.shape is RoundedRectangleBorder
+                    ? (Theme.of(context).cardTheme.shape as RoundedRectangleBorder).borderRadius
+                    : BorderRadius.circular(0),
                 boxShadow: [
                   BoxShadow(
                     color: Theme.of(context).shadowColor.withOpacity(0.1),
@@ -42,7 +44,7 @@ class EstablishmentCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                     child: Container(
                       height: 12.h,
                       width: double.infinity,

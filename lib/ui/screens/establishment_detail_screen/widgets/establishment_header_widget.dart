@@ -94,7 +94,7 @@ class EstablishmentHeaderWidget extends StatelessWidget {
                           ),
                     ),
                     SizedBox(width: 4.w),
-                    Icon(Icons.location_on, color: Colors.white, size: 16),
+                    Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary, size: 16),
                     SizedBox(width: 1.w),
                     Text(
                       distanceText,
