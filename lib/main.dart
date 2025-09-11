@@ -8,10 +8,10 @@ import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
 import 'providers/global_notification_provider.dart';
 import 'widgets/app_wrapper.dart';
-import 'ui/screens/home_screen/tabs/dashboard/dashboard_view_model.dart';
-import 'ui/screens/home_screen/tabs/search/search_view_model.dart';
-import 'ui/screens/home_screen/tabs/reservations/reservations_view_model.dart';
-import 'ui/screens/home_screen/tabs/profile/profile_view_model.dart';
+import 'ui/screens/dashboard/dashboard_view_model.dart';
+import 'ui/screens/search/search_view_model.dart';
+import 'ui/screens/reservations/reservations_view_model.dart';
+import 'ui/screens/profile/profile_view_model.dart';
 import 'ui/screens/login_screen/login_screen_viewmodel.dart';
 import 'ui/screens/establishment_detail_screen/establishment_detail_view_model.dart';
 

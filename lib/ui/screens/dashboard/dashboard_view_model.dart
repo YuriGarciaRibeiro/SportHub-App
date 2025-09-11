@@ -53,7 +53,6 @@ class DashboardViewModel extends BaseViewModel {
         _isInitialized = true;
       });
     } else {
-      // Se já tem dados, só atualiza sem loading
       await Future.wait([
         _loadUserData(),
         _loadNearbyEstablishments(

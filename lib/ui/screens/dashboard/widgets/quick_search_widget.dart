@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../models/establishment.dart';
-import '../../../../establishment_detail_screen/establishment_detail_screen.dart';
+import '../../establishment_detail_screen/establishment_detail_screen.dart';
 import 'search/search_controller.dart';
 import 'search/search_modal.dart';
 import 'search/search_suggestions.dart';
@@ -89,7 +89,7 @@ class _QuickSearchWidgetState extends State<QuickSearchWidget> {
         builder: (_) => SearchModal(
           allEstablishments: _searchController.allEstablishments,
           onEstablishmentSelected: (e) {
-            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop();
             Future.microtask(() {
               if (mounted) _onEstablishmentSelected(e);
             });
@@ -99,13 +99,13 @@ class _QuickSearchWidgetState extends State<QuickSearchWidget> {
     } else {
       await showModalBottomSheet(
         context: context,
-        useRootNavigator: true, 
+        useRootNavigator: false, 
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (_) => SearchModal(
           allEstablishments: _searchController.allEstablishments,
           onEstablishmentSelected: (e) {
-            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop();
             Future.microtask(() {
               if (mounted) _onEstablishmentSelected(e);
             });

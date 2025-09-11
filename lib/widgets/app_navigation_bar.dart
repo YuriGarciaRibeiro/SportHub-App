@@ -28,19 +28,31 @@ class AppNavigationBar extends StatelessWidget {
       ),
       items: [
         BottomNavigationBarItem(
-          icon: Icon(currentIndex == 0 ? CupertinoIcons.house_fill : CupertinoIcons.house, size: 24),
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Icon(currentIndex == 0 ? CupertinoIcons.house_fill : CupertinoIcons.house, size: 24),
+          ),
           label: 'Home',
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.search, size: 24),
+        BottomNavigationBarItem(
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Icon(CupertinoIcons.search, size: 24),
+          ),
           label: 'Pesquisar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(currentIndex == 2 ? CupertinoIcons.calendar : CupertinoIcons.calendar_today, size: 24),
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Icon(currentIndex == 2 ? CupertinoIcons.calendar : CupertinoIcons.calendar_today, size: 24),
+          ),
           label: 'Reservas',
         ),
         BottomNavigationBarItem(
-          icon: Icon(currentIndex == 3 ? CupertinoIcons.person_fill : CupertinoIcons.person, size: 24),
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Icon(currentIndex == 3 ? CupertinoIcons.person_fill : CupertinoIcons.person, size: 24),
+          ),
           label: 'Perfil',
         ),
       ],
@@ -60,54 +72,78 @@ class AppNavigationBar extends StatelessWidget {
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       destinations: [
         NavigationDestination(
-          icon: CustomIconWidget(
-            iconName: 'home_outlined',
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-            size: 24,
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'home_outlined',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
           ),
-          selectedIcon: CustomIconWidget(
-            iconName: 'home',
-            color: Theme.of(context).primaryColor,
-            size: 24,
+          selectedIcon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'home',
+              color: Theme.of(context).primaryColor,
+              size: 24,
+            ),
           ),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: CustomIconWidget(
-            iconName: 'search',
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-            size: 24,
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'search',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
           ),
-          selectedIcon: CustomIconWidget(
-            iconName: 'search',
-            color: Theme.of(context).primaryColor,
-            size: 24,
+          selectedIcon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'search',
+              color: Theme.of(context).primaryColor,
+              size: 24,
+            ),
           ),
           label: 'Pesquisar',
         ),
         NavigationDestination(
-          icon: CustomIconWidget(
-            iconName: 'event_outlined',
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-            size: 24,
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'event_outlined',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
           ),
-          selectedIcon: CustomIconWidget(
-            iconName: 'event',
-            color: Theme.of(context).primaryColor,
-            size: 24,
+          selectedIcon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'event',
+              color: Theme.of(context).primaryColor,
+              size: 24,
+            ),
           ),
           label: 'Reservas',
         ),
         NavigationDestination(
-          icon: CustomIconWidget(
-            iconName: 'person_outline',
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-            size: 24,
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'person_outline',
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              size: 24,
+            ),
           ),
-          selectedIcon: CustomIconWidget(
-            iconName: 'person',
-            color: Theme.of(context).primaryColor,
-            size: 24,
+          selectedIcon: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomIconWidget(
+              iconName: 'person',
+              color: Theme.of(context).primaryColor,
+              size: 24,
+            ),
           ),
           label: 'Perfil',
         ),

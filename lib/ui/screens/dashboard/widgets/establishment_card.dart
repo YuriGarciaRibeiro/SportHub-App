@@ -1,7 +1,7 @@
 import 'package:sizer/sizer.dart';
 import 'package:sporthub/core/app_export.dart';
 import 'package:sporthub/models/establishment.dart';
-import 'package:sporthub/ui/screens/establishment_detail_screen/establishment_detail_screen.dart';
+import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class EstablishmentCard extends StatelessWidget {
   const EstablishmentCard({super.key, required this.establishment, required this.isEstablishmentOpen});

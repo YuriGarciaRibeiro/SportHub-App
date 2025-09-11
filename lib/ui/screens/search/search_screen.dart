@@ -1,17 +1,17 @@
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/search/search_view_model.dart';
-import '../../../../../core/app_export.dart';
-import '../../../../../models/sport.dart';
-import '../../shared_widgets/establishment_card_widget.dart';
+import 'search_view_model.dart';
+import '../../../core/app_export.dart';
+import '../../../models/sport.dart';
+import '../../../widgets/shared/establishment_card_widget.dart';
 
-class SearchTab extends StatefulWidget {
-  const SearchTab({super.key});
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  State<SearchTab> createState() => _SearchTabState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchTabState extends State<SearchTab> {
+class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override

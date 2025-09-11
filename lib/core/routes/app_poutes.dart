@@ -1,5 +1,5 @@
 import 'package:sporthub/core/app_export.dart';
-import 'package:sporthub/ui/screens/home_screen/home_screen.dart';
+import 'package:sporthub/ui/screens/app_shell.dart';
 import 'package:sporthub/ui/screens/login_screen/login_screen.dart';
 
 class AppRoutes {
@@ -12,7 +12,7 @@ class AppRoutes {
   Map<String, Widget Function(BuildContext)> get routes {
     return {
       AppRoutes.login: (context) => const LoginScreen(),
-      AppRoutes.home: (context) => const HomeScreen(),
+      AppRoutes.home: (context) => const AppShell(),
     };
   } 
 }

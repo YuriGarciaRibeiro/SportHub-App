@@ -1,22 +1,22 @@
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/profile_view_model.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/user_icon_area.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/user_stats_section.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/profile_section.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/profile_menu_item.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/account_actions_section.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/profile_error_state.dart';
-import 'package:sporthub/ui/screens/home_screen/tabs/profile/widgets/profile_loading_state.dart';
-import '../../../../../core/app_export.dart';
+import 'profile_view_model.dart';
+import 'widgets/user_icon_area.dart';
+import 'widgets/user_stats_section.dart';
+import 'widgets/profile_section.dart';
+import 'widgets/profile_menu_item.dart';
+import 'widgets/account_actions_section.dart';
+import 'widgets/profile_error_state.dart';
+import 'widgets/profile_loading_state.dart';
+import '../../../core/app_export.dart';
 
-class ProfileTab extends StatefulWidget {
-  const ProfileTab({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<ProfileTab> createState() => _ProfileTabState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileTabState extends State<ProfileTab> {
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();

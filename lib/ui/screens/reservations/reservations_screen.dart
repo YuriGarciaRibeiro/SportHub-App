@@ -1,15 +1,15 @@
-import 'package:sporthub/ui/screens/home_screen/tabs/reservations/reservations_view_model.dart';
-import '../../../../../core/app_export.dart';
+import 'reservations_view_model.dart';
+import '../../../core/app_export.dart';
 import 'widgets/widgets.dart';
 
-class ReservationsTab extends StatefulWidget {
-  const ReservationsTab({super.key});
+class ReservationsScreen extends StatefulWidget {
+  const ReservationsScreen({super.key});
 
   @override
-  State<ReservationsTab> createState() => _ReservationsTabState();
+  State<ReservationsScreen> createState() => _ReservationsScreenState();
 }
 
-class _ReservationsTabState extends State<ReservationsTab> {
+class _ReservationsScreenState extends State<ReservationsScreen> {
   @override
   void initState() {
     super.initState();

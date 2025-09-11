@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../models/establishment.dart';
-import '../../establishment_detail_screen/establishment_detail_screen.dart';
+import '../../models/establishment.dart';
+import '../../ui/screens/establishment_detail_screen/establishment_detail_screen.dart';
 
 class EstablishmentCardWidget extends StatelessWidget {
   final Establishment establishment;
