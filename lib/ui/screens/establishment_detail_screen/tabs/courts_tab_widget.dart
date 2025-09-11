@@ -33,9 +33,7 @@ class CourtsTabWidget extends StatelessWidget {
       itemCount: courts.length,
       itemBuilder: (context, index) => CourtCard(
         court: courts[index],
-        onBookCourt: (court) {
-          // Handle court booking
-        },
+        onBookCourt: onBookCourt,
       ),
     );
   }

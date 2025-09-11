@@ -8,6 +8,9 @@ class EstablishmentTabsWidget extends StatefulWidget {
   final VoidCallback onCheckAvailability;
   final Future<void> Function() onWriteReview;
   final VoidCallback onGetDirections;
+  final VoidCallback onCall;
+  final VoidCallback onEmail;
+  final VoidCallback onWebsite;
 
   const EstablishmentTabsWidget({
     super.key,
@@ -15,6 +18,9 @@ class EstablishmentTabsWidget extends StatefulWidget {
     required this.onCheckAvailability,
     required this.onWriteReview,
     required this.onGetDirections,
+    required this.onCall,
+    required this.onEmail,
+    required this.onWebsite,
   });
 
   @override
@@ -84,7 +90,12 @@ class _EstablishmentTabsWidgetState extends State<EstablishmentTabsWidget>
             child: TabBarView(
               controller: _tabController,
               children: [
-                OverviewTabWidget(establishment: widget.establishment),
+                OverviewTabWidget(
+                  establishment: widget.establishment, 
+                  onCall: widget.onCall,
+                  onEmail: widget.onEmail,
+                  onWebsite: widget.onWebsite,
+                ),
                 CourtsTabWidget(
                   courts: widget.establishment.courts,
                   onBookCourt: (_) => widget.onCheckAvailability(),

@@ -1,6 +1,3 @@
-import 'package:sporthub/models/review.dart';
-import 'package:sporthub/services/auth_service.dart';
-import 'package:sporthub/services/review_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/base_view_model.dart';
@@ -11,7 +8,6 @@ import '../../../services/favorite_service.dart';
 class EstablishmentDetailViewModel extends BaseViewModel {
   final EstablishmentService _establishmentService = EstablishmentService();
   final FavoriteService _favoriteService = FavoriteService();
-  final ReviewService _reviewService = ReviewService();
 
   Establishment? _establishment;
   bool _isFavorite = false;
@@ -93,6 +89,49 @@ class EstablishmentDetailViewModel extends BaseViewModel {
       return 'Não foi possível abrir o mapa';
     }
   }
+
+  Future<String?> openWebsite() async {
+    final website = _establishment?.website ?? '';
+    if (website.isEmpty) {
+      return 'Website não disponível';
+    }
+
+    Uri websiteUri;
+    try {
+      websiteUri = Uri.parse(website);
+      if (!websiteUri.hasScheme) {
+        websiteUri = Uri.parse('https://$website');
+      }
+    } catch (_) {
+      return 'URL do website inválida';
+    }
+
+    try {
+      final ok = await launchUrl(websiteUri, mode: LaunchMode.externalApplication);
+      if (!ok) return 'Não foi possível abrir o website';
+      return null;
+    } catch (_) {
+      return 'Não foi possível abrir o website';
+    }
+  }
+
+  Future<String?> sendEmail() async {
+    final email = _establishment?.email ?? '';
+    if (email.isEmpty) {
+      return 'Email não disponível';
+    }
+
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+
+    try {
+      final ok = await launchUrl(emailUri);
+      if (!ok) return 'Não foi possível abrir o email';
+      return null;
+    } catch (_) {
+      return 'Não foi possível abrir o email';
+    }
+  }
 }
-
-

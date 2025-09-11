@@ -6,7 +6,10 @@ import '../../../../models/establishment.dart';
 
 class OverviewTabWidget extends StatelessWidget {
   final Establishment establishment;
-  const OverviewTabWidget({super.key, required this.establishment});
+  final VoidCallback onCall;
+  final VoidCallback onEmail;
+  final VoidCallback onWebsite;
+  const OverviewTabWidget({super.key, required this.establishment, required this.onCall, required this.onEmail, required this.onWebsite});
 
   @override
   Widget build(BuildContext context) {
@@ -32,90 +35,19 @@ class OverviewTabWidget extends StatelessWidget {
             context, 
             Icons.phone_outlined,
             establishment.phoneNumber.isNotEmpty ? establishment.phoneNumber : 'Telefone não informado',
-            establishment.phoneNumber.isNotEmpty ? () async {
-              final Uri phoneUri = Uri.parse('tel:${establishment.phoneNumber}');
-              try {
-                await launchUrl(phoneUri);
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Não foi possível fazer a ligação',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onError,
-                        ),
-                      ),
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  );
-                }
-              }
-            } : null,
+            establishment.phoneNumber.isNotEmpty ? onCall: null,
           ),
           _contactItem(
             context, 
             Icons.email_outlined,
             establishment.email.isNotEmpty ? establishment.email : 'Email não informado',
-            establishment.email.isNotEmpty ? () async {
-              final Uri emailUri = Uri.parse('mailto:${establishment.email}');
-              try {
-                await launchUrl(emailUri);
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Não foi possível abrir o email',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onError,
-                        ),
-                      ),
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  );
-                }
-              }
-            } : null,
+            establishment.email.isNotEmpty ? onEmail : null,
           ),
           _contactItem(
             context, 
             Icons.language_outlined,
             establishment.website.isNotEmpty ? establishment.website : 'Website não informado',
-            establishment.website.isNotEmpty ? () async {
-              final Uri websiteUri = Uri.parse(establishment.website.startsWith('http')
-                  ? establishment.website
-                  : 'https://${establishment.website}');
-              try {
-                await launchUrl(websiteUri, mode: LaunchMode.externalApplication);
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Não foi possível abrir o website',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onError,
-                        ),
-                      ),
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  );
-                }
-              }
-            } : null,
+            establishment.website.isNotEmpty ? onWebsite : null,
           ),
           SizedBox(height: 1.5.h),
 

@@ -6,10 +6,14 @@ import 'ui/screens/splash_screen.dart';
 import 'services/auth_service.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
+import 'providers/global_notification_provider.dart';
+import 'widgets/app_wrapper.dart';
 import 'ui/screens/home_screen/tabs/dashboard/dashboard_view_model.dart';
 import 'ui/screens/home_screen/tabs/search/search_view_model.dart';
 import 'ui/screens/home_screen/tabs/reservations/reservations_view_model.dart';
 import 'ui/screens/home_screen/tabs/profile/profile_view_model.dart';
+import 'ui/screens/login_screen/login_screen_viewmodel.dart';
+import 'ui/screens/establishment_detail_screen/establishment_detail_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +31,9 @@ class SportHubApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // Global Notification Provider
+        ChangeNotifierProvider(create: (context) => GlobalNotificationProvider()),
+        
         // Theme Provider
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         
@@ -35,6 +42,8 @@ class SportHubApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SearchViewModel()),
         ChangeNotifierProvider(create: (context) => ReservationsViewModel()),
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => LoginScreenViewModel()),
+        ChangeNotifierProvider(create: (context) => EstablishmentDetailViewModel()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
@@ -46,8 +55,11 @@ class SportHubApp extends StatelessWidget {
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
                 themeMode: themeProvider.themeMode,
-                home: const SplashScreen(),
+                home: const AppWrapper(child: SplashScreen()),
                 routes: AppRoutes().routes,
+                builder: (context, child) {
+                  return AppWrapper(child: child ?? const SizedBox.shrink());
+                },
               );
             },
           );
