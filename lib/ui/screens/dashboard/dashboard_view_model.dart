@@ -121,7 +121,7 @@ class DashboardViewModel extends BaseViewModel {
 
   Future<void> _loadTopRatedEstablishments() async {
     try {
-      final allEstablishments = await _establishmentService.getAllEstablishments();
+      final allEstablishments = await _establishmentService.getTopRatedEstablishments();
       _topRatedEstablishments = allEstablishments.take(3).toList();
     } catch (e) {
       _topRatedEstablishments = [];

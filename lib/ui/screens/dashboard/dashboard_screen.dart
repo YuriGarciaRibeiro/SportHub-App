@@ -1,4 +1,5 @@
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/ui/screens/dashboard/widgets/establishments_generic_list_widget.dart';
 import 'dashboard_view_model.dart';
 import 'widgets/nearby_establishments_widget.dart';
 import '../../../core/app_export.dart';
@@ -25,80 +26,109 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer<DashboardViewModel>(
       builder: (context, viewModel, child) {
+        if (viewModel.isLoading) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    'Carregando...',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        final sections = _buildSections(context, viewModel);
+
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: viewModel.isLoading 
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      'Carregando...',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : RefreshIndicator(
-                onRefresh: () => viewModel.refreshDashboard(),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GreetingHeaderWidget(
-                        userName: viewModel.userName,
-                        location: viewModel.currentLocation,
-                        weather: viewModel.currentWeather,
-                      ),
-                      
-                      SizedBox(height: 0.5.h),
-
-                      QuickSearchWidget(),
-                      
-                      SizedBox(height: 2.h),
-                      
-                      UpcomingReservationsWidget(
-                        reservations: viewModel.upcomingReservations,
-                      ),
-
-                      SizedBox(height: 1.5.h),
-
-                      NearbyEstablishmentsWidget(
-                        establishments: viewModel.nearbyEstablishments,
-                      ),
-
-                      SizedBox(height: 1.5.h),
-
-                      PopularSportsWidget(
-                        sports: viewModel.popularSports,
-                        onSportSelected: (sportName) {
-                          // TODO: [Facilidade: 2, Prioridade: 3] - Implementar navegação para busca filtrada por esporte específico
-                        },
-                      ),
-
-                      SizedBox(height: 1.5.h),
-
-                      const QuickActionsWidget(),
-                    ],
-                  ),
-                ),
-              ),
+          body: RefreshIndicator(
+            onRefresh: () => viewModel.refreshDashboard(),
+            child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 2.h),
+              itemCount: sections.length,
+              itemBuilder: (_, i) => sections[i].child,
+              separatorBuilder: (_, i) =>
+                  SizedBox(height: sections[i].gapAfter ?? 1.5.h),
+            ),
+          ),
         );
       },
     );
   }
+
+  List<_Section> _buildSections(BuildContext context, DashboardViewModel vm) {
+    return [
+      _Section(
+        GreetingHeaderWidget(
+          userName: vm.userName,
+          location: vm.currentLocation,
+          weather: vm.currentWeather,
+        ),
+        gapAfter: 0.5.h,
+      ),
+      _Section(
+        const QuickSearchWidget(),
+        gapAfter: 2.h,
+      ),
+      _Section(
+        UpcomingReservationsWidget(reservations: vm.upcomingReservations),
+        gapAfter: 1.5.h,
+      ),
+      _Section(
+        EstablishmentsGenericListWidget(
+          establishments: vm.topRatedEstablishments,
+          title: 'Melhores Avaliados',
+        ),
+        gapAfter: 1.5.h,
+      ),
+      _Section(
+        EstablishmentsGenericListWidget(
+          establishments: vm.nearbyEstablishments,
+          title: 'Estabelecimentos Próximos',
+        ),
+        gapAfter: 1.5.h,
+      ),
+      _Section(
+        PopularSportsWidget(
+          sports: vm.popularSports,
+          onSportSelected: (sportName) {
+            // TODO: navegação filtrada por esporte
+          },
+        ),
+        gapAfter: 1.5.h,
+      ),
+      _Section(
+        const QuickActionsWidget(),
+        gapAfter: 2.h,
+      ),
+    ];
+  }
+}
+
+class _Section {
+  final Widget child;
+  final double? gapAfter;
+  const _Section(this.child, {this.gapAfter});
 }

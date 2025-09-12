@@ -83,6 +83,23 @@ class EstablishmentService {
     }
   }
 
+  Future<List<Establishment>> getTopRatedEstablishments() async {
+    try {
+      final response = await _httpClient.get(
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?orderBy=3&sortDirection=2'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return (data['items'] as List<dynamic>).map((json) => Establishment.fromJson(json)).toList();
+      } else {
+        throw Exception('Falha ao carregar estabelecimentos mais bem avaliados: ${response.statusCode}');
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
   // TODO: [Facilidade: 3, Prioridade: 4] - Implementar busca por localização/coordenadas
   // TODO: [Facilidade: 2, Prioridade: 4] - Implementar busca por texto/nome
   // TODO: [Facilidade: 3, Prioridade: 5] - Implementar método para obter horários disponíveis

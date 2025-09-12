@@ -67,7 +67,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
                         : BorderRadius.circular(16),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(4.w),
+                    padding: EdgeInsets.fromLTRB(4.w, 2.h, 4.w, 2.h),
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -110,7 +110,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const Spacer(),
+                      SizedBox(height: 4.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

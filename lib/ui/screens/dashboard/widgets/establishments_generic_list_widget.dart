@@ -3,13 +3,15 @@ import 'package:sporthub/models/establishment.dart';
 import 'establishment_card.dart';
 import '../../../../../../core/app_export.dart';
 
-class NearbyEstablishmentsWidget extends StatelessWidget {
+class EstablishmentsGenericListWidget extends StatelessWidget {
   final List<Establishment> establishments;
+  final String title;
   final VoidCallback? onSeeAllPressed;
 
-  const NearbyEstablishmentsWidget({
+  const EstablishmentsGenericListWidget({
     super.key,
     required this.establishments,
+    required this.title,
     this.onSeeAllPressed,
   });
 
@@ -43,15 +45,14 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Perto de você',
+                title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               TextButton(
                 onPressed: onSeeAllPressed ?? () {
-                  // Navegar para a tab de pesquisa (índice 1)
-                  // Esta funcionalidade será implementada quando necessário
+                  
                 },
                 child: Text(
                   'Ver todos',
@@ -71,7 +72,7 @@ class NearbyEstablishmentsWidget extends StatelessWidget {
         ? Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Text(
-              'Nenhum estabelecimento próximo encontrado.',
+              'Nenhum estabelecimento disponível no momento.',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
