@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:sporthub/models/reservation.dart';
+import 'package:sporthub/services/reservation_service.dart';
 import '../../../../../models/establishment.dart';
 import '../../../../../models/sport.dart';
 import '../../../../../services/establishment_service.dart';
@@ -12,29 +14,37 @@ class DashboardViewModel extends BaseViewModel {
   final SportsService _sportsService = SportsService();
   final AuthService _authService = AuthService();
   final LocationWeatherService _locationWeatherService = LocationWeatherService();
+  final ReservationService _reservationService = ReservationService();
 
   List<Establishment> _nearbyEstablishments = [];
   List<Establishment> _topRatedEstablishments = [];
   List<Sport> _popularSports = [];
+  List<Reservation> _upcomingReservations = [];
   String _userName = 'Usuário';
   String _currentLocation = 'Carregando...';
   String _currentWeather = '';
   bool _isLocationEnabled = false;
   bool _isInitialized = false;
+  bool _isLoading = false;
 
   List<Establishment> get nearbyEstablishments => _nearbyEstablishments;
   List<Establishment> get topRatedEstablishments => _topRatedEstablishments;
   List<Sport> get popularSports => _popularSports;
+  List<Reservation> get upcomingReservations => _upcomingReservations;
   String get userName => _userName;
   String get currentLocation => _currentLocation;
   String get currentWeather => _currentWeather;
   bool get isLocationEnabled => _isLocationEnabled;
+  @override
+  bool get isLoading => _isLoading;
 
   Future<void> initializeDashboard() async {
 
     if (_isInitialized && _nearbyEstablishments.isNotEmpty) {
       return;
     }
+    _isLoading = true;
+    notifyListeners();
     var position = await _locationWeatherService.getCurrentPosition();
 
     if (_nearbyEstablishments.isEmpty) {
@@ -49,6 +59,7 @@ class DashboardViewModel extends BaseViewModel {
           _loadTopRatedEstablishments(),
           _loadPopularSports(),
           _loadLocationAndWeather(),
+          _loadUpcomingReservations(),
         ]);
         _isInitialized = true;
       });
@@ -63,9 +74,30 @@ class DashboardViewModel extends BaseViewModel {
         _loadTopRatedEstablishments(),
         _loadPopularSports(),
         _loadLocationAndWeather(),
+        _loadUpcomingReservations(),
       ]);
       _isInitialized = true;
     }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> _loadUpcomingReservations() async {
+    try {
+      final reservations = await _reservationService.getUserReservations();
+      final now = DateTime.now();
+      _upcomingReservations = reservations
+          .where((r) => r.startTime.isAfter(now))
+          .toList()
+        ..sort((a, b) => a.startTime.compareTo(b.startTime));
+      if (_upcomingReservations.length > 3) {
+        _upcomingReservations = _upcomingReservations.take(3).toList();
+      }
+    } catch (e) {
+      _upcomingReservations = [];
+    }
+    notifyListeners();
   }
 
   Future<void> _loadUserData() async {
@@ -143,8 +175,11 @@ class DashboardViewModel extends BaseViewModel {
   }
 
   Future<void> refreshDashboard() async {
+    _isLoading = true;
+    notifyListeners();
     _isInitialized = false; // Força a reinicialização
     await initializeDashboard();
+    // O loading será desativado dentro do initializeDashboard
   }
 
   void navigateToEstablishment(Establishment establishment) {

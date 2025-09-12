@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/base_view_model.dart';
@@ -31,6 +30,20 @@ class EstablishmentDetailViewModel extends BaseViewModel {
       _establishment = est;
       _isFavorite = est?.isFavorite ?? false;
       notifyListeners();
+    });
+  }
+
+  Future<void> fetchEstablishmentDetails() async {
+    if (_establishment == null) return;
+    final estId = _establishment!.id;
+
+    await executeOperation(() async {
+      final est = await _establishmentService.getEstablishmentById(estId);
+      if (est != null) {
+        _establishment = est;
+        _isFavorite = est.isFavorite ?? false;
+        notifyListeners();
+      }
     });
   }
 

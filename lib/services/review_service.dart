@@ -1,6 +1,5 @@
 import 'package:sporthub/core/app_export.dart';
 import 'package:sporthub/core/constants/api_config.dart';
-import 'package:sporthub/core/http/http_client_manager.dart';
 
 class ReviewService {
   static final ReviewService _instance = ReviewService._internal();
@@ -22,7 +21,7 @@ class ReviewService {
       );
       debugPrint('Response status: ${response.statusCode}');
 
-      if (response.statusCode != 204) {
+      if (response.statusCode != 201) {
         debugPrint('Failed to submit review: ${response.body}');
         throw Exception('Failed to submit review');
       }
@@ -36,8 +35,3 @@ class ReviewService {
 
 
 }
-
-// "targetId": "",
-//   "targetType": 1,
-//   "rating": 1,
-//   "comment": ""

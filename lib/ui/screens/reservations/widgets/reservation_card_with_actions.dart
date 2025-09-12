@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/models/reservation.dart';
 import '../../../../../../core/app_export.dart';
 import '../reservations_view_model.dart';
 
@@ -15,11 +16,14 @@ class ReservationCardWithActions extends StatelessWidget {
     this.onCancel,
   });
 
+  
+
   @override
   Widget build(BuildContext context) {
-    final isUpcoming = reservation.date.isAfter(DateTime.now());
-    final statusColor = _getStatusColor(reservation.status);
-    
+    final isUpcoming = reservation.startTime.isAfter(DateTime.now());
+    final reservationStatus = _calcReservationStatus(reservation);
+    final statusColor = _getStatusColor(reservationStatus);
+
     return Card(
       child: Padding(
         padding: EdgeInsets.all(4.w),
@@ -57,7 +61,7 @@ class ReservationCardWithActions extends StatelessWidget {
                     border: Border.all(color: statusColor.withOpacity(0.3)),
                   ),
                   child: Text(
-                    _getStatusLabel(reservation.status),
+                    _getStatusLabel(reservationStatus),
                     style: TextStyle(
                       fontSize: 10.sp,
                       color: statusColor,
@@ -74,14 +78,15 @@ class ReservationCardWithActions extends StatelessWidget {
                 Icon(Icons.calendar_today, size: 16.sp, color: Theme.of(context).hintColor),
                 SizedBox(width: 2.w),
                 Text(
-                  '${reservation.date.day.toString().padLeft(2, '0')}/${reservation.date.month.toString().padLeft(2, '0')}/${reservation.date.year}',
+                  '${reservation.startTime.day.toString().padLeft(2, '0')}/${reservation.startTime.month.toString().padLeft(2, '0')}/${reservation.startTime.year}',
                   style: TextStyle(fontSize: 12.sp),
                 ),
                 SizedBox(width: 4.w),
                 Icon(Icons.access_time, size: 16.sp, color: Theme.of(context).hintColor),
                 SizedBox(width: 2.w),
                 Text(
-                  reservation.timeSlot,
+                  '${reservation.startTime.hour.toString().padLeft(2, '0')}:${reservation.startTime.minute.toString().padLeft(2, '0')} - ${reservation.endTime.hour.toString().padLeft(2, '0')}:${reservation.endTime.minute.toString().padLeft(2, '0')}',
+                  //reservation.timeSlot
                   style: TextStyle(fontSize: 12.sp),
                 ),
               ],
@@ -91,13 +96,8 @@ class ReservationCardWithActions extends StatelessWidget {
             
             Row(
               children: [
-                Icon(Icons.sports, size: 16.sp, color: Theme.of(context).hintColor),
+                Icon(Icons.attach_money, size: 16.sp, color: Theme.of(context).hintColor),
                 SizedBox(width: 2.w),
-                Text(
-                  reservation.sport,
-                  style: TextStyle(fontSize: 12.sp),
-                ),
-                const Spacer(),
                 Text(
                   'R\$ ${reservation.price.toStringAsFixed(2)}',
                   style: TextStyle(
@@ -108,65 +108,47 @@ class ReservationCardWithActions extends StatelessWidget {
                 ),
               ],
             ),
-            
-            if (isUpcoming && reservation.status != 'cancelled') ...[
-              SizedBox(height: 2.h),
-              Row(
-                children: [
-                  if (reservation.status == 'pending')
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: viewModel.isLoading 
-                            ? null 
-                            : () => viewModel.confirmReservation(reservation.id),
-                        child: const Text('Confirmar'),
-                      ),
-                    ),
-                  if (reservation.status == 'pending') SizedBox(width: 2.w),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: viewModel.isLoading 
-                          ? null 
-                          : onCancel,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.red,
-                        side: const BorderSide(color: Colors.red),
-                      ),
-                      child: const Text('Cancelar'),
-                    ),
-                  ),
-                ],
-              ),
-            ],
           ],
         ),
       ),
     );
   }
 
+  String _calcReservationStatus(Reservation reservation) {
+    final now = DateTime.now();
+    if (reservation.endTime.isBefore(now)) {
+      return 'past';
+    } else if (reservation.startTime.isAfter(now)) {
+      return 'upcoming';
+    } else {
+      return 'active';
+    }
+  }
+
   Color _getStatusColor(String status) {
     switch (status) {
-      case 'confirmed':
-        return Colors.green;
-      case 'pending':
-        return Colors.orange;
-      case 'cancelled':
-        return Colors.red;
-      default:
+      case 'past':
         return Colors.grey;
+      case 'upcoming':
+        return Colors.blue;
+      case 'active':
+        return Colors.green;
+      default:
+        return Colors.orange;
     }
   }
 
   String _getStatusLabel(String status) {
     switch (status) {
-      case 'confirmed':
-        return 'Confirmada';
-      case 'pending':
-        return 'Pendente';
-      case 'cancelled':
-        return 'Cancelada';
+      case 'past':
+        return 'Concluída';
+      case 'active':
+        return 'Vigente';
+      case 'upcoming':
+        return 'Agendada'; 
       default:
-        return 'Desconhecido';
+        return 'Pendente';
     }
   }
+
 }

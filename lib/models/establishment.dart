@@ -1,4 +1,5 @@
 import 'package:sporthub/core/app_export.dart';
+import 'package:sporthub/models/review.dart';
 
 import 'address.dart';
 import 'court.dart';
@@ -27,6 +28,7 @@ class Establishment {
   final bool? isFavorite;
   final double? distanceKm;
   final double? averageRating;
+  final List<Review>? reviews;
 
   Establishment({
     required this.id,
@@ -47,6 +49,7 @@ class Establishment {
     this.isFavorite,
     this.distanceKm,
     this.averageRating,
+    this.reviews,
   });
 
   factory Establishment.fromJson(Map<String, dynamic> json) {
@@ -83,6 +86,9 @@ class Establishment {
     isFavorite: json['isFavorite'] ?? false,
     distanceKm: (json['distanceKm'] as num?)?.toDouble(),
     averageRating: (json['averageRating'] as num?)?.toDouble(),
+    reviews: (json['evaluations'] as List<dynamic>?)
+      ?.map((review) => Review.fromJson(review))
+      .toList(),
   );
   }
 
@@ -114,6 +120,10 @@ class Establishment {
       .toList() ?? [],
     isFavorite: dto['isFavorite'] ?? false,
     distanceKm: (dto['distanceKm'] as num?)?.toDouble(),
+    averageRating: (dto['averageRating'] as num?)?.toDouble(),
+    reviews: (dto['evaluations'] as List<dynamic>?)
+      ?.map((review) => Review.fromJson(review))
+      .toList(),
   );
   }
 
@@ -135,6 +145,8 @@ class Establishment {
       'updatedAt': updatedAt?.toIso8601String(),
       'isFavorite': isFavorite,
       'distanceKm': distanceKm,
+      'averageRating': averageRating,
+      'evaluations': reviews?.map((review) => review.toJson()).toList(),
     };
   }
 }

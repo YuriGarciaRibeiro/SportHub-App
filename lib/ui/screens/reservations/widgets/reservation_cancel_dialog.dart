@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sporthub/models/reservation.dart';
 import '../reservations_view_model.dart';
 
 class ReservationCancelDialog {

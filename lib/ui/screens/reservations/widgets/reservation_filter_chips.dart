@@ -22,8 +22,6 @@ class ReservationFilterChips extends StatelessWidget {
           _buildFilterChip(context, 'Próximas', 'upcoming'),
           SizedBox(width: 2.w),
           _buildFilterChip(context, 'Passadas', 'past'),
-          SizedBox(width: 2.w),
-          _buildFilterChip(context, 'Canceladas', 'cancelled'),
         ],
       ),
     );

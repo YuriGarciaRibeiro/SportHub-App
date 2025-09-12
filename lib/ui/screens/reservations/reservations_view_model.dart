@@ -1,29 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:sporthub/models/reservation.dart';
+import 'package:sporthub/services/reservation_service.dart';
 import '../../../../../core/base_view_model.dart';
 
-class Reservation {
-  final String id;
-  final String establishmentName;
-  final String courtName;
-  final DateTime date;
-  final String timeSlot;
-  final String status;
-  final double price;
-  final String sport;
 
-  Reservation({
-    required this.id,
-    required this.establishmentName,
-    required this.courtName,
-    required this.date,
-    required this.timeSlot,
-    required this.status,
-    required this.price,
-    required this.sport,
-  });
-}
 
 class ReservationsViewModel extends BaseViewModel {
+  final ReservationService _reservationService = ReservationService();
+
   List<Reservation> _allReservations = [];
   List<Reservation> _filteredReservations = [];
   String _selectedFilter = 'all';
@@ -33,7 +17,7 @@ class ReservationsViewModel extends BaseViewModel {
   String get selectedFilter => _selectedFilter;
 
   Future<void> initializeReservations() async {
-    // Se já foi inicializado e temos dados, não precisa recarregar
+    debugPrint('Inicializando reservas...');
     if (_isInitialized && _allReservations.isNotEmpty) {
       return;
     }
@@ -41,70 +25,32 @@ class ReservationsViewModel extends BaseViewModel {
     // Se não tem dados ainda, carrega com loading
     if (_allReservations.isEmpty) {
       await executeOperation(() async {
-        await _loadMockReservations();
+        await _loadReservations();
         _applyFilter();
         _isInitialized = true;
       });
     } else {
       // Se já tem dados, só atualiza sem loading
-      await _loadMockReservations();
+      await _loadReservations();
       _applyFilter();
       _isInitialized = true;
     }
   }
 
-  Future<void> _loadMockReservations() async {
-    // TODO: [Facilidade: 4, Prioridade: 5] - Substituir dados mock por integração real com API
-    // TODO: [Facilidade: 3, Prioridade: 4] - Implementar sincronização automática de reservas
-    // TODO: [Facilidade: 3, Prioridade: 3] - Adicionar notificações para lembretes de reserva
+  Future<void> _loadReservations() async {
     try {
-      // Removido delay artificial para uma experiência mais fluida
-      _allReservations = [
-        Reservation(
-          id: '1',
-          establishmentName: 'Arena Sports',
-          courtName: 'Quadra 1',
-          date: DateTime.now().add(const Duration(days: 2)),
-          timeSlot: '14:00 - 15:00',
-          status: 'confirmed',
-          price: 80.0,
-          sport: 'Futebol',
-        ),
-        Reservation(
-          id: '2',
-          establishmentName: 'Centro Esportivo Elite',
-          courtName: 'Quadra 2',
-          date: DateTime.now().add(const Duration(days: 5)),
-          timeSlot: '18:00 - 19:00',
-          status: 'pending',
-          price: 120.0,
-          sport: 'Tênis',
-        ),
-        Reservation(
-          id: '3',
-          establishmentName: 'Sports Complex',
-          courtName: 'Quadra A',
-          date: DateTime.now().subtract(const Duration(days: 3)),
-          timeSlot: '16:00 - 17:00',
-          status: 'confirmed',
-          price: 90.0,
-          sport: 'Basquete',
-        ),
-        Reservation(
-          id: '4',
-          establishmentName: 'Arena Municipal',
-          courtName: 'Quadra 3',
-          date: DateTime.now().subtract(const Duration(days: 1)),
-          timeSlot: '20:00 - 21:00',
-          status: 'cancelled',
-          price: 70.0,
-          sport: 'Vôlei',
-        ),
-      ];
+      debugPrint('Carregando reservas do usuário...');
+      final reservations = await _reservationService.getUserReservations();
+      _allReservations = reservations;
+      debugPrint('Reservas carregadas: ${_allReservations.length}');
+      _applyFilter();
     } catch (e) {
+      debugPrint('Erro ao carregar reservas: $e');
       _allReservations = [];
+      _applyFilter();
     }
     notifyListeners();
+  
   }
 
   void updateFilter(String filter) {
@@ -120,21 +66,12 @@ class ReservationsViewModel extends BaseViewModel {
     switch (_selectedFilter) {
       case 'upcoming':
         _filteredReservations = _allReservations
-            .where((reservation) => 
-                reservation.date.isAfter(now) && 
-                reservation.status != 'cancelled')
+            .where((reservation) => reservation.startTime.isAfter(now))
             .toList();
         break;
       case 'past':
         _filteredReservations = _allReservations
-            .where((reservation) => 
-                reservation.date.isBefore(now) && 
-                reservation.status != 'cancelled')
-            .toList();
-        break;
-      case 'cancelled':
-        _filteredReservations = _allReservations
-            .where((reservation) => reservation.status == 'cancelled')
+            .where((reservation) => reservation.endTime.isBefore(now))
             .toList();
         break;
       case 'all':
@@ -144,9 +81,9 @@ class ReservationsViewModel extends BaseViewModel {
     }
 
     if (_selectedFilter == 'past') {
-      _filteredReservations.sort((a, b) => b.date.compareTo(a.date));
+      _filteredReservations.sort((a, b) => b.endTime.compareTo(a.endTime));
     } else {
-      _filteredReservations.sort((a, b) => a.date.compareTo(b.date));
+      _filteredReservations.sort((a, b) => a.startTime.compareTo(b.startTime));
     }
   }
 
@@ -155,43 +92,9 @@ class ReservationsViewModel extends BaseViewModel {
       // Simula delay de cancelamento
       await Future.delayed(const Duration(milliseconds: 800));
       
-      final index = _allReservations.indexWhere((r) => r.id == reservationId);
-      if (index != -1) {
-        final reservation = _allReservations[index];
-        _allReservations[index] = Reservation(
-          id: reservation.id,
-          establishmentName: reservation.establishmentName,
-          courtName: reservation.courtName,
-          date: reservation.date,
-          timeSlot: reservation.timeSlot,
-          status: 'cancelled',
-          price: reservation.price,
-          sport: reservation.sport,
-        );
-        _applyFilter();
-      }
-    });
-  }
-
-  Future<void> confirmReservation(String reservationId) async {
-    await executeOperation(() async {
-      await Future.delayed(const Duration(milliseconds: 800));
-      
-      final index = _allReservations.indexWhere((r) => r.id == reservationId);
-      if (index != -1) {
-        final reservation = _allReservations[index];
-        _allReservations[index] = Reservation(
-          id: reservation.id,
-          establishmentName: reservation.establishmentName,
-          courtName: reservation.courtName,
-          date: reservation.date,
-          timeSlot: reservation.timeSlot,
-          status: 'confirmed',
-          price: reservation.price,
-          sport: reservation.sport,
-        );
-        _applyFilter();
-      }
+      // Remove a reserva da lista
+      _allReservations.removeWhere((r) => r.id == reservationId);
+      _applyFilter();
     });
   }
 
@@ -213,13 +116,10 @@ class ReservationsViewModel extends BaseViewModel {
     return {
       'total': _allReservations.length,
       'upcoming': _allReservations
-          .where((r) => r.date.isAfter(now) && r.status != 'cancelled')
+          .where((r) => r.startTime.isAfter(now))
           .length,
       'past': _allReservations
-          .where((r) => r.date.isBefore(now) && r.status != 'cancelled')
-          .length,
-      'cancelled': _allReservations
-          .where((r) => r.status == 'cancelled')
+          .where((r) => r.endTime.isBefore(now))
           .length,
     };
   }

@@ -19,8 +19,6 @@ class ReservationStatsCards extends StatelessWidget {
         Expanded(child: _buildStatCard(context, 'Próximas', stats['upcoming']!, Colors.green)),
         SizedBox(width: 2.w),
         Expanded(child: _buildStatCard(context, 'Passadas', stats['past']!, Colors.orange)),
-        SizedBox(width: 2.w),
-        Expanded(child: _buildStatCard(context, 'Canceladas', stats['cancelled']!, Colors.red)),
       ],
     );
   }

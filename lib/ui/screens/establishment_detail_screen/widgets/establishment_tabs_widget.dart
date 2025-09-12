@@ -103,6 +103,8 @@ class _EstablishmentTabsWidgetState extends State<EstablishmentTabsWidget>
                 ReviewsTabWidget(
                   onWriteReview: widget.onWriteReview,
                   establishmentId: widget.establishment.id,
+                  reviews: widget.establishment.reviews,
+                  averageRating: widget.establishment.averageRating,
                 ),
                 LocationTabWidget(
                   address: widget.establishment.address,

@@ -91,6 +91,8 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
       context,
       establishmentId: viewModel.establishment?.id,
     );
+    if (!mounted) return;
+    await viewModel.fetchEstablishmentDetails();
   }
 
   Future<void> _onGetDirections() async {

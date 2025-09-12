@@ -56,8 +56,10 @@ class SearchViewModel extends BaseViewModel {
 
   Future<void> _loadAllEstablishments() async {
     try {
+      debugPrint('Carregando todos os estabelecimentos...');
       _allEstablishments = await _establishmentService.getAllEstablishments();
     } catch (e) {
+      debugPrint('Erro ao carregar estabelecimentos: $e');
       _allEstablishments = [];
     }
     notifyListeners();

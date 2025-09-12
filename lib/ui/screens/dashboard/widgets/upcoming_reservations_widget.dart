@@ -1,8 +1,9 @@
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/models/reservation.dart';
 import '../../../../../../core/app_export.dart';
 
 class UpcomingReservationsWidget extends StatelessWidget {
-  final List<Map<String, dynamic>> reservations;
+  final List<Reservation> reservations;
 
   const UpcomingReservationsWidget({
     super.key,
@@ -75,36 +76,18 @@ class UpcomingReservationsWidget extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              reservation['establishment'],
+                              reservation.establishmentName,
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
-                            decoration: BoxDecoration(
-                              color: reservation['status'] == 'Confirmada'
-                                  ? Colors.green.withOpacity(0.1)
-                                  : Colors.orange.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              reservation['status'],
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: reservation['status'] == 'Confirmada'
-                                    ? Colors.green[700]
-                                    : Colors.orange[700],
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
+                          )
                         ],
                       ),
                       SizedBox(height: 1.h),
                       Text(
-                        reservation['sport'],
+                        reservation.courtName,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
@@ -120,7 +103,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 1.w),
                           Text(
-                            '${reservation['date']} às ${reservation['time']}',
+                            '${reservation.startTime.hour.toString().padLeft(2, '0')}:${reservation.startTime.minute.toString().padLeft(2, '0')} - ${reservation.endTime.hour.toString().padLeft(2, '0')}:${reservation.endTime.minute.toString().padLeft(2, '0')}',
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                             ),
@@ -132,7 +115,7 @@ class UpcomingReservationsWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            reservation['price'],
+                            'R\$ ${reservation.totalPrice.toStringAsFixed(2)}',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold,

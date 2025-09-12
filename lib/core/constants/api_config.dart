@@ -37,6 +37,7 @@ class ApiConfig {
   static String get favoritesEndpoint => '$baseUrl/api/v1/favorites';
   static String get reservationsEndpoint => '$baseUrl/api/v1/reservations';
   static String get reviewsEndpoint => '$baseUrl/api/v1/evaluations';
+  static String get usersEndpoint => '$baseUrl/api/v1/users';
 
   // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar endpoints de registro de usuário
   // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar endpoints de favoritos

@@ -6,11 +6,15 @@ import '../../../../models/review.dart';
 class ReviewsTabWidget extends StatefulWidget {
   final Future<void> Function() onWriteReview;
   final String? establishmentId;
+  final List<Review>? reviews;
+  final double? averageRating;
   
   const ReviewsTabWidget({
     super.key, 
     required this.onWriteReview,
     this.establishmentId,
+    required this.reviews,
+    required this.averageRating,
   });
 
   @override
@@ -19,102 +23,13 @@ class ReviewsTabWidget extends StatefulWidget {
 
 class _ReviewsTabWidgetState extends State<ReviewsTabWidget> {
   bool _isLoading = false;
-  List<Review> _reviews = [];
-  double _averageRating = 0.0;
-  bool _hasLoadedData = false;
+
 
   @override
   void initState() {
     super.initState();
-    _loadReviews();
   }
 
-  Future<void> _loadReviews() async {
-    if (_hasLoadedData) return;
-    
-    setState(() => _isLoading = true);
-    
-    try {
-      // Simular dados de reviews para demonstração
-      await Future.delayed(const Duration(milliseconds: 800));
-      
-      final mockReviews = [
-        Review(
-          id: '1',
-          userId: 'user1',
-          userName: 'João Silva',
-          establishmentId: widget.establishmentId ?? '',
-          rating: 5,
-          comment: 'Excelente estabelecimento! Quadras bem cuidadas e ótimo atendimento. Recomendo!',
-          createdAt: DateTime.now().subtract(const Duration(days: 2)),
-        ),
-        Review(
-          id: '2',
-          userId: 'user2',
-          userName: 'Maria Santos',
-          establishmentId: widget.establishmentId ?? '',
-          rating: 4,
-          comment: 'Muito bom lugar para praticar esportes. As instalações são modernas e bem mantidas.',
-          createdAt: DateTime.now().subtract(const Duration(days: 5)),
-        ),
-        Review(
-          id: '3',
-          userId: 'user3',
-          userName: 'Pedro Costa',
-          establishmentId: widget.establishmentId ?? '',
-          rating: 5,
-          comment: 'Adorei o local! Staff muito atencioso e quadras de excelente qualidade.',
-          createdAt: DateTime.now().subtract(const Duration(days: 7)),
-        ),
-        Review(
-          id: '4',
-          userId: 'user4',
-          userName: 'Ana Oliveira',
-          establishmentId: widget.establishmentId ?? '',
-          rating: 4,
-          comment: 'Bom lugar, preços justos e ambiente agradável. Voltarei com certeza.',
-          createdAt: DateTime.now().subtract(const Duration(days: 10)),
-        ),
-        Review(
-          id: '5',
-          userId: 'user5',
-          userName: 'Carlos Ferreira',
-          establishmentId: widget.establishmentId ?? '',
-          rating: 3,
-          comment: 'Estabelecimento ok, mas pode melhorar o estacionamento.',
-          createdAt: DateTime.now().subtract(const Duration(days: 15)),
-        ),
-      ];
-
-      _reviews = mockReviews;
-      _averageRating = _reviews.isEmpty 
-          ? 0.0 
-          : _reviews.map((r) => r.rating).reduce((a, b) => a + b) / _reviews.length;
-      _hasLoadedData = true;
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Erro ao carregar avaliações: $e',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onError,
-              ),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
-  }
 
   Future<void> _handleWriteReview() async {
     if (_isLoading) return;
@@ -158,7 +73,7 @@ class _ReviewsTabWidgetState extends State<ReviewsTabWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
-    if (_isLoading && !_hasLoadedData) {
+    if (_isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -195,7 +110,7 @@ class _ReviewsTabWidgetState extends State<ReviewsTabWidget> {
                         ),
                         SizedBox(height: 0.5.h),
                         Text(
-                          '${_reviews.length} avaliação${_reviews.length != 1 ? 'ões' : ''}',
+                          '${widget.reviews?.length ?? 0} avaliação${(widget.reviews?.length ?? 0) != 1 ? 'ões' : ''}',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -203,7 +118,7 @@ class _ReviewsTabWidgetState extends State<ReviewsTabWidget> {
                       ],
                     ),
                   ),
-                  if (_reviews.isNotEmpty) ...[
+                  if (widget.reviews?.isNotEmpty ?? false) ...[
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                       decoration: BoxDecoration(
@@ -220,7 +135,7 @@ class _ReviewsTabWidgetState extends State<ReviewsTabWidget> {
                           ),
                           SizedBox(width: 1.w),
                           Text(
-                            _averageRating.toStringAsFixed(1),
+                            widget.averageRating?.toStringAsFixed(1) ?? 'N/A',
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               color: Colors.amber[700],
@@ -268,13 +183,14 @@ class _ReviewsTabWidgetState extends State<ReviewsTabWidget> {
         
         // Lista de avaliações
         Expanded(
-          child: _reviews.isEmpty 
+          child: widget.reviews?.isEmpty ?? true
               ? _buildEmptyState(theme)
               : ListView.builder(
                   padding: EdgeInsets.all(4.w),
-                  itemCount: _reviews.length,
+                  itemCount: widget.reviews?.length ?? 0,
                   itemBuilder: (context, index) {
-                    final review = _reviews[index];
+                    final review = widget.reviews?[index];
+                    if (review == null) return SizedBox.shrink();
                     return _buildReviewCard(review, theme);
                   },
                 ),

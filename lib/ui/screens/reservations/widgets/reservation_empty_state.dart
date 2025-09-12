@@ -23,10 +23,6 @@ class ReservationEmptyState extends StatelessWidget {
         message = 'Nenhuma reserva passada';
         icon = Icons.history;
         break;
-      case 'cancelled':
-        message = 'Nenhuma reserva cancelada';
-        icon = Icons.cancel;
-        break;
       default:
         message = 'Nenhuma reserva encontrada';
         icon = Icons.event_note;
