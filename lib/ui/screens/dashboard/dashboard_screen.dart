@@ -65,32 +65,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         weather: viewModel.currentWeather,
                       ),
                       
-                      SizedBox(height: 1.h),
+                      SizedBox(height: 0.5.h),
 
                       QuickSearchWidget(),
                       
-                      SizedBox(height: 3.h),
+                      SizedBox(height: 2.h),
                       
                       UpcomingReservationsWidget(
                         reservations: viewModel.upcomingReservations,
                       ),
-                      
-                      SizedBox(height: 3.h),
-                      
+
+                      SizedBox(height: 1.5.h),
+
                       NearbyEstablishmentsWidget(
                         establishments: viewModel.nearbyEstablishments,
                       ),
-                      
-                      SizedBox(height: 3.h),
-                      
+
+                      SizedBox(height: 1.5.h),
+
                       PopularSportsWidget(
                         sports: viewModel.popularSports,
                         onSportSelected: (sportName) {
                           // TODO: [Facilidade: 2, Prioridade: 3] - Implementar navegação para busca filtrada por esporte específico
                         },
                       ),
-                      
-                      SizedBox(height: 0.5.h),
+
+                      SizedBox(height: 1.5.h),
 
                       const QuickActionsWidget(),
                     ],

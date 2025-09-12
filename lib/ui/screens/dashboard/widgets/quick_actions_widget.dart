@@ -20,7 +20,7 @@ class QuickActionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
