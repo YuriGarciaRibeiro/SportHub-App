@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../../../core/app_export.dart';
+import '../../../../core/routes/app_router.dart';
 
 class NoUpcomingReservationsWidget extends StatelessWidget {
   final VoidCallback? onBookNow;
@@ -61,8 +63,7 @@ class NoUpcomingReservationsWidget extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: onBookNow ?? () {
-
-                Navigator.pushNamed(context, '/search');
+                context.go(AppRouter.search);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,

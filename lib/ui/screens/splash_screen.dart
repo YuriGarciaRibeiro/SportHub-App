@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../widgets/app_logo.dart';
 import '../../services/auth_service.dart';
+import '../../core/routes/app_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -51,8 +53,11 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(seconds: 3));
     final isLoggedIn = await AuthService().checkAuthStatus();
     if (!mounted) return;
-    Navigator.of(context)
-      .pushReplacementNamed(isLoggedIn ? '/home' : '/login');
+    if (isLoggedIn) {
+      context.go(AppRouter.home);
+    } else {
+      context.go(AppRouter.login);
+    }
   }
 
   @override

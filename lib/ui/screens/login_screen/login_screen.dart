@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:sporthub/ui/screens/login_screen/widgets/email_form_field.dart';
 import 'package:sporthub/ui/screens/login_screen/widgets/login_button.dart';
 import 'package:sporthub/ui/screens/login_screen/widgets/password_form_field.dart';
 import '../../../widgets/app_logo.dart';
+import '../../../core/routes/app_router.dart';
 import 'login_screen_viewmodel.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -44,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.of(context).pushReplacementNamed('/home');
+        context.go(AppRouter.home);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

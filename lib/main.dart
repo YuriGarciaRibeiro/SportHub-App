@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:sporthub/core/routes/app_poutes.dart';
-import 'ui/screens/splash_screen.dart';
+import 'package:sporthub/core/routes/app_router.dart';
 import 'services/auth_service.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
@@ -51,14 +50,13 @@ class SportHubApp extends StatelessWidget {
         builder: (context, themeProvider, child) {
           return Sizer(
             builder: (context, orientation, deviceType) {
-              return MaterialApp(
+              return MaterialApp.router(
                 title: 'SportHub',
                 debugShowCheckedModeBanner: false,
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
                 themeMode: themeProvider.themeMode,
-                home: const AppWrapper(child: SplashScreen()),
-                routes: AppRoutes().routes,
+                routerConfig: AppRouter.router,
                 builder: (context, child) {
                   return AppWrapper(child: child ?? const SizedBox.shrink());
                 },
