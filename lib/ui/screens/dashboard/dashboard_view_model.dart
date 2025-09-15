@@ -54,9 +54,13 @@ class DashboardViewModel extends BaseViewModel {
           _loadNearbyEstablishments(
             position!.latitude,
             position.longitude,
-            100000000.0,
+            20.0,
           ),
-          _loadTopRatedEstablishments(),
+          _loadTopRatedEstablishments(
+            position.latitude,
+            position.longitude,
+            20.0,
+          ),
           _loadPopularSports(),
           _loadLocationAndWeather(),
           _loadUpcomingReservations(),
@@ -69,9 +73,13 @@ class DashboardViewModel extends BaseViewModel {
         _loadNearbyEstablishments(
           position!.latitude,
           position.longitude,
-          100000000.0,
+          20.0,
         ),
-        _loadTopRatedEstablishments(),
+        _loadTopRatedEstablishments(
+          position.latitude,
+          position.longitude,
+          20.0,
+        ),
         _loadPopularSports(),
         _loadLocationAndWeather(),
         _loadUpcomingReservations(),
@@ -119,9 +127,9 @@ class DashboardViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> _loadTopRatedEstablishments() async {
+  Future<void> _loadTopRatedEstablishments(double latitude, double longitude, double radiusKm) async {
     try {
-      final allEstablishments = await _establishmentService.getTopRatedEstablishments();
+      final allEstablishments = await _establishmentService.getTopRatedEstablishments(latitude, longitude, radiusKm);
       _topRatedEstablishments = allEstablishments.take(3).toList();
     } catch (e) {
       _topRatedEstablishments = [];

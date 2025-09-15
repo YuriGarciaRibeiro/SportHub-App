@@ -83,10 +83,18 @@ class EstablishmentService {
     }
   }
 
-  Future<List<Establishment>> getTopRatedEstablishments() async {
+  Future<List<Establishment>> getTopRatedEstablishments(double latitude, double longitude, double radiusKm) async {
     try {
+      var queryParameters = {
+        'latitude': latitude.toString(),
+        'longitude': longitude.toString(),
+        'radiusKm': radiusKm.toString(),
+        'orderBy': '3',
+        'sortDirection': '2',
+      };
+
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.establishmentsEndpoint}?orderBy=3&sortDirection=2'),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?${Uri(queryParameters: queryParameters).query}'),
       );
 
       if (response.statusCode == 200) {

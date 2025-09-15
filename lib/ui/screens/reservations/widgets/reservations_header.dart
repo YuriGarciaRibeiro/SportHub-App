@@ -27,11 +27,8 @@ class ReservationsHeader extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2.h),
-          
-          if (!viewModel.isLoading) ...[
-            ReservationStatsCards(stats: viewModel.getReservationStats()),
-            SizedBox(height: 2.h),
-          ],
+          ReservationStatsCards(stats: viewModel.getReservationStats()),
+          SizedBox(height: 2.h),
           ReservationFilterChips(
             selectedFilter: viewModel.selectedFilter,
             onFilterChanged: viewModel.updateFilter,

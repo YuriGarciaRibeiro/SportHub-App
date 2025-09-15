@@ -20,7 +20,6 @@ class ReservationCardWithActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUpcoming = reservation.startTime.isAfter(DateTime.now());
     final reservationStatus = _calcReservationStatus(reservation);
     final statusColor = _getStatusColor(reservationStatus);
 

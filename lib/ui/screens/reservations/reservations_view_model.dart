@@ -12,6 +12,10 @@ class ReservationsViewModel extends BaseViewModel {
   List<Reservation> _filteredReservations = [];
   String _selectedFilter = 'all';
   bool _isInitialized = false;
+  bool _isLoading = false;
+
+  @override
+  bool get isLoading => _isLoading;
 
   List<Reservation> get filteredReservations => _filteredReservations;
   String get selectedFilter => _selectedFilter;
@@ -22,15 +26,15 @@ class ReservationsViewModel extends BaseViewModel {
       return;
     }
 
-    // Se não tem dados ainda, carrega com loading
     if (_allReservations.isEmpty) {
       await executeOperation(() async {
+        _isLoading = true;
         await _loadReservations();
         _applyFilter();
         _isInitialized = true;
+        _isLoading = false;
       });
     } else {
-      // Se já tem dados, só atualiza sem loading
       await _loadReservations();
       _applyFilter();
       _isInitialized = true;
@@ -39,13 +43,10 @@ class ReservationsViewModel extends BaseViewModel {
 
   Future<void> _loadReservations() async {
     try {
-      debugPrint('Carregando reservas do usuário...');
       final reservations = await _reservationService.getUserReservations();
       _allReservations = reservations;
-      debugPrint('Reservas carregadas: ${_allReservations.length}');
       _applyFilter();
     } catch (e) {
-      debugPrint('Erro ao carregar reservas: $e');
       _allReservations = [];
       _applyFilter();
     }

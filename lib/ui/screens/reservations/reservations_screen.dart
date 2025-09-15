@@ -29,16 +29,14 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
             children: [
               ReservationsHeader(viewModel: viewModel),
               Expanded(
-                child: viewModel.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : viewModel.hasError
-                        ? ReservationErrorState(
-                            errorMessage: viewModel.errorMessage,
-                            onRetry: () => viewModel.refreshReservations(),
-                          )
-                        : viewModel.filteredReservations.isEmpty
-                            ? const NoUpcomingReservationsWidget()
-                            : ReservationsList(viewModel: viewModel),
+                child: viewModel.hasError
+                    ? ReservationErrorState(
+                        errorMessage: viewModel.errorMessage,
+                        onRetry: () => viewModel.refreshReservations(),
+                      )
+                    : viewModel.filteredReservations.isEmpty
+                        ? const NoUpcomingReservationsWidget()
+                        : ReservationsList(viewModel: viewModel),
               ),
             ],
           ),
