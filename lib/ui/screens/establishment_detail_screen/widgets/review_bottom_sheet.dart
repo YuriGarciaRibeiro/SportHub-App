@@ -214,7 +214,7 @@ class _ReviewBottomSheetState extends State<ReviewBottomSheet> {
               children: [
                 _buildCupertinoRatingSection(),
                 SizedBox(height: 2.h),
-                Container(
+                SizedBox(
                   height: 180, // Altura fixa para o campo de comentário
                   child: _buildCupertinoCommentSection(),
                 ),

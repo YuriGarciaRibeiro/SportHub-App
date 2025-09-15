@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../../../../models/establishment.dart';
 
