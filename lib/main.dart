@@ -20,6 +20,8 @@ void main() async {
   
   // Inicializar o AuthService
   await AuthService().initialize();
+
+  
   
   runApp(const SportHubApp());
 }

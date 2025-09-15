@@ -1,7 +1,6 @@
 import 'package:sizer/sizer.dart';
 import 'package:sporthub/ui/screens/dashboard/widgets/establishments_generic_list_widget.dart';
 import 'dashboard_view_model.dart';
-import 'widgets/nearby_establishments_widget.dart';
 import '../../../core/app_export.dart';
 import 'widgets/greeting_header_widget.dart';
 import 'widgets/upcoming_reservations_widget.dart';
