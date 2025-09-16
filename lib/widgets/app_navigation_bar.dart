@@ -67,83 +67,60 @@ class AppNavigationBar extends StatelessWidget {
     return NavigationBar(
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      indicatorColor: Colors.transparent, // Remove o fundo colorido quando selecionado
       destinations: [
         NavigationDestination(
-          icon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'home_outlined',
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              size: 24,
-            ),
+          icon: CustomIconWidget(
+            iconName: 'home_outlined',
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            size: 24,
           ),
-          selectedIcon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'home',
-              color: Theme.of(context).primaryColor,
-              size: 24,
-            ),
+          selectedIcon: CustomIconWidget(
+            iconName: 'home',
+            color: Theme.of(context).primaryColor,
+            size: 24,
           ),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'search',
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              size: 24,
-            ),
+          icon: CustomIconWidget(
+            iconName: 'search',
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            size: 24,
           ),
-          selectedIcon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'search',
-              color: Theme.of(context).primaryColor,
-              size: 24,
-            ),
+          selectedIcon: CustomIconWidget(
+            iconName: 'search',
+            color: Theme.of(context).primaryColor,
+            size: 24,
           ),
           label: 'Pesquisar',
         ),
         NavigationDestination(
-          icon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'event_outlined',
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              size: 24,
-            ),
+          icon: CustomIconWidget(
+            iconName: 'event_outlined',
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            size: 24,
           ),
-          selectedIcon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'event',
-              color: Theme.of(context).primaryColor,
-              size: 24,
-            ),
+          selectedIcon: CustomIconWidget(
+            iconName: 'event',
+            color: Theme.of(context).primaryColor,
+            size: 24,
           ),
           label: 'Reservas',
         ),
         NavigationDestination(
-          icon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'person_outline',
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-              size: 24,
-            ),
+          icon: CustomIconWidget(
+            iconName: 'person_outline',
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            size: 24,
           ),
-          selectedIcon: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: CustomIconWidget(
-              iconName: 'person',
-              color: Theme.of(context).primaryColor,
-              size: 24,
-            ),
+          selectedIcon: CustomIconWidget(
+            iconName: 'person',
+            color: Theme.of(context).primaryColor,
+            size: 24,
           ),
           label: 'Perfil',
         ),
@@ -161,16 +138,6 @@ class AppNavigationBar extends StatelessWidget {
         onTap: onTap,
       ),
       android: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
         child: buildMaterial(
           context: context,
           currentIndex: currentIndex,
