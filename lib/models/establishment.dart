@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:sporthub/core/app_export.dart';
 import 'package:sporthub/models/review.dart';
 
@@ -147,6 +149,17 @@ class Establishment {
       'distanceKm': distanceKm,
       'averageRating': averageRating,
       'evaluations': reviews?.map((review) => review.toJson()).toList(),
+      'startingPrice': startingPrice,
     };
+  }
+
+  static List<Establishment> listFromJsonString(String jsonString) {
+    final List<dynamic> jsonList = jsonDecode(jsonString);
+    return jsonList.map((json) => Establishment.fromJson(json)).toList();
+  }
+
+  static String listToJsonString(List<Establishment> establishments) {
+    final List<Map<String, dynamic>> jsonList = establishments.map((e) => e.toJson()).toList();
+    return jsonEncode(jsonList);
   }
 }

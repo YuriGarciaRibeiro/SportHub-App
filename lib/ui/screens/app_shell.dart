@@ -50,9 +50,7 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: widget.child,
-      ),
+      body: widget.child,
       bottomNavigationBar: AppNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,

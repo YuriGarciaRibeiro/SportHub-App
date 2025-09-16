@@ -1,4 +1,7 @@
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sporthub/core/routes/app_router.dart';
+import 'package:sporthub/models/establishment.dart';
 import 'package:sporthub/ui/screens/dashboard/widgets/establishments_generic_list_widget.dart';
 import 'dashboard_view_model.dart';
 import '../../../core/app_export.dart';
@@ -97,15 +100,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       _Section(
         EstablishmentsGenericListWidget(
-          establishments: vm.topRatedEstablishments,
+          establishments: vm.topFiveRatedEstablishments,
           title: 'Melhores Avaliados',
+          onSeeAllPressed: () {
+            context.pushNamed(
+              'all-establishments',
+              pathParameters: {
+                'title': 'Melhores Avaliados',
+                'establishments': Establishment.listToJsonString(vm.topRatedEstablishments),
+              },
+            );
+          },
         ),
         gapAfter: 1.5.h,
       ),
       _Section(
         EstablishmentsGenericListWidget(
-          establishments: vm.nearbyEstablishments,
+          establishments: vm.topFiveNearbyEstablishments,
           title: 'Estabelecimentos Próximos',
+          onSeeAllPressed: () {
+            context.pushNamed(
+              'all-establishments',
+              pathParameters: {
+                'title': 'Estabelecimentos Próximos',
+                'establishments': Establishment.listToJsonString(vm.nearbyEstablishments),
+              },
+            );
+          },
         ),
         gapAfter: 1.5.h,
       ),

@@ -68,8 +68,17 @@ class EstablishmentService {
 
   Future<List<Establishment>> getNearbyEstablishments(double latitude, double longitude, double radiusKm) async {
     try {
+
+      final queryParameters = {
+        'latitude': latitude.toString(),
+        'longitude': longitude.toString(),
+        'radiusKm': radiusKm.toString(),
+        'orderBy': '1',
+        'sortDirection': '2',
+      };
+
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.establishmentsEndpoint}?latitude=$latitude&longitude=$longitude&radiusKm=$radiusKm&orderBy=1&sortDirection=1'),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?${Uri(queryParameters: queryParameters).query}'),
       );
 
       if (response.statusCode == 200) {
@@ -90,7 +99,7 @@ class EstablishmentService {
         'longitude': longitude.toString(),
         'radiusKm': radiusKm.toString(),
         'orderBy': '3',
-        'sortDirection': '2',
+        'sortDirection': '1',
       };
 
       final response = await _httpClient.get(

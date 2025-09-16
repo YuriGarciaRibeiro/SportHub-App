@@ -52,7 +52,6 @@ class EstablishmentsGenericListWidget extends StatelessWidget {
               ),
               TextButton(
                 onPressed: onSeeAllPressed ?? () {
-                  
                 },
                 child: Text(
                   'Ver todos',

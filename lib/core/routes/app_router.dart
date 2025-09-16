@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sporthub/models/establishment.dart';
+import 'package:sporthub/ui/screens/all_establishments/all_establishments_screen.dart';
+import 'package:sporthub/ui/screens/establishment_detail_screen/establishment_detail_screen.dart';
 import 'package:sporthub/ui/screens/splash_screen.dart';
 import 'package:sporthub/ui/screens/login_screen/login_screen.dart';
 import 'package:sporthub/ui/screens/app_shell.dart';
@@ -8,6 +12,32 @@ import 'package:sporthub/ui/screens/search/search_screen.dart';
 import 'package:sporthub/ui/screens/reservations/reservations_screen.dart';
 import 'package:sporthub/ui/screens/profile/profile_screen.dart';
 import 'package:sporthub/services/auth_service.dart';
+
+/// Helper function para criar páginas adaptáveis baseadas na plataforma
+/// Automaticamente aplica SafeArea a menos que seja explicitamente desabilitado
+Page<dynamic> createPlatformPage({
+  required BuildContext context,
+  required Widget child,
+  LocalKey? key,
+  bool useSafeArea = true,
+}) {
+  final platform = Theme.of(context).platform;
+  
+  // Aplica SafeArea automaticamente, exceto quando explicitamente desabilitado
+  final wrappedChild = useSafeArea ? SafeArea(child: child) : child;
+  
+  if (platform == TargetPlatform.iOS) {
+    return CupertinoPage(
+      key: key,
+      child: wrappedChild,
+    );
+  } else {
+    return MaterialPage(
+      key: key,
+      child: wrappedChild,
+    );
+  }
+}
 
 class AppRouter {
   static const String splash = '/';
@@ -18,6 +48,7 @@ class AppRouter {
   static const String reservations = '/reservations';
   static const String profile = '/profile';
   static const String establishmentDetail = '/establishment/:id';
+  static const String allEstablishmentsScreen = '/all-establishments/:title/:establishments';
 
   static final GoRouter _router = GoRouter(
     initialLocation: splash,
@@ -59,7 +90,8 @@ class AppRouter {
           GoRoute(
             path: home,
             name: 'home',
-            pageBuilder: (context, state) => NoTransitionPage(
+            pageBuilder: (context, state) => createPlatformPage(
+              context: context,
               key: state.pageKey,
               child: const DashboardScreen(),
             ),
@@ -67,7 +99,8 @@ class AppRouter {
           GoRoute(
             path: search,
             name: 'search',
-            pageBuilder: (context, state) => NoTransitionPage(
+            pageBuilder: (context, state) => createPlatformPage(
+              context: context,
               key: state.pageKey,
               child: const SearchScreen(),
             ),
@@ -75,7 +108,8 @@ class AppRouter {
           GoRoute(
             path: reservations,
             name: 'reservations',
-            pageBuilder: (context, state) => NoTransitionPage(
+            pageBuilder: (context, state) => createPlatformPage(
+              context: context,
               key: state.pageKey,
               child: const ReservationsScreen(),
             ),
@@ -83,24 +117,42 @@ class AppRouter {
           GoRoute(
             path: profile,
             name: 'profile',
-            pageBuilder: (context, state) => NoTransitionPage(
+            pageBuilder: (context, state) => createPlatformPage(
+              context: context,
               key: state.pageKey,
               child: const ProfileScreen(),
             ),
           ),
         ],
       ),
+      GoRoute(
+          path: allEstablishmentsScreen,
+          name: 'all-establishments',
+          pageBuilder: (context, state) {
+            final title = state.pathParameters['title'] ?? 'Estabelecimentos';
+            final establishments = Establishment.listFromJsonString(
+              state.pathParameters['establishments'] ?? '[]',
+            );
+            return createPlatformPage(
+              context: context,
+              key: state.pageKey,
+              child: AllEstablishmentsScreen(
+                title: title,
+                establishments: establishments,
+              ),
+            );
+          },
+        ),
       
-      // Rotas adicionais fora do shell (sem bottom navigation)
       GoRoute(
         path: establishmentDetail,
         name: 'establishment-detail',
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final id = state.pathParameters['id']!;
-          // Importar e usar EstablishmentDetailScreen quando necessário
-          return Scaffold(
-            appBar: AppBar(title: Text('Estabelecimento $id')),
-            body: const Center(child: Text('Detalhes do estabelecimento')),
+          return createPlatformPage(
+            context: context,
+            key: state.pageKey,
+            child: EstablishmentDetailScreen(establishmentId: id),
           );
         },
       ),

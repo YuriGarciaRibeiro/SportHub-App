@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sporthub/core/app_export.dart';
 import 'package:sporthub/models/establishment.dart';
@@ -15,12 +16,9 @@ class EstablishmentCard extends StatelessWidget {
             onTap: () {
               final id = establishment.id.toString();
               if (id.isNotEmpty) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => EstablishmentDetailScreen(
-                      establishmentId: id,
-                    ),
-                  ),
+                context.pushNamed(
+                  'establishment-detail',
+                  pathParameters: {'id': id},
                 );
               }
             },
