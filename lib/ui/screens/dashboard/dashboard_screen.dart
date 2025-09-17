@@ -134,7 +134,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         PopularSportsWidget(
           sports: vm.popularSports,
           onSportSelected: (sportName) {
-            // TODO: navegação filtrada por esporte
+            context.pushNamed(
+              'search',
+              queryParameters: {'sport': sportName},
+            );
           },
         ),
         gapAfter: 1.5.h,

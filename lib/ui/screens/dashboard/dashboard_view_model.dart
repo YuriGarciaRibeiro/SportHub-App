@@ -18,10 +18,8 @@ class DashboardViewModel extends BaseViewModel {
 
   List<Establishment> _nearbyEstablishments = [];
   List<Establishment> _topRatedEstablishments = [];
-  List<Establishment> _allEstablishments = [];
   List<Establishment> _topFiveNearbyEstablishments = [];
   List<Establishment> _topFiveRatedEstablishments = [];
-  List<Establishment> _topFiveAllEstablishments = [];
   List<Sport> _popularSports = [];
   List<Reservation> _upcomingReservations = [];
   String _userName = 'Usuário';
@@ -33,10 +31,8 @@ class DashboardViewModel extends BaseViewModel {
 
   List<Establishment> get nearbyEstablishments => _nearbyEstablishments;
   List<Establishment> get topRatedEstablishments => _topRatedEstablishments;
-  List<Establishment> get allEstablishments => _allEstablishments;
   List<Establishment> get topFiveNearbyEstablishments => _topFiveNearbyEstablishments;
   List<Establishment> get topFiveRatedEstablishments => _topFiveRatedEstablishments;
-  List<Establishment> get topFiveAllEstablishments => _topFiveAllEstablishments;
   List<Sport> get popularSports => _popularSports;
   List<Reservation> get upcomingReservations => _upcomingReservations;
   String get userName => _userName;

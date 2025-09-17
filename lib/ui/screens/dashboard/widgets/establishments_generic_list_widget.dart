@@ -15,23 +15,7 @@ class EstablishmentsGenericListWidget extends StatelessWidget {
     this.onSeeAllPressed,
   });
 
-  bool _isEstablishmentOpen(Establishment e) {
-    final now = TimeOfDay.now();
-
-    int toMinutes(TimeOfDay t) => t.hour * 60 + t.minute;
-
-    final cur   = toMinutes(now);
-    final open  = toMinutes(e.openingTime);
-    final close = toMinutes(e.closingTime);
-
-    if (open == close) return true;
-
-    if (open < close) {
-      return cur >= open && cur < close;
-    } else {
-      return cur >= open || cur < close;
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +70,7 @@ class EstablishmentsGenericListWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 final establishment = establishments[index];
                 return EstablishmentCard(
-                  establishment: establishment, 
-                  isEstablishmentOpen: _isEstablishmentOpen
+                  establishment: establishment
                 );
               },
             ),

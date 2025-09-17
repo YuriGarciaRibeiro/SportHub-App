@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:sporthub/services/location_weather_service.dart';
 import '../../../../../../../models/establishment.dart';
 import '../../../../../../../services/establishment_service.dart';
 
 class EstablishmentSearchController extends ChangeNotifier {
   final EstablishmentService _establishmentService = EstablishmentService();
+  final LocationWeatherService _locationWeatherService = LocationWeatherService();
   
   List<Establishment> _allEstablishments = [];
   List<Establishment> get allEstablishments => _allEstablishments;
@@ -34,8 +36,14 @@ class EstablishmentSearchController extends ChangeNotifier {
     try {
       _isLoading = true;
       if (!_disposed) notifyListeners();
-      
-      _allEstablishments = await _establishmentService.getAllEstablishments();
+
+      var position = await _locationWeatherService.getCurrentPosition();
+
+      _allEstablishments = await _establishmentService.getAllEstablishments(
+        position!.latitude,
+        position.longitude,
+        50.0,
+      );
     } catch (e) {
       // Handle error if needed
     } finally {

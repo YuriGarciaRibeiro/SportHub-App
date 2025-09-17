@@ -162,4 +162,22 @@ class Establishment {
     final List<Map<String, dynamic>> jsonList = establishments.map((e) => e.toJson()).toList();
     return jsonEncode(jsonList);
   }
+
+  bool isOpen() {
+    final now = TimeOfDay.now();
+
+    int toMinutes(TimeOfDay t) => t.hour * 60 + t.minute;
+
+    final cur   = toMinutes(now);
+    final open  = toMinutes(openingTime);
+    final close = toMinutes(closingTime);
+
+    if (open == close) return true;
+
+    if (open < close) {
+      return cur >= open && cur < close;
+    } else {
+      return cur >= open || cur < close;
+    }
+  }
 }

@@ -9,13 +9,11 @@ import 'all_establishments_card.dart';
 class EstablishmentsList extends StatelessWidget {
   final AllEstablishmentsViewModel viewModel;
   final bool Function(Establishment) isEstablishmentOpen;
-  final Future<void> Function() onRefresh;
 
   const EstablishmentsList({
     super.key,
     required this.viewModel,
     required this.isEstablishmentOpen,
-    required this.onRefresh,
   });
 
   @override
@@ -32,7 +30,9 @@ class EstablishmentsList extends StatelessWidget {
     }
 
     return RefreshIndicator(
-      onRefresh: onRefresh,
+      onRefresh: () async {
+        // Implement your refresh logic here
+      },
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 4.w),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

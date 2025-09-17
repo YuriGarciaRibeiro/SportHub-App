@@ -2,9 +2,11 @@ import 'package:sporthub/models/establishment.dart';
 import 'package:sporthub/core/base_view_model.dart';
 import 'package:sporthub/services/establishment_service.dart';
 import 'package:flutter/material.dart';
+import 'package:sporthub/services/location_weather_service.dart';
 
 class AllEstablishmentsViewModel extends BaseViewModel {
   final EstablishmentService _establishmentService = EstablishmentService();
+  final LocationWeatherService _locationWeatherService = LocationWeatherService();
 
   List<Establishment> _originalEstablishments = [];
   List<Establishment> _filteredEstablishments = [];
@@ -95,18 +97,7 @@ class AllEstablishmentsViewModel extends BaseViewModel {
     }
   }
 
-  /// Recarrega os dados dos estabelecimentos
-  Future<void> refreshEstablishments() async {
-    await executeOperation(() async {
-      // Recarrega todos os estabelecimentos
-      final updatedEstablishments = await _establishmentService.getAllEstablishments();
-      
-      if (updatedEstablishments.isNotEmpty) {
-        _originalEstablishments = updatedEstablishments;
-        _applyFilters();
-      }
-    });
-  }
+  /// Recarrega os dados dos estabelecimen
 
   /// Verifica se um estabelecimento está aberto agora
   bool isEstablishmentOpen(Establishment establishment) {

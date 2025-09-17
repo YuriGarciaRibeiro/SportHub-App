@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../models/establishment.dart';
-import '../../ui/screens/establishment_detail_screen/establishment_detail_screen.dart';
+import '../../../../models/establishment.dart';
+import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class EstablishmentCardWidget extends StatelessWidget {
   final Establishment establishment;
-  final String Function(Establishment) getEstablishmentDistance;
-  final String Function(Establishment) getEstablishmentPrice;
 
   const EstablishmentCardWidget({
     super.key,
     required this.establishment,
-    required this.getEstablishmentDistance,
-    required this.getEstablishmentPrice,
   });
 
   @override
@@ -134,7 +130,7 @@ class EstablishmentCardWidget extends StatelessWidget {
               ),
               SizedBox(width: 0.5.w),
               Text(
-                '4.5', // TODO: [Facilidade: 3, Prioridade: 3] - Implementar sistema de avaliações real do backend
+                establishment.averageRating.toString(),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
@@ -162,7 +158,7 @@ class EstablishmentCardWidget extends StatelessWidget {
               ),
               SizedBox(width: 0.5.w),
               Text(
-                getEstablishmentDistance(establishment),
+                '${establishment.distanceKm} km',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
@@ -245,7 +241,7 @@ class EstablishmentCardWidget extends StatelessWidget {
             ),
           ),
           child: Text(
-            getEstablishmentPrice(establishment),
+            'A partir de R\$ ${establishment.startingPrice?.toStringAsFixed(2) ?? "50,00"}',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Colors.green[700],
               fontSize: 11,

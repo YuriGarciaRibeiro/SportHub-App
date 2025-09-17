@@ -2,16 +2,16 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sporthub/core/app_export.dart';
 import 'package:sporthub/models/establishment.dart';
-import '../../establishment_detail_screen/establishment_detail_screen.dart';
 
 class EstablishmentCard extends StatelessWidget {
-  const EstablishmentCard({super.key, required this.establishment, required this.isEstablishmentOpen});
+  const EstablishmentCard({super.key, required this.establishment});
 
   final Establishment establishment;
-  final bool Function(Establishment) isEstablishmentOpen;
 
   @override
   Widget build(BuildContext context) {
+    final isEstablishmentOpen = establishment.isOpen();
+
     return GestureDetector(
             onTap: () {
               final id = establishment.id.toString();
@@ -91,15 +91,15 @@ class EstablishmentCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
                               decoration: BoxDecoration(
-                                color: isEstablishmentOpen(establishment)
+                                color: isEstablishmentOpen
                                     ? Colors.green.withOpacity(0.1)
                                     : Colors.red.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
-                                isEstablishmentOpen(establishment) ? 'Aberto' : 'Fechado',
+                                isEstablishmentOpen ? 'Aberto' : 'Fechado',
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: isEstablishmentOpen(establishment)
+                                  color: isEstablishmentOpen
                                       ? Colors.green[700]
                                       : Colors.red[700],
                                   fontSize: 10,

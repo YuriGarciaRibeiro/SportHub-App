@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import '../core/constants/api_config.dart';
 import '../core/http/http_client_manager.dart';
 import '../models/establishment.dart';
@@ -13,10 +14,16 @@ class EstablishmentService {
   // TODO: [Facilidade: 3, Prioridade: 3] - Implementar paginação para lista de estabelecimentos
   // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar cache local com TTL configurável
   // TODO: [Facilidade: 4, Prioridade: 3] - Implementar filtros avançados (distância, preço, avaliação)
-  Future<List<Establishment>> getAllEstablishments() async {
+  Future<List<Establishment>> getAllEstablishments(double? latitude, double? longitude, double? radiusKm) async {
     try {
+      final queryParameters = {
+        'latitude': latitude?.toString(),
+        'longitude': longitude?.toString(),
+        'radiusKm': radiusKm?.toString(),
+      };
+
       final response = await _httpClient.get(
-        Uri.parse(ApiConfig.establishmentsEndpoint),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?${Uri(queryParameters: queryParameters).query}'),
       );
 
       if (response.statusCode == 200) {
@@ -51,8 +58,14 @@ class EstablishmentService {
 
   Future<List<Establishment>> getEstablishmentsBySport(String sportId) async {
     try {
+      final queryParameters = {
+        'sportId': sportId,
+        'orderBy': '3',
+        'sortDirection': '1',
+      };
+
       final response = await _httpClient.get(
-        Uri.parse('${ApiConfig.establishmentsEndpoint}?sportId=$sportId'),
+        Uri.parse('${ApiConfig.establishmentsEndpoint}?${Uri(queryParameters: queryParameters).query}'),
       );
 
       if (response.statusCode == 200) {
@@ -116,7 +129,6 @@ class EstablishmentService {
       return [];
     }
   }
-
   // TODO: [Facilidade: 3, Prioridade: 4] - Implementar busca por localização/coordenadas
   // TODO: [Facilidade: 2, Prioridade: 4] - Implementar busca por texto/nome
   // TODO: [Facilidade: 3, Prioridade: 5] - Implementar método para obter horários disponíveis

@@ -1,8 +1,10 @@
-import 'package:sizer/sizer.dart';
+import 'package:go_router/go_router.dart';
 import 'search_view_model.dart';
 import '../../../core/app_export.dart';
-import '../../../models/sport.dart';
-import '../../../widgets/shared/establishment_card_widget.dart';
+import 'widgets/search_bar_widget.dart';
+import 'widgets/empty_state_widget.dart';
+import 'widgets/error_state_widget.dart';
+import 'widgets/establishment_list_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -19,7 +21,22 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<SearchViewModel>(context, listen: false);
-      viewModel.initializeSearch();
+      
+      // Capturar query parameters da rota atual
+      final GoRouterState routerState = GoRouterState.of(context);
+      final Map<String, String?> queryParams = routerState.uri.queryParameters;
+      
+      // Inicializar com parâmetros se existirem
+      if (queryParams.isNotEmpty) {
+        viewModel.initializeWithParameters(queryParams);
+        
+        // Atualizar o controller de busca se houver query
+        if (queryParams['query'] != null && queryParams['query']!.isNotEmpty) {
+          _searchController.text = queryParams['query']!;
+        }
+      } else {
+        viewModel.initializeSearch();
+      }
     });
   }
 
@@ -37,146 +54,30 @@ class _SearchScreenState extends State<SearchScreen> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Column(
             children: [
-              Container(
-                padding: EdgeInsets.all(4.w),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: 'Buscar estabelecimentos...',
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _searchController.text.isNotEmpty
-                            ? IconButton(
-                                onPressed: () {
-                                  _searchController.clear();
-                                  viewModel.updateSearchQuery('');
-                                },
-                                icon: const Icon(Icons.clear),
-                              )
-                            : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onChanged: (value) => viewModel.updateSearchQuery(value),
-                    ),
-                    
-                    SizedBox(height: 2.h),
-                    
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          _buildSportFilter(viewModel),
-                          SizedBox(width: 2.w),
-                          
-                          FilterChip(
-                            label: const Text('Abertos agora'),
-                            selected: viewModel.isOpen,
-                            onSelected: (selected) => viewModel.updateOpenFilter(selected),
-                          ),
-                          SizedBox(width: 2.w),
-                          
-                          if (viewModel.searchQuery.isNotEmpty || 
-                              viewModel.selectedSport != null || 
-                              viewModel.isOpen)
-                            ActionChip(
-                              label: const Text('Limpar'),
-                              onPressed: () {
-                                _searchController.clear();
-                                viewModel.clearFilters();
-                              },
-                            ),
-                        ],
-                      ),
-                    ),
-                    
-                    SizedBox(height: 1.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${viewModel.filteredEstablishments.length} estabelecimentos',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Theme.of(context).hintColor,
-                          ),
-                        ),
-                        DropdownButton<String>(
-                          value: viewModel.sortBy,
-                          underline: Container(),
-                          items: const [
-                            DropdownMenuItem(value: 'distance', child: Text('Distância')),
-                            DropdownMenuItem(value: 'rating', child: Text('Avaliação')),
-                            DropdownMenuItem(value: 'name', child: Text('Nome')),
-                          ],
-                          onChanged: (value) {
-                            if (value != null) viewModel.updateSortBy(value);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              SearchBarWidget(
+                searchController: _searchController,
+                viewModel: viewModel,
+                onClearSearch: () {
+                  _searchController.clear();
+                  viewModel.updateSearchQuery('');
+                },
               ),
               
               Expanded(
                 child: viewModel.isLoading && viewModel.filteredEstablishments.isEmpty
                     ? const Center(child: CircularProgressIndicator())
                     : viewModel.hasError
-                        ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  size: 64,
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
-                                SizedBox(height: 2.h),
-                                Text(
-                                  'Erro ao carregar estabelecimentos',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(height: 1.h),
-                                Text(
-                                  viewModel.errorMessage ?? 'Erro desconhecido',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: Theme.of(context).hintColor,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 2.h),
-                                ElevatedButton(
-                                  onPressed: () => viewModel.refreshSearch(),
-                                  child: const Text('Tentar novamente'),
-                                ),
-                              ],
-                            ),
+                        ? ErrorStateWidget(
+                            message: viewModel.errorMessage,
+                            onRetry: () => viewModel.refreshSearch(),
                           )
                         : RefreshIndicator(
                             onRefresh: () => viewModel.refreshSearch(),
                             child: viewModel.filteredEstablishments.isEmpty
-                                ? _buildEmptyState()
-                                : ListView.builder(
-                                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                                    itemCount: viewModel.filteredEstablishments.length,
-                                    itemBuilder: (context, index) {
-                                      final establishment = viewModel.filteredEstablishments[index];
-                                      return Padding(
-                                        padding: EdgeInsets.only(bottom: 2.h),
-                                        child: EstablishmentCardWidget(
-                                          establishment: establishment,
-                                          getEstablishmentDistance: (est) => '2.5 km',
-                                          getEstablishmentPrice: (est) => 'R\$ ${est.startingPrice?.toStringAsFixed(2) ?? "50,00"}',
-                                        ),
-                                      );
-                                    },
+                                ? const EmptyStateWidget()
+                                : EstablishmentListWidget(
+                                    establishments: viewModel.filteredEstablishments,
+                                    onRefresh: () => viewModel.refreshSearch(),
                                   ),
                           ),
               ),
@@ -187,59 +88,4 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildSportFilter(SearchViewModel viewModel) {
-    return PopupMenuButton<Sport?>(
-      child: Chip(
-        label: Text(viewModel.selectedSport?.name ?? 'Todos os esportes'),
-        avatar: Icon(
-          viewModel.selectedSport != null ? Icons.sports : Icons.filter_list,
-          size: 16.sp,
-        ),
-      ),
-      itemBuilder: (context) => [
-        const PopupMenuItem<Sport?>(
-          value: null,
-          child: Text('Todos os esportes'),
-        ),
-        ...viewModel.availableSports.map(
-          (sport) => PopupMenuItem<Sport?>(
-            value: sport,
-            child: Text(sport.name),
-          ),
-        ),
-      ],
-      onSelected: (sport) => viewModel.updateSportFilter(sport),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.search_off,
-            size: 64,
-            color: Theme.of(context).hintColor,
-          ),
-          SizedBox(height: 2.h),
-          Text(
-            'Nenhum estabelecimento encontrado',
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(height: 1.h),
-          Text(
-            'Tente ajustar os filtros de busca',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: Theme.of(context).hintColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

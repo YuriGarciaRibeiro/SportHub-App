@@ -73,16 +73,12 @@ class _AllEstablishmentsScreenState extends State<AllEstablishmentsScreen> {
           child: EstablishmentsList(
             viewModel: viewModel,
             isEstablishmentOpen: _isEstablishmentOpen,
-            onRefresh: _refreshEstablishments,
           ),
         ),
       ],
     );
   }
 
-  Future<void> _refreshEstablishments() async {
-    await viewModel.refreshEstablishments();
-  }
 
   void _showFilterBottomSheet(BuildContext context) {
     showModalBottomSheet(
