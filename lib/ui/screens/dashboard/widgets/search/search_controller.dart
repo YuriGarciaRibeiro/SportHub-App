@@ -43,6 +43,7 @@ class EstablishmentSearchController extends ChangeNotifier {
         position!.latitude,
         position.longitude,
         50.0,
+        1, 50
       );
     } catch (e) {
       // Handle error if needed

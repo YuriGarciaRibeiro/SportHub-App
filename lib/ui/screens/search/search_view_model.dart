@@ -114,6 +114,7 @@ class SearchViewModel extends BaseViewModel {
         position!.latitude,
         position.longitude,
         50.0,
+        1, 500,
       );
     } catch (e) {
       debugPrint('Erro ao carregar estabelecimentos: $e');

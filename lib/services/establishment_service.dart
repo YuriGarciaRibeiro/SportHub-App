@@ -14,12 +14,14 @@ class EstablishmentService {
   // TODO: [Facilidade: 3, Prioridade: 3] - Implementar paginação para lista de estabelecimentos
   // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar cache local com TTL configurável
   // TODO: [Facilidade: 4, Prioridade: 3] - Implementar filtros avançados (distância, preço, avaliação)
-  Future<List<Establishment>> getAllEstablishments(double? latitude, double? longitude, double? radiusKm) async {
+  Future<List<Establishment>> getAllEstablishments(double? latitude, double? longitude, double? radiusKm, int? page, int? pageSize) async {
     try {
       final queryParameters = {
         'latitude': latitude?.toString(),
         'longitude': longitude?.toString(),
         'radiusKm': radiusKm?.toString(),
+        'page': page?.toString() ?? '1',
+        'pageSize': pageSize?.toString() ?? '100',
       };
 
       final response = await _httpClient.get(
@@ -96,7 +98,8 @@ class EstablishmentService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        return (data['items'] as List<dynamic>).map((json) => Establishment.fromJson(json)).toList();
+        final establishments = (data['items'] as List<dynamic>).map((json) => Establishment.fromJson(json)).toList();
+        return establishments;
       } else {
         throw Exception('Falha ao carregar estabelecimentos próximos: ${response.statusCode}');
       }
@@ -121,7 +124,8 @@ class EstablishmentService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        return (data['items'] as List<dynamic>).map((json) => Establishment.fromJson(json)).toList();
+        final establishments = (data['items'] as List<dynamic>).map((json) => Establishment.fromJson(json)).toList();
+        return establishments;
       } else {
         throw Exception('Falha ao carregar estabelecimentos mais bem avaliados: ${response.statusCode}');
       }
