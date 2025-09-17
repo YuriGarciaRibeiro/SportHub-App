@@ -11,12 +11,8 @@ class SportsService {
 
   final _httpClient = HttpClientManager().client;
 
-  // TODO: [Facilidade: 2, Prioridade: 2] - Implementar cache local para esportes
-  // TODO: [Facilidade: 3, Prioridade: 3] - Adicionar filtros por categoria de esporte
 
   Future<List<Sport>> getAllSports() async {
-    // TODO: [Facilidade: 2, Prioridade: 4] - Implementar timeout configurável
-    // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar retry automático em falhas de rede
     try{
       final response = await _httpClient.get(Uri.parse(ApiConfig.sportsEndpoint));
       if (response.statusCode == 200) {

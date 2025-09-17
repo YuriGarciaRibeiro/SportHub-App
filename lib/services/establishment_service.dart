@@ -11,9 +11,7 @@ class EstablishmentService {
 
   final _httpClient = HttpClientManager().client;
 
-  // TODO: [Facilidade: 3, Prioridade: 3] - Implementar paginação para lista de estabelecimentos
   // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar cache local com TTL configurável
-  // TODO: [Facilidade: 4, Prioridade: 3] - Implementar filtros avançados (distância, preço, avaliação)
   Future<List<Establishment>> getAllEstablishments(double? latitude, double? longitude, double? radiusKm, int? page, int? pageSize) async {
     try {
       final queryParameters = {
@@ -133,7 +131,5 @@ class EstablishmentService {
       return [];
     }
   }
-  // TODO: [Facilidade: 3, Prioridade: 4] - Implementar busca por localização/coordenadas
-  // TODO: [Facilidade: 2, Prioridade: 4] - Implementar busca por texto/nome
   // TODO: [Facilidade: 3, Prioridade: 5] - Implementar método para obter horários disponíveis
 }

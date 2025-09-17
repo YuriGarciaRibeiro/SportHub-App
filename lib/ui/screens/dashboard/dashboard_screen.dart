@@ -43,15 +43,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     valueColor: AlwaysStoppedAnimation<Color>(
                       Theme.of(context).primaryColor,
                     ),
+                    strokeWidth: 3.0,
                   ),
-                  SizedBox(height: 2.h),
+                  SizedBox(height: 3.h),
                   Text(
-                    'Carregando...',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    'Buscando estabelecimentos e preparando tudo para você',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context)
                           .colorScheme
                           .onSurface
-                          .withOpacity(0.7),
+                          .withOpacity(0.6),
                     ),
                   ),
                 ],

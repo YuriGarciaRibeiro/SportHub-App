@@ -61,9 +61,7 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
 
 
   void _onCheckAvailability() {
-    // TODO: [Facilidade: 5, Prioridade: 5] - Implementar backend do sistema de reservas e disponibilidade
     // TODO: [Facilidade: 4, Prioridade: 4] - Criar tela de reserva/agendamento com calendário
-    // TODO: [Facilidade: 3, Prioridade: 3] - Implementar slots de horário dinâmicos
     NotificationHelper.showWarning(context, 'Funcionalidade de ver disponibilidade em desenvolvimento');
   }
 

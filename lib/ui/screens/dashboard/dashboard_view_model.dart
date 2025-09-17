@@ -41,7 +41,7 @@ class DashboardViewModel extends BaseViewModel {
   String get currentWeather => _currentWeather;
   bool get isLocationEnabled => _isLocationEnabled;
   @override
-  bool get isLoading => _isLoading;
+  bool get isLoading => _isLoading || !_isInitialized;
 
   Future<void> initializeDashboard() async {
     if (_isInitialized && _nearbyEstablishments.isNotEmpty) {
@@ -91,6 +91,8 @@ class DashboardViewModel extends BaseViewModel {
       ]);
 
       _isInitialized = true;
+      
+      // O executeOperation já controla o loading e notifica os listeners
     });
   }
 
@@ -108,7 +110,7 @@ class DashboardViewModel extends BaseViewModel {
     } catch (e) {
       _upcomingReservations = [];
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> _loadUserData() async {
@@ -117,7 +119,7 @@ class DashboardViewModel extends BaseViewModel {
     } catch (e) {
       _userName = 'Usuário';
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> _loadNearbyEstablishments(double latitude, double longitude, double radiusKm) async {
@@ -128,7 +130,7 @@ class DashboardViewModel extends BaseViewModel {
     } catch (e) {
       _nearbyEstablishments = [];
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> _loadTopRatedEstablishments(double latitude, double longitude, double radiusKm) async {
@@ -139,7 +141,7 @@ class DashboardViewModel extends BaseViewModel {
     } catch (e) {
       _topRatedEstablishments = [];
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> _loadPopularSports() async {
@@ -149,7 +151,7 @@ class DashboardViewModel extends BaseViewModel {
     } catch (e) {
       _popularSports = [];
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> _loadLocationAndWeather() async {
@@ -177,7 +179,7 @@ class DashboardViewModel extends BaseViewModel {
       _currentLocation = 'Erro ao obter localização';
       _currentWeather = '';
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> _loadLocationAndWeatherFallback() async {
@@ -189,15 +191,13 @@ class DashboardViewModel extends BaseViewModel {
       _currentLocation = 'São Paulo, SP';
       _currentWeather = '25°C';
     }
-    notifyListeners();
+    // Removido notifyListeners() individual
   }
 
   Future<void> refreshDashboard() async {
-    _isLoading = true;
-    notifyListeners();
     _isInitialized = false; // Força a reinicialização
     await initializeDashboard();
-    // O loading será desativado dentro do initializeDashboard
+    // O executeOperation dentro do initializeDashboard já controla o loading
   }
 
   void navigateToEstablishment(Establishment establishment) {

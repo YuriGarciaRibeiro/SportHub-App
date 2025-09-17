@@ -164,10 +164,6 @@ class SearchViewModel extends BaseViewModel {
   }
 
   void _applyFilters() {
-    // TODO: 49 [Facilidade: 3, Prioridade: 4] - Implementar filtro por distância usando GPS
-    // TODO: 50 [Facilidade: 4, Prioridade: 3] - Adicionar filtro por faixa de preço
-    // TODO: 51 [Facilidade: 3, Prioridade: 3] - Implementar filtro por avaliação mínima
-    // TODO: 52 [Facilidade: 2, Prioridade: 2] - Adicionar filtro por horário de funcionamento
     List<Establishment> filtered = List.from(_allEstablishments);
 
     // Filtro por busca de texto

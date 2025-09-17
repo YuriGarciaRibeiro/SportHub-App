@@ -39,10 +39,6 @@ class ApiConfig {
   static String get reviewsEndpoint => '$baseUrl/api/v1/evaluations';
   static String get usersEndpoint => '$baseUrl/api/v1/users';
 
-  // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar endpoints de registro de usuário
-  // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar endpoints de favoritos
-  // TODO: [Facilidade: 3, Prioridade: 5] - Adicionar endpoints de reservas
-  // TODO: [Facilidade: 2, Prioridade: 3] - Adicionar endpoints de avaliações
   // TODO: [Facilidade: 3, Prioridade: 3] - Implementar configuração de ambiente via variáveis de ambiente
   // TODO: [Facilidade: 2, Prioridade: 2] - Adicionar versionamento automático da API
 
@@ -54,7 +50,6 @@ class ApiConfig {
   static Map<String, String> get defaultHeaders => {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar header de autorização automático quando logado
     // TODO: [Facilidade: 2, Prioridade: 2] - Implementar headers de versionamento da API
   };
 }

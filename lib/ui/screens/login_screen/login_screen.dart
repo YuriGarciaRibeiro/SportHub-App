@@ -152,7 +152,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 24),
                         
                         // TODO: [Facilidade: 4, Prioridade: 4] - Implementar tela de registro de usuário
-                        // TODO: [Facilidade: 4, Prioridade: 3] - Implementar login social (Google, Facebook, Apple)
                         
                         // usuarios de teste
                         Container(
