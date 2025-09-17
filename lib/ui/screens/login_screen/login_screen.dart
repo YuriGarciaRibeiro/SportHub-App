@@ -59,8 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleForgotPassword() async {
-    // TODO: [Facilidade: 3, Prioridade: 4] - Implementar funcionalidade "Esqueci minha senha"
-    // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar validação de email antes de enviar reset
     final viewModel = Provider.of<LoginScreenViewModel>(context, listen: false);
     await viewModel.forgotPassword();
     
@@ -150,8 +148,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
 
                         const SizedBox(height: 24),
-                        
-                        // TODO: [Facilidade: 4, Prioridade: 4] - Implementar tela de registro de usuário
                         
                         // usuarios de teste
                         Container(

@@ -40,8 +40,6 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   void _onBack() => Navigator.pop(context);
 
   void _onShare() {
-    // TODO: [Facilidade: 2, Prioridade: 2] - Implementar compartilhamento via Share API nativa
-    // TODO: [Facilidade: 3, Prioridade: 2] - Adicionar deep linking para estabelecimentos
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -61,7 +59,6 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
 
 
   void _onCheckAvailability() {
-    // TODO: [Facilidade: 4, Prioridade: 4] - Criar tela de reserva/agendamento com calendário
     NotificationHelper.showWarning(context, 'Funcionalidade de ver disponibilidade em desenvolvimento');
   }
 

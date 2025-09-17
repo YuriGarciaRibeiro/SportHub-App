@@ -114,9 +114,6 @@ class ProfileViewModel extends BaseViewModel {
   }
 
   void updateNotificationSettings(bool enabled) {
-    // TODO: 42 [Facilidade: 2, Prioridade: 4] - Implementar notificações push com Firebase
-    // TODO: 43 [Facilidade: 4, Prioridade: 3] - Salvar preferências no SharedPreferences
-    // TODO: 44 [Facilidade: 3, Prioridade: 3] - Sincronizar configurações com o servidor
     _notificationsEnabled = enabled;
     notifyListeners();
     // Aqui você pode salvar a preferência usando SharedPreferences se necessário
@@ -172,9 +169,6 @@ class ProfileViewModel extends BaseViewModel {
   }
 
   void navigateToEditProfile() {
-    // TODO: 39 [Facilidade: 3, Prioridade: 4] - Implementar tela de edição de perfil completa
-    // TODO: 40 [Facilidade: 4, Prioridade: 3] - Adicionar upload de foto de perfil
-    // TODO: 41 [Facilidade: 3, Prioridade: 3] - Implementar validação de dados do perfil
     debugPrint('Navegando para edição de perfil');
   }
 

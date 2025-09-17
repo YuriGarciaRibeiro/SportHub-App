@@ -59,7 +59,7 @@ class GreetingHeaderWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  weather, // TODO: [Facilidade: 3, Prioridade: 2] - Backend - integrar com API de clima (OpenWeatherMap)
+                  weather,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,

@@ -6,12 +6,9 @@ import 'dart:convert';
 import 'package:sporthub/core/app_export.dart';
 
 class LocationWeatherService {
-  // TODO: [Facilidade: 2, Prioridade: 5] - Configurar API key via variáveis de ambiente
   static const String _weatherApiKey = 'YOUR_OPENWEATHER_API_KEY'; // Configure sua API key
   static const String _weatherBaseUrl = 'https://api.openweathermap.org/data/2.5';
 
-  // TODO: [Facilidade: 2, Prioridade: 2] - Implementar cache de clima com TTL
-  // TODO: [Facilidade: 3, Prioridade: 3] - Adicionar previsão do tempo para próximos dias
 
   /// Verifica se o serviço de localização está habilitado
   Future<bool> isLocationServiceEnabled() async {

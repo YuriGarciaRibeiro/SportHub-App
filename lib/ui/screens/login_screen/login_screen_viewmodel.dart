@@ -40,8 +40,6 @@ class LoginScreenViewModel extends BaseViewModel {
   }
 
   Future<void> forgotPassword() async {
-    // TODO: [Facilidade: 3, Prioridade: 4] - Implementar funcionalidade "Esqueci minha senha"
-    // TODO: [Facilidade: 2, Prioridade: 4] - Adicionar validação de email antes de enviar reset
     setError('Funcionalidade em desenvolvimento');
   }
 }
